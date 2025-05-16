@@ -47,3 +47,15 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# config files
+privatestuff.csv
+
+# quarto stuff
+.quarto/*
+_book/*
+/.quarto/
+
+# notebook extras
+_site/*
+_freeze/*
