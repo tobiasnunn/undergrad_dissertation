@@ -1,0 +1,50 @@
+---
+title: "Week 2 2025-05-19 to 2025-05-25"
+author: "Tobias Nunn"
+date: "2025-05-25"
+categories: [sub-project, tools, database]
+---
+
+# Introduction
+
+After running autoMLST2 in [week_1](week_1.qmd#sec-week1), I emailed the results, also outlined in week 1, to Aaron. He emailed me back to say:
+
+> Hi Tobias,
+>
+> Thanks for running that. For comparison, would you have time to combine the Ref assembly ID, Ref name, mash distance, and ANI estimate with the original table you generated for these genomes with things like checkm completeness and GTDB-Tk assignments? It'd be particularly useful to see if this analysis classified any of the genomes differently (could be due to the version of the GTDB they're using).
+>
+> One other thing that could be nice to check is to see whether the reference assemblies that are most similar to our query genomes are derived from animal hosts or are from environmental samples...
+>
+> Obviously no worries if you're busy with exams or just enjoying the sun and can't get to this!
+>
+> Cheers,
+>
+> Aaron
+
+This is going to involve data I collected during year 2 (which I am still technically in). So, the data items I will need for this are:
+
+| Data Item | Source |
+|---------------------------------|---------------------------------------|
+| Accession number | Original fasta files |
+| Ref assembly ID, Ref name, mash distance, and ANI estimate | Results from AutoMLST on Bangor samples.xlsx |
+| taxonomic assignments | GTDB-TK classify and de_novo, Alberto's innitial BLAST taxonomy and the taxonomy from the autoMLST tree output |
+| quality criteria | CheckM2 completeness and contamination |
+| stretch goal: host info | NCBI REST API |
+
+: Table of source documents for the comparative megatable that Aaron wants to see
+
+# Methods
+
+I started by planning what I wanted the table to look like. Based on the request from Aaron, I am thinking of a table with 10 rows (1 for each Bangor sample). With as many columns as is needed between the data items in the table above. I then looked and found that only 7 of the 10 samples appeared in [the table](https://github.com/tobiasnunn/undergrad_dissertation/blob/0572c7bd859852a8b002c88be4cb685b02e937a0/03_outputs/autoMLST2_subproject/Results%20from%20AutoMLST%20on%20Bangor%20samples.xlsx) I screenscraped. The missing samples were;
+
+-   1Dt100g
+
+-   1Dt100h
+
+-   3Dt2j
+
+This is because autoMLST only records the top 100 matches, this split between all 10 samples means that those, for example, with higher contamination or lower completeness do not appear on the list. In order to remedy this, I ran autoMLST 3 more times. Firstly, I ran it on 1Dt2d, a known sample with a known best match, so that I could see that doing them individually would not affect the results. This came back positive, so I knew I could go ahead with the unknowns. I then did 1Dt100h on its own, followed by 1Dt100g and 3Dt2j together (this should not have an impact).
+
+# Results
+
+# Conclusions

@@ -1,0 +1,13 @@
+Gene ID	Gene Name	Function	Description
+TIGR00498.1	TIGR00498.1	Unknown	No metadata available
+TIGR00613.1	TIGR00613.1	Unknown	No metadata available
+TIGR01011.1	TIGR01011.1	Unknown	No metadata available
+TIGR00418.1	TIGR00418.1	Unknown	No metadata available
+TIGR01574.1	TIGR01574.1	Unknown	No metadata available
+TIGR00084.2	TIGR00084.2	Unknown	No metadata available
+TIGR00174.1	TIGR00174.1	Unknown	No metadata available
+TIGR01393.1	TIGR01393.1	Unknown	No metadata available
+TIGR00116.1	TIGR00116.1	Unknown	No metadata available
+NF000648.1	NF000648.1	Unknown	No metadata available
+TIGR00647.1	TIGR00647.1	Unknown	No metadata available
+NF003828.1	NF003828.1	Unknown	No metadata available

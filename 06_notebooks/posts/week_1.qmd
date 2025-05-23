@@ -2,10 +2,10 @@
 title: "Week 1 2025-05-12 to 2025-05-18"
 author: "Tobias Nunn"
 date: "2025-05-18"
-categories: [api, database]
+categories: [sub-project, tools]
 ---
 
-# Introduction
+# Introduction {#seq-week1}
 
 I plan to set up a SQL database so that I have a single place to store all of the data. In order to prevent the proliferation of metadata files that I had during my project last year. I spent today doing some introductory setup and learning. Such as doing a [W3 course on PostgreSQL](https://www.w3schools.com/postgresql/index.php). I also set up some folder structure for the Repo and started using this notebooking system called "blog". (This was Fiday the 16th)
 
@@ -31,7 +31,7 @@ On Sunday 18th of May 2025, I decided to run the 10 Bangor samples through autoM
 
 [^4]: again, retroactively writing so not sure exactly how long, but it cant have been longer than 20 minutes, id say more like 10
 
-# Result
+# Results
 
 After it had run, I was met with the page seen in @fig-MLST :
 
@@ -39,12 +39,12 @@ After it had run, I was met with the page seen in @fig-MLST :
 
 In @fig-MLST, one can see; what I believe to be a de_novo phylogenetic tree for all the samples. Though it is not monophyletic because I know from first hand experience how large those things get, so it just shows the public samples around the Bangor ones, then smushes several trees together. It has a modifiable colour field for the tips, which can mean different things based on the above parameters, one such example is ANI information. Below this can be seen a subset of a table containing information on the closest public matches to our samples.
 
-Finally, at the bottom of the page are 4 links for downloading various data. The first downloads the aforementioned phylogenetic tree, seen as both [newick](https://github.com/tobiasnunn/undergrad_dissertation/blob/8e78482c0fd0022838d91795c89e9814477a28e1/03_outputs/autoMLST2_subproject/autoMLST2_tree.tree) and [.svg](https://github.com/tobiasnunn/undergrad_dissertation/blob/8e78482c0fd0022838d91795c89e9814477a28e1/03_outputs/autoMLST2_subproject/autoMLST2_tree.svg) format. The second link gave to me a [directory](03_outputs/autoMLST2_subproject/Evaluation_of_bacteria_from_Dendrobates_tinctorius_alignments) of files called "allignments". I am not sure what these are, if I had to guess, they look like .fasta formated files, but with gaps, so if they were looking for common sequences, they would place the gaps where something appears in one genome but not the other. There are 10 of them, so 1 for each genome.
+Finally, at the bottom of the page are 4 links for downloading various data. The first downloads the aforementioned phylogenetic tree, seen as both [newick](https://github.com/tobiasnunn/undergrad_dissertation/blob/8e78482c0fd0022838d91795c89e9814477a28e1/03_outputs/autoMLST2_subproject/autoMLST2_tree.tree) and [.svg](https://github.com/tobiasnunn/undergrad_dissertation/blob/8e78482c0fd0022838d91795c89e9814477a28e1/03_outputs/autoMLST2_subproject/autoMLST2_tree.svg) format. The second link gave to me a [directory](https://github.com/tobiasnunn/undergrad_dissertation/tree/0572c7bd859852a8b002c88be4cb685b02e937a0/03_outputs/autoMLST2_subproject/Evaluation_of_bacteria_from_Dendrobates_tinctorius_alignments) of files called "allignments". I am not sure what these are, if I had to guess, they look like .fasta formated files, but with gaps, so if they were looking for common sequences, they would place the gaps where something appears in one genome but not the other. There are 10 of them, so 1 for each genome.
 
-The third link downloaded [this file](03_outputs/autoMLST2_subproject/mlst_genes.txt). It does not look useful, at least for what I am doing, I am unsure what to make of this. The fourth and final link did not work when I tried it. I noted the text saying that downloads work better in chrome, tried and the download still failed, mysterious. "Mash distance" is a field in the table so perhaps the full table was supposed to be in this(?). Anyway, I set the "Show \[x\] entries" button to 100 and "screanscraped"[^5] the table into Excel. It now resides here
+The third link downloaded [this file](https://github.com/tobiasnunn/undergrad_dissertation/blob/0572c7bd859852a8b002c88be4cb685b02e937a0/03_outputs/autoMLST2_subproject/mlst_genes.txt). It does not look useful, at least for what I am doing, I am unsure what to make of this. The fourth and final link did not work when I tried it. I noted the text saying that downloads work better in chrome, tried and the download still failed, mysterious. "Mash distance" is a field in the table so perhaps the full table was supposed to be in this(?). Anyway, I set the "Show \[x\] entries" button to 100 and "screanscraped"[^5] the table into Excel. It now resides [here](https://github.com/tobiasnunn/undergrad_dissertation/blob/0572c7bd859852a8b002c88be4cb685b02e937a0/03_outputs/autoMLST2_subproject/Results%20from%20AutoMLST%20on%20Bangor%20samples.xlsx) for viewing.
 
 [^5]: Just used my mouse, held down m1 (left-click) and dragged top left to bottom right, ctrl+c then ctrl+v into excel
 
-# Conclusion
+# Conclusions
 
 no conclusions yet, because this week was just dipping my toe into a bit of light work. Just wanted to say that I found out about the R git button, its a bit weird, a bit janky, but hilarious. It is a little git button just below the "Tools" tab at the top of the page, and one can push, pull, commit, all that Git stuff from inside R, now that is pretty damn nova.
