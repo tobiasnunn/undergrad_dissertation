@@ -1,0 +1,46 @@
+---
+title: "Week 1 2025-05-12 to 2025-05-18"
+author: "Tobias Nunn"
+date: "2025-05-18"
+categories: [api, database]
+---
+
+# Introduction
+
+I plan to set up a SQL database so that I have a single place to store all of the data. In order to prevent the proliferation of metadata files that I had during my project last year. I spent today doing some introductory setup and learning. Such as doing a [W3 course on PostgreSQL](https://www.w3schools.com/postgresql/index.php). I also set up some folder structure for the Repo and started using this notebooking system called "blog". (This was Fiday the 16th)
+
+This week, I want to:
+
+1.  Read a scientific paper that Aaron emailed me about ([the link](https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkaf397/8129379))[^1]
+
+2.  I may not have time to do much else as I am revising for an exam
+
+[^1]: I did not get around to reading the full paper because of being busy reading content around the exam I was about to do.
+
+Next week, I want to:
+
+1\. download some metadata files off of the NCBI to store in the SQL Database, just as a practice run with SQL and a jumping off point for the rest of the project.
+
+# Methods
+
+On Sunday 18th of May 2025, I decided to run the 10 Bangor samples through autoMLST2 on the web interface[^2]. In the paper, there was [this link](https://automlst2.ziemertlab.com/), which takes you to the home page for the tool. Then, one can click the "Start Analysis" button[^3]. Taking one to [here.](https://automlst2.ziemertlab.com/analyze) It was on this page that I uploaded the 10 Bangor fasta flye-asm outputs (just by clicking the browse button and then drag-dropping them in). The domain selected was obviously Bacteria. They also allow one to add a job name and email address for usability, i like this. I waited some minutes for it to run[^4].
+
+[^2]: I am writing this retroactively, because, as i will get onto, Aaron has made this into a sub-project. Instead of just a weird thing to look into, and as such only just now entered scope
+
+[^3]: again, this is as of the website layout on 2025/05/23
+
+[^4]: again, retroactively writing so not sure exactly how long, but it cant have been longer than 20 minutes, id say more like 10
+
+# Result
+
+After it had run, I was met with the page seen in @fig-MLST :
+
+![Direct output page after running of autoMLST2 program](images/autoMLST_output_raw-01.jpeg){#fig-MLST}
+
+In @fig-MLST, one can see; what I believe to be a de_novo phylogenetic tree for all the samples. Though it is not monophyletic because I know from first hand experience how large those things get, so it just shows the public samples around the Bangor ones, then smushes several trees together. It has a modifiable colour field for the tips, which can mean different things based on the above parameters, one such example is ANI information. Below this can be seen a subset of a table containing information on the closest public matches to our samples.
+
+Finally, at the bottom of the page are 4 links for downloading various data. The first downloads the aforementioned phylogenetic tree, seen as both newick and .svg format
+
+I noted the text saying that downloads work better in chrome, tried and the download still failed, mysterious.
+
+I downloaded this table, and the full thing can be seen here:
