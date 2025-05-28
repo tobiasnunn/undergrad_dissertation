@@ -1,0 +1,26 @@
+---
+title: "Week 3 2025-05-26 to 2025-06-01"
+author: "Tobias Nunn"
+date: "2025-06-01"
+categories: [sub-project, tools, database]
+---
+
+# Introduction {#seq-week3}
+
+I am back on this project. When I last left off, I had just run the three remaining samples through autoMLST2. However, I did not report on the results, they are stored [here](https://github.com/tobiasnunn/undergrad_dissertation/tree/5a74a1c11e0376315430c296ecf388beb4322ffb/03_outputs/autoMLST2_subproject). Now that I have the raw output files, I need to collate the relevant data into one place.
+
+# Methods
+
+I started by moving the previous analyses I did last year that he asked for[^1] into my file structure, they are stored in a folder marked "[previous_analysis_results](https://github.com/tobiasnunn/undergrad_dissertation/tree/5a74a1c11e0376315430c296ecf388beb4322ffb/01_inputs/previous_analysis_results)". So, now I have all of the things I need, I just need to bring them all together.
+
+[^1]: specifically checkm2 and GTDB-TK classify_wf
+
+# Results
+
+# Conclusions
+
+It should be noted that the other 3 were able to be downloaded from the website normally. As I noted in [week_2](week_2.qmd#sec-week2), I could not get the 4th download option to work. I have since discovered from doing the individual runs that this is because the download zip file was too large. However, as these ons are only one sample, they are small enough to download. So this is a limitation I have found with the site, it seems like samples are best sent through one at a time, so I am not sure how it might handle a larger load, say 100.
+
+# Scientific papers
+
+I wanted to be reading one a week, but with exams I am behind, I can forgive myself for that, but I still think I should try get at least one or two done this week. I did find one paper on a tool called PIGEON, cool name, worth a look.

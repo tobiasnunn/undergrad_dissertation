@@ -5,7 +5,7 @@ date: "2025-05-25"
 categories: [sub-project, tools, database]
 ---
 
-# Introduction
+# Introduction {sec-week2}
 
 After running autoMLST2 in [week_1](week_1.qmd#sec-week1), I emailed the results, also outlined in week 1, to Aaron. He emailed me back to say:
 
@@ -27,7 +27,7 @@ This is going to involve data I collected during year 2 (which I am still techni
 |---------------------------------|---------------------------------------|
 | Accession number | Original fasta files |
 | Ref assembly ID, Ref name, mash distance, and ANI estimate | Results from AutoMLST on Bangor samples.xlsx |
-| taxonomic assignments | GTDB-TK classify and de_novo, Alberto's innitial BLAST taxonomy and the taxonomy from the autoMLST tree output |
+| taxonomic assignments | GTDB-TK classify |
 | quality criteria | CheckM2 completeness and contamination |
 | stretch goal: host info | NCBI REST API |
 
@@ -43,8 +43,12 @@ I started by planning what I wanted the table to look like. Based on the request
 
 -   3Dt2j
 
-This is because autoMLST only records the top 100 matches, this split between all 10 samples means that those, for example, with higher contamination or lower completeness do not appear on the list. In order to remedy this, I ran autoMLST 3 more times. Firstly, I ran it on 1Dt2d, a known sample with a known best match, so that I could see that doing them individually would not affect the results. This came back positive, so I knew I could go ahead with the unknowns. I then did 1Dt100h on its own, followed by 1Dt100g and 3Dt2j together (this should not have an impact).
+This is because autoMLST2 only records the top 100 matches, this split between all 10 samples means that those, for example, with higher contamination or lower completeness do not appear on the list. In order to remedy this, I ran autoMLST2 3 more times. Firstly, I ran it on 1Dt2d, a known sample with a known best match, so that I could see that doing them individually would not affect the results. This came back positive, so I knew I could go ahead with the unknowns. I then did 1Dt100h, 1Dt100g and 3Dt2j on their own.
 
 # Results
 
+This work is concluded in [week_3](week_3.qmd#sec-week3) because I had an exam.
+
 # Conclusions
+
+N/A (yet)
