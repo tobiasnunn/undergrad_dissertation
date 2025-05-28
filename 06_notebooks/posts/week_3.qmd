@@ -15,13 +15,27 @@ I started by moving the previous analyses I did last year that he asked for[^1] 
 
 [^1]: specifically checkm2 and GTDB-TK classify_wf
 
-I did a lot of work in
+I did a lot of work in an R script called [Subproject_autoMLST2_datacompiler.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/87fa559763299e24c335c04d56d05b4ebd5200e2/00_scripts/R_scripts/Subproject_autoMLST2_datacompiler.R). The exact processes done are commented in the file. In short, I pull in output files from autoMLST2, CheckM2 and GTDB-Tk, put them all in one combined frame. After this, I do an API call to the NCBI database, add the relevant metadata into the table. Do some formatting and styling etc and then get the output
 
 # Results
+
+![Table of Comparison for different analyses on 10 bacterial samples, taken from the skin microbiome of Dendrobates tinctorius.](images/frog_flextable.png){#fig-autoMLST2}
+
+@fig-autoMLST2 is a table comparing two different sub-analyses I conducted as part of my Year 2 project for the module ENS-2002, specifically comparing output readings from GTDB-Tk and autoMLST2. The latter is a test I have run in the last few weeks, as is noted in previous posts. There is also metadata from CheckM2 and directly from the NCBI website to suppliment.
+
+Firstly, the major difference between GTDB-Tk and autoMLST2 is that only 6 of the samples are paired to a reference accession. Whereas, all 10 have one with autoMLST2. However, the MASH distance of the autoMLST matches varies from 0.971 down to 0.713. This lower values exceed the max MASH distance set by default in GTDB-Tk classify_wf. This is supported by 3 of the 4 missing values. As can be seen in the autoMLST2 ANI column, 1Dt100g, 1Dt100h and 2Dt1l have the three lowest ANI values at 0.816, 0.713 and 0.857 respectively, and thus could be below the cutoff in GTDBTK. The only sample that does not follow this trend is 1Dt1h at 0.968, which is the third highest for the autoMLST ANI group. I hypothesise that this sample was added to the NCBI database between when I did these two analyses. Upon inspection of reference accession GCF_021023135 on the NCBI website, I found that it was added in 2021, so before I did that analysis, but maybe my version of GTDB-Tk was dated before that.
+
+Interestingly, there were six samples where both processes found matches. For 1Dt2d, both found the same match, this is the same in the case of 3Dt2j. Leaving the final 4 to have different matches between the analyses.
+
+Many of the fields for host and environment were blank or "missing" or otherwise unhelpful. Comparison between these both columnwise and between GTDB-Tk and autoMLST2 is complicated on this table structure. To highlight one sample, I noted that 1Dt100h was partnered with an accession on the autoMLST2 analysis that had the host of "harbour seal". I do not know from what microbiome of the seal (like skin or gut or something), but I found this discovery very enhappifying, for lack of a better word. Perhaps Aaron will look into this closer, I will ask him if I should do that, I also am planning on floating the idea to him of me doing a more developed dashboard on this information in order to see what this is like to do in R.
 
 # Conclusions
 
 It should be noted that the other 3 were able to be downloaded from the website normally. As I noted in [week_2](week_2.qmd#sec-week2), I could not get the 4th download option to work. I have since discovered from doing the individual runs that this is because the download zip file was too large. However, as these ons are only one sample, they are small enough to download. So this is a limitation I have found with the site, it seems like samples are best sent through one at a time, so I am not sure how it might handle a larger load, say 100.
+
+My analysis of the compared ANI columns, those with a colour scale, lead me to believe it may be worth rerunning classify_wf with a less stringent max MASH distance, to see if I can get a pairing for all 10. Perhaps a next step would be to go and find the publish dates for added information.
+
+Depending on what Aaron says, I may develop this analysis further to be done on a dashboard in R, which I recently became aware was an option.
 
 # Scientific papers
 
