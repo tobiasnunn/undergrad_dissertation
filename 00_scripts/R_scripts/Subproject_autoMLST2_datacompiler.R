@@ -235,11 +235,17 @@ combi <- combi %>%
   mutate(across(where(is.character), ~ replace(.x, .x == "N/A", NA)))
 # used AI for this, it turns "N/A" into a true NA, so it will be picked up later.
 
+# some of the datatypes did not match, so I rework here
+combi$GTDBTK_closest_placement_ani <- as.numeric(combi$GTDBTK_closest_placement_ani)
+
 # got the table code from previous use in a prac write up
 
 frog_flextable <- flextable(combi) %>% 
   # general
     theme_vanilla() %>%
+  # caption
+  set_caption(as_paragraph("Table 1 - Table of Comparison for different analyses on 10 bacterial samples,
+              taken from the skin microbiome of ", as_i("Dendrobates tinctorius"), "")) %>% 
   # header
   set_header_labels(values = rename_vector) %>%
     add_header_row(colwidths = c(1, 8, 8, 2),
@@ -247,32 +253,36 @@ frog_flextable <- flextable(combi) %>%
     align(align = "center", 
           part = "header") %>%
   # body 
-  compose(j = "GTDBTK_refseq_category", 
-          value = mk_par(
-            ifelse(frog_flextable$body$dataset$GTDBTK_refseq_category == "reference genome", "Y", "")
-          )) %>% 
   colformat_char(na_str = " - ") %>% 
-  # NEXT STEPS: also, colour numbers in / replace reference genome with Y/N
-    #footer stuff
+  colformat_num(na_str = " - ") %>% 
   vline(i = NULL, j = 1, border = fp_border_default(), part = "all") %>% 
   vline(i = NULL, j = 9, border = fp_border_default(), part = "all") %>%
   vline(i = NULL, j = 17, border = fp_border_default(), part = "all") %>%
-  italic(j = c("GTDBTK_closest_tax", "MLST2_Ref_name")) %>% 
-  # footer
-    add_footer_lines("Data collected on 2025-03-10 at Deiniol Road, Brambell Building, 1st Floor Lab B1") %>% 
-    color(part = "footer", color = "#666666") %>%
-    
-    footnote(i = 1, j = 2,
+  italic(j = c("GTDBTK_closest_tax", "MLST2_Ref_name")) %>%
+  # had to use AI for this next bit, really hard with flextable
+  bg(j = "GTDBTK_closest_placement_ani", 
+     bg = scales::col_numeric(
+       palette = c("thistle1", "thistle3"), 
+       domain = c(80, 100),
+       na.color = "transparent"
+     )(combi$GTDBTK_closest_placement_ani)) %>%  
+  bg(j = "MLST2_Estimated_ANI", 
+     bg = scales::col_numeric(
+       palette = c("thistle1", "thistle3"), 
+       domain = c(0.7, 1),
+       na.color = "transparent"
+      )(combi$MLST2_Estimated_ANI)) %>% 
+   # footer
+     add_footer_lines("Table of collation for processes I have run (GTDB-Tk, CheckM2, autoMLST2 and data from NCBI website). 
+                      Run between August 2024 and May 2025") %>% 
+     color(part = "footer", color = "#666666") %>%
+    footnote(i = 2, j = 2,
              part = "header",
              ref_symbols = "*",
-             value = as_paragraph("P values taken between pairs of times when measurements were taken for a Wilcoxon Paired Rank Test")) %>% 
-    # Apply to all numeric columns
-    color(
-      color = color_if_greater,
-      part = "body",
-      j = numeric_cols
-    )
+             value = as_paragraph("There are many gaps, I believe this to be because the max MASH distance
+                                  used for the GTDBTK analysis was the default value of 0.15, which may be 
+                                  too strict for these samples."))
 
 frog_flextable
-combi_names "MLST2_refseq_category"
-combi$GTDBTK_refseq_category
+
+save_as_image(frog_flextable, "../04_images/frog_flextable.svg", res = 600)
