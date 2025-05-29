@@ -7,6 +7,8 @@ library(tidyverse)  # all purpose tool
 library(httr2)      # used to access NCBI REST API
 library(flextable)  # tablulation beautification
 library(jsonlite)   # read in .json after API
+library(png)        # read/write png
+library(jpeg)       # write jpeg
 
 # 01. collate autoMLST2 outputs -------------------------------------------
 
@@ -232,7 +234,8 @@ rename_vector <- setNames(combi_names$new_name, combi_names$orig_name)
 
 # need to replace "N/A" with " - " for clarity
 combi <- combi %>% 
-  mutate(across(where(is.character), ~ replace(.x, .x == "N/A", NA)))
+  mutate(across(where(is.character), ~ replace(.x, .x == "N/A", NA))) %>% 
+  mutate(across(c(GTDBTK_refseq_category, MLST2_refseq_category), ~ replace(.x, .x == "reference genome", "Y")))
 # used AI for this, it turns "N/A" into a true NA, so it will be picked up later.
 
 # some of the datatypes did not match, so I rework here
@@ -251,7 +254,7 @@ frog_flextable <- flextable(combi) %>%
     add_header_row(colwidths = c(1, 8, 8, 2),
                    values = c("", "GTDB-Tk", "autoMLST2", "CheckM2")) %>% 
     align(align = "center", 
-          part = "header") %>%
+          part = "all") %>%
   # body 
   colformat_char(na_str = " - ") %>% 
   colformat_num(na_str = " - ") %>% 
@@ -260,18 +263,22 @@ frog_flextable <- flextable(combi) %>%
   vline(i = NULL, j = 17, border = fp_border_default(), part = "all") %>%
   italic(j = c("GTDBTK_closest_tax", "MLST2_Ref_name")) %>%
   # had to use AI for this next bit, really hard with flextable
+  
   bg(j = "GTDBTK_closest_placement_ani", 
-     bg = scales::col_numeric(
-       palette = c("thistle1", "thistle3"), 
-       domain = c(80, 100),
-       na.color = "transparent"
-     )(combi$GTDBTK_closest_placement_ani)) %>%  
-  bg(j = "MLST2_Estimated_ANI", 
-     bg = scales::col_numeric(
-       palette = c("thistle1", "thistle3"), 
-       domain = c(0.7, 1),
-       na.color = "transparent"
-      )(combi$MLST2_Estimated_ANI)) %>% 
+     bg = scales::col_numeric(palette = "viridis", 
+                              domain = c(70, 100),
+                              na.color = "transparent")) %>%  
+  bg(j = "MLST2_Estimated_ANI",
+     bg = scales::col_numeric(palette = "viridis", 
+                              domain = c(0.7, 1),
+                              na.color = "transparent")) %>% 
+  bg(j = "Checkm2_Completeness",
+     bg = scales::col_numeric(palette = "Blues", 
+                              domain = c(40, 100),
+                              na.color = "transparent")) %>% 
+  color(~ GTDBTK_closest_placement_ani < 85, color = "white", ~ GTDBTK_closest_placement_ani) %>% 
+  color(~ MLST2_Estimated_ANI < 0.85, color = "white", ~ MLST2_Estimated_ANI) %>% 
+  color(~ Checkm2_Completeness > 50, color = "white", ~ Checkm2_Completeness) %>% 
    # footer
      add_footer_lines("Table of collation for processes I have run (GTDB-Tk, CheckM2, autoMLST2 and data from NCBI website). 
                       Run between August 2024 and May 2025") %>% 
@@ -279,10 +286,19 @@ frog_flextable <- flextable(combi) %>%
     footnote(i = 2, j = 2,
              part = "header",
              ref_symbols = "*",
-             value = as_paragraph("There are many gaps, I believe this to be because the max MASH distance
-                                  used for the GTDBTK analysis was the default value of 0.15, which may be 
-                                  too strict for these samples."))
+             value = as_paragraph("There are many gaps, I believe this to be because the max MASH distance used for the GTDBTK analysis was the default value of 0.15, which may be too strict for these samples."))
 
 frog_flextable
 
-save_as_image(frog_flextable, "../04_images/frog_flextable.svg", res = 600)
+save_as_image(frog_flextable, "../04_images/frog_flextable.png", res = 600)
+
+# Convert to JPEG
+
+# Read PNG
+img <- readPNG("../04_images/frog_flextable.png")
+
+# Write as JPEG
+writeJPEG(img, "../04_images/frog_flextable.jpeg", quality = 0.9)
+
+# Clean up
+file.remove("../04_images/frog_flextable.png")
