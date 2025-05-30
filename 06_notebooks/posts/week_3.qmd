@@ -40,3 +40,29 @@ Depending on what Aaron says, I may develop this analysis further to be done on 
 # Scientific papers
 
 I wanted to be reading one a week, but with exams I am behind, I can forgive myself for that, but I still think I should try get at least one or two done this week. I did find one paper on a tool called PIGEON, cool name, worth a look.
+
+### Paper 1. "PIGEON: a statistical framework for estimating gene–environment interaction for polygenic traits" (<https://www.nature.com/articles/s41562-025-02202-9>)  
+
+A few days ago I randomly stumbled across this paper. I thought PIGEON was a cool name and "estimating gene-environment interaction" could be relevant to the project. So I am going to read the paper and put some of my thoughts about it here.
+
+They discuss "GxE" which im pretty sure I have seen before, but am only now realising is Gene-Environment Interaction.
+
+Their second point is "estimating GxE with genome-wide summary data", this may be something I have.
+
+They bring up GWAS and GWIS - I really need to figure out what those actually mean. I've had a look around and its just one of those things nobody wants to define in a way a non-specialist can understand.
+
+GWAS - Something about finding SNPs across many genomes in a group to find differences. Ok, it says there are actually multiple groups that are compared to see which SNPs correlate with which groups. It says this is usually done to see if any SNPs link to specific diseases being studied.
+
+GWIS - Right, so I think I understand. There is a new trait you want to research, it is made up of information you already know (past GWAS info, but not directly studied, and phenotyping etc). It would be costly to run a GWAS again, so you can just aggregate that data and "Infer" what the relationship is. So, this new trait needs to be made up of traits that were measured (the example used was BMI with GWAS data for height and weight).
+
+ok, new acronym inbound, PGS - Polygenic scores
+
+PGS - Ok, so, many genetic traits and conditions are polygenic, they are related to many different SNPs across a genome. So, using GWAS data you know what SNPs correlate to what diseases or traits, then you know that how many of those linked SNPs a person has can be a guide for how "at risk" they are of that disease or trait, and they can be scored accordingly.
+
+They outline many previous ways people have tried doing GxE analysis using the acronymns above, but they all have challenges, dont link and the relationships between them are spurious. So, they introduce PIGEON (PolygenIc Gene-Environment InteractiON). suppose its more memorable than "PGEI". A statistical framework for quantifying GxE in polygenic cases.
+
+here we go again, Linkage Disequilibrium, I have heard this before, what does it mean?
+
+LD - oh right yeah, I remember this, basically gene linkage is not random and some genes are just more linked with others in a way that cannot be explained by chance.
+
+Right, so for PIGEON to work one needs GWAS data. Not sure if anyone is doing that for our bacteria, or what traits I would be GWAS-ing for. I'd say I could do my own GWASes but that requires high throughput sequencing, so not something I can do on my laptop, and feels a bit too removed from the whole "exploring into the genetic composition of bacteria,and how it relates to external factors like host and environment". I also don't know where I would start with this sort of thing. However, I think the paper was worth reading to help contextualize the terms above.
