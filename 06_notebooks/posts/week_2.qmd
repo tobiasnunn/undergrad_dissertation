@@ -24,7 +24,7 @@ After running autoMLST2 in [week_1](week_1.qmd#sec-week1), I emailed the results
 This is going to involve data I collected during year 2 (which I am still technically in). So, the data items I will need for this are:
 
 | Data Item | Source |
-|---------------------------------|---------------------------------------|
+|----|----|
 | Accession number | Original fasta files |
 | Ref assembly ID, Ref name, mash distance, and ANI estimate | Results from AutoMLST on Bangor samples.xlsx |
 | taxonomic assignments | GTDB-TK classify |

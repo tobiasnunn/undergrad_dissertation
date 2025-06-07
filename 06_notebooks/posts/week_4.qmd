@@ -1,0 +1,20 @@
+---
+title: "Week 4 2025-06-02 to 2025-06-08"
+author: "Tobias Nunn"
+date: "2025-06-08"
+categories: [sub-project, tools, database]
+---
+
+# Introduction {#seq-week4}
+
+This was my final week of assessments, so I didnt get much done. However, at the weekend I did want to do some reading of papers and begin planning what I want the dissertation to look like.
+
+# Methods
+
+In (undergrad_dissertation/06_notebooks/dissertation_plan.pptx) I began looking into what I said the project would be and what I wanted it to look like. I used a powerpoint because I liked the more visual aspect of it, helping me visualise things.
+
+# Results
+
+# Conclusions
+
+# Scientific papers

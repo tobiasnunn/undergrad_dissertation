@@ -1,0 +1,32 @@
+---
+title: "Reading List"
+author: "Tobias Nunn"
+date: "2025-06-07"
+categories: [sub-project, tools, database]
+---
+
+# Papers I want to read {#seq-readinglist}
+
+## 'PIGEON: a statistical framework for estimating gene–environment interaction for polygenic traits' (<https://www.nature.com/articles/s41562-025-02202-9>)
+
+read in [week_3](../posts/week_3.qmd#sec-week3). Not relevant, but illuminated some genomics terminology for me.
+
+## 'Genome analysis of multiple pathogenic isolates of *Streptococcus agalactiae*: Implications for the microbial “pan-genome”' (<https://www.pnas.org/doi/abs/10.1073/pnas.0506758102>)
+
+## 'Ordering microbial diversity into ecologically and genetically cohesive units' (<https://www.cell.com/trends/microbiology/abstract/S0966-842X%2814%2900039-0>)
+
+## 'Insights from 20 years of bacterial genome sequencing' (<https://link.springer.com/article/10.1007/s10142-015-0433-4>)
+
+## 'Microbiome remodeling through bacterial competition and host behavior enables rapid adaptation to environmental toxins' (<https://pmc.ncbi.nlm.nih.gov/articles/PMC10462140/>)
+
+## 'Detecting bacterial adaptation within individual microbiomes' (<https://royalsocietypublishing.org/doi/10.1098/rstb.2021.0243>)
+
+## 'The Amphibian Skin Microbiome and Its Protective Role Against Chytridiomycosis' (<https://meridian.allenpress.com/herpetologica/article-abstract/76/2/167/441175/The-Amphibian-Skin-Microbiome-and-Its-Protective>)
+
+## 'Global genetic diversity of human gut microbiome species is related to geographic location and host health' (<https://www.sciencedirect.com/science/article/pii/S0092867425004167>)
+
+## 'Diversity within species: interpreting strains in microbiomes' (<https://pmc.ncbi.nlm.nih.gov/articles/PMC7610499/>)
+
+## 'Not So Simple After All: Bacteria, Their Population Genetics, and Recombination' ([https://pmc.ncbi.nlm.nih.gov/articles/PMC4930924/](https://pmc.ncbi.nlm.nih.gov/articles/PMC4930924/#:~:text=Not%20only%20are%20the%20bacteria%20highly%20diverse,pylori%20are%20extremely%20variable%20(Israel%20et%20al.)))
+
+## 'Amphibian skin bacteria contain a wide repertoire of genes linked to their antifungal capacities' (<https://link.springer.com/article/10.1007/s11274-025-04292-z>)

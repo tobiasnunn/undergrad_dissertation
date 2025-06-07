@@ -41,7 +41,7 @@ Depending on what Aaron says, I may develop this analysis further to be done on 
 
 I wanted to be reading one a week, but with exams I am behind, I can forgive myself for that, but I still think I should try get at least one or two done this week. I did find one paper on a tool called PIGEON, cool name, worth a look.
 
-### Paper 1. "PIGEON: a statistical framework for estimating gene–environment interaction for polygenic traits" (<https://www.nature.com/articles/s41562-025-02202-9>)  
+### Paper 1. "PIGEON: a statistical framework for estimating gene–environment interaction for polygenic traits" (<https://www.nature.com/articles/s41562-025-02202-9>)
 
 A few days ago I randomly stumbled across this paper. I thought PIGEON was a cool name and "estimating gene-environment interaction" could be relevant to the project. So I am going to read the paper and put some of my thoughts about it here.
 
