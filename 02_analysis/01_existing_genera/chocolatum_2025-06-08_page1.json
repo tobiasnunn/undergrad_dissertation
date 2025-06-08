@@ -1,0 +1,350 @@
+{
+	"reports": [
+		{
+			"accession": "GCA_902706035.1",
+			"current_accession": "GCA_902706035.1",
+			"paired_accession": "GCF_902706035.1",
+			"source_database": "SOURCE_DATABASE_GENBANK",
+			"organism": {
+				"tax_id": 2681415,
+				"organism_name": "Pantoea sp. 18069",
+				"infraspecific_names": {
+					"isolate": "18069_Pantoea2_Ancestor_Tube"
+				}
+			},
+			"assembly_info": {
+				"assembly_level": "Contig",
+				"assembly_status": "current",
+				"paired_assembly": {
+					"accession": "GCF_902706035.1",
+					"status": "current",
+					"annotation_name": "GCF_902706035.1-RS_2024_08_02"
+				},
+				"assembly_name": "n18069v0.1",
+				"assembly_type": "haploid",
+				"bioproject_lineage": [
+					{
+						"bioprojects": [
+							{
+								"accession": "PRJEB34793",
+								"title": "Genomic DNA-seq datasets for 69 Raoultella isolates"
+							}
+						]
+					}
+				],
+				"bioproject_accession": "PRJEB34793",
+				"release_date": "2019-12-16",
+				"submitter": "IMPERIAL COLLEGE LONDON",
+				"sequencing_tech": "Illumina HiSeq 2500",
+				"assembly_method": "SPAdes version 3.7",
+				"biosample": {
+					"accession": "SAMEA6372300",
+					"last_updated": "2024-02-06T20:28:17.000",
+					"publication_date": "2019-12-06T00:00:00.000",
+					"submission_date": "2019-12-07T11:13:57.580",
+					"sample_ids": [
+						{
+							"db": "SRA",
+							"value": "ERS4138398"
+						}
+					],
+					"description": {
+						"title": "Bacterial sample 18069_Pantoea2_Ancestor_Tube",
+						"organism": {
+							"tax_id": 2681415,
+							"organism_name": "Pantoea sp. 18069"
+						},
+						"comment": "Bacterial sample isolated from tree-holes from the root buttresses of beech trees (Fagus sylvatica) between August 2013 and April 2014 from locations across the south of England."
+					},
+					"owner": {
+						"name": "EBI"
+					},
+					"models": [
+						"Generic"
+					],
+					"package": "Generic.1.0",
+					"attributes": [
+						{
+							"name": "ENA-CHECKLIST",
+							"value": "ERC000011"
+						},
+						{
+							"name": "ENA-FIRST-PUBLIC",
+							"value": "2019-12-06T17:04:16Z"
+						},
+						{
+							"name": "ENA-LAST-UPDATE",
+							"value": "2019-12-06T10:31:36Z"
+						},
+						{
+							"name": "External Id",
+							"value": "SAMEA6372300"
+						},
+						{
+							"name": "INSDC center name",
+							"value": "IMPERIAL COLLEGE LONDON"
+						},
+						{
+							"name": "INSDC first public",
+							"value": "2019-12-06T17:04:16Z"
+						},
+						{
+							"name": "INSDC last update",
+							"value": "2019-12-06T10:31:36Z"
+						},
+						{
+							"name": "INSDC status",
+							"value": "public"
+						},
+						{
+							"name": "Submitter Id",
+							"value": "18069_Pantoea2_Ancestor_Tube"
+						},
+						{
+							"name": "sample_name",
+							"value": "18069_Pantoea2_Ancestor_Tube"
+						},
+						{
+							"name": "scientific_name",
+							"value": "Pantoea sp. 18069"
+						}
+					],
+					"status": {
+						"status": "live",
+						"when": "2019-12-09T16:25:05.937"
+					},
+					"sample_name": "18069_Pantoea2_Ancestor_Tube"
+				}
+			},
+			"assembly_stats": {
+				"total_sequence_length": "5540126",
+				"total_ungapped_length": "5540126",
+				"number_of_contigs": 203,
+				"contig_n50": 143656,
+				"contig_l50": 14,
+				"number_of_scaffolds": 203,
+				"scaffold_n50": 143656,
+				"scaffold_l50": 14,
+				"number_of_component_sequences": 203,
+				"atgc_count": "5540126",
+				"gc_count": "3624532",
+				"gc_percent": 65.5,
+				"genome_coverage": "207"
+			},
+			"wgs_info": {
+				"wgs_project_accession": "CACSJA01",
+				"master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/CACSJA000000000.1",
+				"wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/CACSJA01"
+			},
+			"checkm_info": {
+				"checkm_marker_set": "Pantoea",
+				"checkm_species_tax_id": 2681415,
+				"checkm_marker_set_rank": "genus",
+				"checkm_version": "v1.2.3",
+				"completeness": 51.83,
+				"contamination": 19.35
+			},
+			"average_nucleotide_identity": {
+				"taxonomy_check_status": "Inconclusive",
+				"match_status": "below_threshold_mismatch",
+				"submitted_organism": "Pantoea sp. 18069",
+				"submitted_species": "Pantoea sp. 18069",
+				"category": "category_na",
+				"submitted_ani_match": {
+					"assembly": "no-type",
+					"category": "no_type"
+				},
+				"best_ani_match": {
+					"assembly": "GCA_013363755.1",
+					"organism_name": "Comamonas antarctica",
+					"category": "type",
+					"ani": 87.55,
+					"assembly_coverage": 54.59,
+					"type_assembly_coverage": 60.18
+				},
+				"comment": "na"
+			}
+		},
+		{
+			"accession": "GCF_902706035.1",
+			"current_accession": "GCF_902706035.1",
+			"paired_accession": "GCA_902706035.1",
+			"source_database": "SOURCE_DATABASE_REFSEQ",
+			"organism": {
+				"tax_id": 2681415,
+				"organism_name": "Pantoea sp. 18069",
+				"infraspecific_names": {
+					"isolate": "18069_Pantoea2_Ancestor_Tube"
+				}
+			},
+			"assembly_info": {
+				"assembly_level": "Contig",
+				"assembly_status": "current",
+				"paired_assembly": {
+					"accession": "GCA_902706035.1",
+					"status": "current"
+				},
+				"assembly_name": "n18069v0.1",
+				"assembly_type": "haploid",
+				"bioproject_lineage": [
+					{
+						"bioprojects": [
+							{
+								"accession": "PRJEB34793",
+								"title": "Genomic DNA-seq datasets for 69 Raoultella isolates"
+							}
+						]
+					}
+				],
+				"bioproject_accession": "PRJEB34793",
+				"release_date": "2019-12-16",
+				"submitter": "IMPERIAL COLLEGE LONDON",
+				"sequencing_tech": "Illumina HiSeq 2500",
+				"assembly_method": "SPAdes version 3.7",
+				"biosample": {
+					"accession": "SAMEA6372300",
+					"last_updated": "2024-02-06T20:28:17.000",
+					"publication_date": "2019-12-06T00:00:00.000",
+					"submission_date": "2019-12-07T11:13:57.580",
+					"sample_ids": [
+						{
+							"db": "SRA",
+							"value": "ERS4138398"
+						}
+					],
+					"description": {
+						"title": "Bacterial sample 18069_Pantoea2_Ancestor_Tube",
+						"organism": {
+							"tax_id": 2681415,
+							"organism_name": "Pantoea sp. 18069"
+						},
+						"comment": "Bacterial sample isolated from tree-holes from the root buttresses of beech trees (Fagus sylvatica) between August 2013 and April 2014 from locations across the south of England."
+					},
+					"owner": {
+						"name": "EBI"
+					},
+					"models": [
+						"Generic"
+					],
+					"package": "Generic.1.0",
+					"attributes": [
+						{
+							"name": "ENA-CHECKLIST",
+							"value": "ERC000011"
+						},
+						{
+							"name": "ENA-FIRST-PUBLIC",
+							"value": "2019-12-06T17:04:16Z"
+						},
+						{
+							"name": "ENA-LAST-UPDATE",
+							"value": "2019-12-06T10:31:36Z"
+						},
+						{
+							"name": "External Id",
+							"value": "SAMEA6372300"
+						},
+						{
+							"name": "INSDC center name",
+							"value": "IMPERIAL COLLEGE LONDON"
+						},
+						{
+							"name": "INSDC first public",
+							"value": "2019-12-06T17:04:16Z"
+						},
+						{
+							"name": "INSDC last update",
+							"value": "2019-12-06T10:31:36Z"
+						},
+						{
+							"name": "INSDC status",
+							"value": "public"
+						},
+						{
+							"name": "Submitter Id",
+							"value": "18069_Pantoea2_Ancestor_Tube"
+						},
+						{
+							"name": "sample_name",
+							"value": "18069_Pantoea2_Ancestor_Tube"
+						},
+						{
+							"name": "scientific_name",
+							"value": "Pantoea sp. 18069"
+						}
+					],
+					"status": {
+						"status": "live",
+						"when": "2019-12-09T16:25:05.937"
+					},
+					"sample_name": "18069_Pantoea2_Ancestor_Tube"
+				}
+			},
+			"assembly_stats": {
+				"total_sequence_length": "5540126",
+				"total_ungapped_length": "5540126",
+				"number_of_contigs": 203,
+				"contig_n50": 143656,
+				"contig_l50": 14,
+				"number_of_scaffolds": 203,
+				"scaffold_n50": 143656,
+				"scaffold_l50": 14,
+				"number_of_component_sequences": 203,
+				"atgc_count": "5540126",
+				"gc_count": "3624532",
+				"gc_percent": 65.5,
+				"genome_coverage": "207"
+			},
+			"annotation_info": {
+				"name": "GCF_902706035.1-RS_2024_08_02",
+				"provider": "NCBI RefSeq",
+				"release_date": "2024-08-02",
+				"stats": {
+					"gene_counts": {
+						"total": 5254,
+						"protein_coding": 5036,
+						"non_coding": 95,
+						"pseudogene": 123
+					}
+				},
+				"method": "Best-placed reference protein set; GeneMarkS-2+",
+				"pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+				"software_version": "6.7"
+			},
+			"wgs_info": {
+				"wgs_project_accession": "CACSJA01",
+				"master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/CACSJA000000000.1",
+				"wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/CACSJA01"
+			},
+			"checkm_info": {
+				"checkm_marker_set": "Pantoea",
+				"checkm_species_tax_id": 2681415,
+				"checkm_marker_set_rank": "genus",
+				"checkm_version": "v1.2.3",
+				"completeness": 51.83,
+				"contamination": 19.35
+			},
+			"average_nucleotide_identity": {
+				"taxonomy_check_status": "Inconclusive",
+				"match_status": "below_threshold_mismatch",
+				"submitted_organism": "Pantoea sp. 18069",
+				"submitted_species": "Pantoea sp. 18069",
+				"category": "category_na",
+				"submitted_ani_match": {
+					"assembly": "no-type",
+					"category": "no_type"
+				},
+				"best_ani_match": {
+					"assembly": "GCA_013363755.1",
+					"organism_name": "Comamonas antarctica",
+					"category": "type",
+					"ani": 87.55,
+					"assembly_coverage": 54.59,
+					"type_assembly_coverage": 60.18
+				},
+				"comment": "na"
+			}
+		}
+	],
+	"total_count": 2
+}

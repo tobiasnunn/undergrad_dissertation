@@ -7,14 +7,49 @@ categories: [sub-project, tools, database]
 
 # Introduction {#seq-week4}
 
-This was my final week of assessments, so I didnt get much done. However, at the weekend I did want to do some reading of papers and begin planning what I want the dissertation to look like.
+This was my final week of assessments, so I didnt get much done. However, at the weekend I did want to do some reading of papers and begin planning what I want the dissertation to look like, this lead into some first steps.
 
 # Methods
 
-In (undergrad_dissertation/06_notebooks/dissertation_plan.pptx) I began looking into what I said the project would be and what I wanted it to look like. I used a powerpoint because I liked the more visual aspect of it, helping me visualise things.
+In (undergrad_dissertation/06_notebooks/dissertation_plan.pptx) I began looking into what I said the project would be and what I wanted it to look like. I used a powerpoint because I liked the more visual aspect of it, helping me visualise things. It helped me generate some first steps for the project, solving the major problems before I begin, opposed to during.
+
+I started by characterising the data I had to compare with other genera. This was to see if there were genera of higher quality I could start with. This would make primary analysis more easy. I acknowledge that the metadata I used using Y2 was a subset of the genera of study based on a phylogenetic tree. A good start point would be to download all the remaining accessions for those genera to get complete groups.
+
+I did this by creating a script that calls the NCBI API to bring down all accessions for the genera I am interested in, in this case the 5 from Year 2. It puts them in a file structure, then brings them in again (so as to not run the API call every time). It then itterates over them to bring out individual accessions and place them in a SQL database table that gets constructed. This all ran fine and well, then I looked at the table and saw that the samples had been duplicated, brought down once with a GCA prefix and once with a GCF prefix. It is remotely possible for some that there will be differences, but for all the ones I have seen thusfar, they are identical, so I need to fix this. So, I will need to run the loading again, which means I can add the progress bar (look in results for that). I looked around for a fix and I saw on the NCBI REST API [website](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/api/rest-api/#) that the problem was that I had not configured the API call exactly right. Specifically, I need to set `filters.exclude_paired_reports` to TRUE. I did this, reran the script, had a bit of trouble with the progress bar, but it is 3 nested for loops, I think getting it perfect should have been beyond expectation. I ran into the classic problem of the inbuilt ID column in sequal not returning to 1 when the contents of the table are deleted, so I deleted and remade the table using the script again to remedy this.
+
+I then do another call doing a slightly modified query path. This is to pull out the genus_id and genus_name, I could garner these from the data I currently have, however, that would be more difficult than doing this. I added this as section 03 in the file.
 
 # Results
 
+The brain-storming session was very helpful. It helped me identify some major problems that I need to address so that I can decide on final methods for the project.
+
+I utilized many for loops, an adjustment for the future would be adding a progress bar for my enjoyment while waiting, I found [a site](https://josephcrispell.github.io/2019/06/04/progress-bar.html) with instructions for this, looking like this, the code should just be runnable. I did not realise what this would look like in the blog post format. However, I find it too hilarious to not keep it this way, to compensate, I shortened the max from 500 to 10 (so imagine this 50x bigger):
+
+```{r test progress bar}
+
+# Initialise a progress bar
+pb <- txtProgressBar(min = 1, max = 10, style = 3)
+
+for(i in 1:10){
+  
+  # Sleep for 0.1 seconds
+  Sys.sleep(0.01)
+  
+  # Print progress
+  setTxtProgressBar(pb, i)
+}
+close(pb)
+
+```
+
+I will try to add this to future for loops for accessibility and time management
+
+This process created the file [02_analyse_existing_genera.R](../../../00_scripts/R_scripts/02_analyse_existing_genera.R)
+
 # Conclusions
 
+I plan on stopping for today, this means that the work will spill over into week 5. I plan on analysing the tables I have generated. Specifically, I will pull out and display basic statistics like number of samples. Then, I will extract the host information, where present, and clean the data to remove values such as "not collected", or "mssing" (real thing I saw). This will get me to a true list of hosts. Some of the hosts are in Latin, some English, this proves a challenge of categorisation. Specifically, I want to categorise them into Classes (as in the taxonomic level) and count them to see what the ratio is, I may choose to display some of this as a dashboard for the practice.
+
 # Scientific papers
+
+I have a list of papers now, in another blog post, I did not get around to any this weekend because I focussed on the fun code stuff. However, now I have the list, and my exams are done for good, I will make a greater effort with reading the literature.
