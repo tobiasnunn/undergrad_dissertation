@@ -2,7 +2,7 @@
 title: "Week 4 2025-06-02 to 2025-06-08"
 author: "Tobias Nunn"
 date: "2025-06-08"
-categories: [sub-project, tools, database]
+categories: [api, database]
 ---
 
 # Introduction {#seq-week4}

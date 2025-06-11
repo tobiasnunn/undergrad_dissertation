@@ -1,0 +1,125 @@
+---
+title: "Week 5 2025-06-09 to 2025-06-15"
+author: "Tobias Nunn"
+date: "2025-06-15"
+categories: [api, database]
+---
+
+# Introduction {#seq-week5}
+
+This week I am continuing from the work I began during [week_4](week_4.qmd#sec-week4). Specifically, I am still trying to solve major problem 1 (refer to [dissertation_plan.pptx](../../dissertation_plan.pptx)).
+
+# Methods
+
+## Exploration of groups of genera to categorise basic quality (9th to 10th)
+
+I have all of the data I need to analyse and characterise. I will create tables or graphs exploring the bredth of hosts apparent in the 5 past genera. I may chose to make a dashboard of this information for the practice. During this process, I will run into the sub-issue that the quality of host information is ... bad. I need to create groups by class like "mammalia", "aves", whatever the one for fish is. But some hosts are in latin, some are in english, some are non-specific, it is going to be... interesting.
+
+I decided that because [02_analyse_existing_genera.R](../../../00_scripts/R_scripts/02_analyse_existing_genera.R) had 170 lines, that the rest of the analysis should be performed in a new file for clarity. So I created [02.2_analyse_existing_genera_extended.R](../../../00_scripts/R_scripts/02.2_analyse_existing_genera_extended.R). In this file I read back in the data, having transformed it using a SQL command. It is now a count of the top 5 hosts for each genus. I then used R to make a flextable, to present this data, this is @fig-top5.
+
+I plan to build on this by fleshing out the results section, specifically better describing @fig-top5. To build on the work, I will:
+
+-   run another query to figure out what proportion of samples have host information by genera
+
+-   enrich the host information with information on higher taxonomic assignment, which may have to be done partly manually due to the ...inconsistent nature of the host information.
+
+I went on to answer point 1 in @sec-week5_results1. However, point 2 is a larger object and I am going to create another methods and results section in order to better separate the two parts of this area of the project.
+
+## Exploration into Class distribution information as a more specific qualiy metric (10th to -\_\_th)
+
+To answer point 2: "enrich the host information with information on higher taxonomic assignment, which may have to be done partly manually due to the ...inconsistent nature of the host information.", I first wish to display all the hosts in a paginated table format. This will allow a long list to be displayed in a compact format. This table-type would not work in word, so may prove difficult for the write up. I am considering adding a filter so that the end-user can select which genera they would like to observe, however, this may be too complex for me.
+
+I first did a paginated table, @tbl-paginated. This displays all of the hosts for all 10 genera non-deliminated. The paginated nature means that all 778 hosts can be displayed without being massive.
+
+There are two options for deriving the class data:
+
+1.  purely manual - first remove variation caused by different casing, e.g. "bat" and "Bat". Then, manually create a table of classes
+
+2.  use NCBI [entrez API](https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html#introduction-the-ncbi-entrez-and-rentrez) - this will only work with scientific names, so I may have to go and manually change basic names to scientific names, or just manually assign those ones
+
+I am leaning toward the 2nd option. I can remove any values with only one word and either discard or manually assign those ones. I used the [rentrez manual](https://cran.r-project.org/web/packages/rentrez/rentrez.pdf) to make lines of code to call the API.
+
+It should be noted that the more modern REST API can be used to the same effect. However, I decided to use rentrez because:
+
+1.  I wanted to practice with a different package
+
+2.  the REST API call "/taxonomy/taxon/{taxons}/dataset_report" returns a large zip file with much more information than I require and would be more painful to try and store
+
+3.  the entrez API returns a "division" attribute that I find more helpful than the Class taxonomy level, as it has fields such as "plant or fungus" or "mammal"
+
+I had to rate limit this call because I do not want to overwhelm the older API. I introduced a "Sys.sleep(0.05)" into the loop as advised by the rentrez manual. After the for loop has concluded I will have a dataframe in R with the host name, the internal taxonomy ID in the internal NCBI systems, the division and the full taxonomy record converted to json. However, not all of the columns will be done, as there are many values it will not be able to find in the system, i.e. "bannana"(I did not make a spelling error there, that is just how it is in the system) and "mushroom".
+
+After the loop finished, I had the frame, I decided to save the values that did return to one table in the SQL database and the values that did not to another. I did some exploration and the call managed to identify roughly 75% of the host names, they are in groups that may or may not be helpful, however, I can work with it. This came out to 528 done automatically. Which means my non-returners table has 180 values in it, I immediately identified that there were still some "not provided", "not collected" variations that had slipped through the cracks, but those will be easy to dispose of. It should be noted that the vast majority of environmental samples did not make it to this point as there have been many filter steps selecting purely for host, which is a field usually left empty when isolation source is environmental. There are some though, interestingly. This means I will likely need another table for environmental sources for comparison with hosted sources. For future reference, my current list of 7 group names (well, there will likely be multiple levels so I can compare inside mammals etc, but the top level stuff) are: environmental, plants and fungus, invertebrates, fish, amphibians, reptiles, birds, mammals.
+
+So, next steps:
+
+1.  look at the list of unprocessed hosts for quick wins, i.e. "bat = mammal" or other values that can quickly be assigned a scientific name, like "fish (rainbow trout)"
+
+2.  once those are given a scientific name they can be run through entrez and added to that table, removed from the non-returners table
+
+3.  then I will just keep workind down the list until the table is empty
+
+4.  then I will have to figure out how to get the group names to come out (that might be a bit of a biggie). I have looked around a bit, and the two contenders are EoL (Encyclopedia of Life) and GBIF (Global Biodiversity Information Facility).
+
+5.  then I can finally do the dashboard comparing group sizes etc once a final format is decided
+
+# Results {#sec-week5_results1}
+
+## Exploration of groups of genera to categorise basic quality (9th to 10th)
+
+![Table of host frequency for each genus of interest. Specifically referring to the 5 most common for each. Where there was a tie, only the first value was selected](images/top_5_hosts.png){#fig-top5}
+
+This flextable, shows information on the top 5 hosts for each genus, there is little overlap between them, however, a species of note is Homo sapiens, which appears significantly in all groups. More of the species are plant origin than animal origin, so perhaps a good level of comparison would simply be "plant vs animal". It should be noted that the proportions between genera could be misleading, the group sizes for each will be different and this table is not a comparison, merely outlining where the most samples are. This is supported by @fig-host_props.
+
+![Table comparing how many samples of 5 genera exist on the NCBI website with the amount with satisfactory host fields](images/host_proportions-02.png){#fig-host_props}
+
+@fig-host_props shows that for 4 of the 5 genera, only about 20% have useable host fields. Meaning roughly 80% of host fields are "NA", "null", "missing" or the many permutations I had to parse out manually. The only one to break this formula is Pantoea, with close to 60% useability rate, quite the anomaly. This means Pantoea is once again massively overrepresented. This does show quite well why major problem 1 is such in the first place. For example, for Brevibacterium there are 67 samples with a useable host field, which is not many for statistical significance or large group sizes which would help validate the results. I would like to compare with a more studied Genus, Escherichia, (coming from E. coli) to see what happens in a more well-studied genus.
+
+![Table exploring distribution of hosts for new genera that are more well-studied, as well as Cryptosporidium, due to it being semi-relevant to the project. Specifically, focusing on the counts in the five most common hosts.](images/top_5_hosts_new-03.png){#fig-new5}
+
+@fig-new5 shows that for 3 of these new genera, the amount with a host greatly exceeds that of the existing genera of study. These 3 are Salmonella, Mycobacterium and Escherichia. This is ideal as these genera will have higher chances of more varied host metadata. Interestingly, humans and mammals are massively over-represented in these genera, with "Homo sapiens" appearing in the top spot for all genera. A higher total is ideal, however, the proportion may be lower than in the existing samples and this does not tell us about the distribution between Classes.
+
+![Table comparing quality of host metadata availability for 10 genera split between existing genera and new genera added for comparison.](images/host_proportions_new.png){#fig-comp_new5}
+
+@fig-comp_new5 shows that in 3 out of 5 cases, the new genera do have a higher proportion than the existing, excluding Pantoea. The value with the highest proportion is Cryptosporidium, I am taking this as anomalous, because there are, surprisingly, only 87 samples on the NCBI database, so this high percentage could be due to chance. For the genera with more samples, the download capped at 4000 due to API limitations to avoid congestion. Thus, these are only samples of larger datasets, however, if I had taken all the samples, it would have taken hours to run the analysis, so I believe 4000 is a significantly large sample. This is good information to know in terms of data exploration. However, if this greater proportion is caused by most samples being taken from mammals, and there is not a sufficient taxonomic variance, then these genera are not of use. The best signifier that a genus' host information is of use to me is variability in host Class.
+
+## Exploration into Class distribution information as a more specific qualiy metric (10th to -\_\_th)
+
+```{r paginated table}
+#| warning: false
+#| echo: false
+#| label: tbl-paginated
+#| tbl-cap-location: top
+#| tbl-cap: "Paginated table with total host information for all 10 genera without separation by genus"
+
+library(gt)
+ source("../../00_scripts/R_scripts/02.4_total_host.R")
+#data_table <- data.frame(genus = c("penguin"), total = c(1)) %>% 
+data_table <- result %>% 
+  gt() %>% 
+  opt_interactive(use_search = T)
+data_table
+# cannot get caption to work
+```
+
+@tbl-paginated shows all 778 hosts across 78 pages. This allows the end-user to explore the range of hosts for these 10 genera. Unsurprisingly, Homo sapiens has the most samples at 7039, massively above the 2nd place Bos taurus at 184. One can use the filter feature to search, for example, typing "homo" will lead one to see the range of ways people have wrote that down. I would say that the hosts are skewed towards plants and mammals, with variations on chicken making up most of the bird samples and very few representatives from amphibians, reptiles and invertebrates.
+
+# Conclusions
+
+# Scientific papers
+
+#### Genome analysis of multiple pathogenic isolates of *Streptococcus agalactiae*: Implications for the microbial “pan-genome” (<https://www.pnas.org/doi/abs/10.1073/pnas.0506758102>)
+
+ok, now "pan-genomes" is interesting - here is a link to a related blog post or something about them <https://www.nature.com/articles/d42859-020-00115-3>
+
+it is kind of close to what I want to be doing, its like discovering all the possible genes found in the distinct strains of a bacterium. Discovering the core genes and the rarer ones. I could definitely look into something like this.
+
+that second link mentions something like "1 reference genome is not adequate to represent the genetic variation of a species". maybe I could compare reference genomes? the core and the dispensible genome?
+
+**"Pangenomes** represent the genomic variation naturally found within a **population**, commonly a species. They may be **gene-oriented** and model the presence and absence of genes within the population, or they may be **sequence-oriented** and focus on the variation of genomic sequence including single-nucleotide variants, insertions, deletions, and structural variants for the given population." - gene-oriented could be interesting, modeling how different conditions can broaden the pan-genome for species.
+
+"pangenomes are often ... species level, we can also build pangenomes for specific populations such as for ... broader populations such as a species, phylogenetic clade, or an ecological community" - ecological community, perhaps I can model a pan-genome of whole function for the Bangor samples, see what all the genes they do are?
+
+It says they are like an upgraded or better reference genome - maybe I could create like a library of these to use in referencing? that idea might be too ambitious.
+
+it keeps bringing up "core" and "accessory" genome, which is definitely something I could look into as it is irrespective of low-quality metadata.

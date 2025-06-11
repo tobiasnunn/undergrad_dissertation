@@ -13,6 +13,10 @@ read in [week_3](../posts/week_3.qmd#sec-week3). Not relevant, but illuminated s
 
 ## 'Genome analysis of multiple pathogenic isolates of *Streptococcus agalactiae*: Implications for the microbial “pan-genome”' (<https://www.pnas.org/doi/abs/10.1073/pnas.0506758102>)
 
+read in week 5. lead me into this paper: <https://academic.oup.com/bib/article/25/6/bbae588/7902219>
+
+which I plan on reading first, its called "a gentle introduction to pangenomics"
+
 ## 'Ordering microbial diversity into ecologically and genetically cohesive units' (<https://www.cell.com/trends/microbiology/abstract/S0966-842X%2814%2900039-0>)
 
 ## 'Insights from 20 years of bacterial genome sequencing' (<https://link.springer.com/article/10.1007/s10142-015-0433-4>)
