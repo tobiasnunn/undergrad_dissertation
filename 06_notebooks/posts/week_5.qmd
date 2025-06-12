@@ -59,9 +59,15 @@ So, next steps:
 
 3.  then I will just keep workind down the list until the table is empty
 
-4.  then I will have to figure out how to get the group names to come out (that might be a bit of a biggie). I have looked around a bit, and the two contenders are EoL (Encyclopedia of Life) and GBIF (Global Biodiversity Information Facility).
+4.  then I will have to figure out how to get the group names to come out (that might be a bit of a biggie). I have looked around a bit, and the two contenders are EoL (Encyclopedia of Life) and GBIF (Global Biodiversity Information Facility). They both have taxonomic ladders that I can use for group names, which I will need to analyse which has more utility for me.
 
 5.  then I can finally do the dashboard comparing group sizes etc once a final format is decided
+
+### Manual processing (2025-06-11 to 2025-06-12)
+
+I started by removing values that could not be given a host, like environmental ones, or vague ones like "animal" or "wildlife" that I could take but... how would I categorise them?
+
+While I was doing this, I noted all of the variations on how someone could write "homo sapiens" added them to a list, and gave them the alias "homo sapiens". I then targeted "bats" because I could never get them to work automatically in testing. Then, I moved onto trying the REST API on the remaining duff values to see how many more I could do automatically. It would have been faster, but there was a rate of false positives that I could not accept. For example, "mushroom" connecting to "mushroomtongue salamander" or "mushroom-killing salmonella", which would place it in the complete wrong class. Thus, I decided to just do the duff list manually. I found one value for the "african clawed toad", which is a known vector of chytrid, maybe it would be fun to compare that with the 10 samples from last year. There were more I needed to cut, for example "plant" and "sponge" because whilst they did have a host, I could not put it in a Class, so would not be able to use them unless I did broader comparisons, like "inverts vs verts".
 
 # Results {#sec-week5_results1}
 
