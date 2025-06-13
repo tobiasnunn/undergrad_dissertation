@@ -69,6 +69,14 @@ I started by removing values that could not be given a host, like environmental 
 
 While I was doing this, I noted all of the variations on how someone could write "homo sapiens" added them to a list, and gave them the alias "homo sapiens". I then targeted "bats" because I could never get them to work automatically in testing. Then, I moved onto trying the REST API on the remaining duff values to see how many more I could do automatically. It would have been faster, but there was a rate of false positives that I could not accept. For example, "mushroom" connecting to "mushroomtongue salamander" or "mushroom-killing salmonella", which would place it in the complete wrong class. Thus, I decided to just do the duff list manually. I found one value for the "african clawed toad", which is a known vector of chytrid, maybe it would be fun to compare that with the 10 samples from last year. There were more I needed to cut, for example "plant" and "sponge" because whilst they did have a host, I could not put it in a Class, so would not be able to use them unless I did broader comparisons, like "inverts vs verts".
 
+To process the duff list manually, I used a combination of the [NCBI taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi), wikipedia and google search, depending on the quality of the data, or what problem made it duff in the first place. i.e. If it was an obvious thing like including the common name after the fact in brackets \[i.e. something like "raphanus sativus var. flamboyant 5", the "var. flamboyant 5" stopped it from reading\], so I could just take the correct bit and put that in the taxonomy search. For issues of nomenclature I used Wikipedia, to find the most specific valid taxonomic level. For example, if there were a common name, like vole, I could use it to get to the family voles are in and look that up. Finally, for issues of spelling or using an outdated name, I used google to find the correct name / spelling and then went to the correct wikipedia page so I could get the correct taxonomy level name and pass that to the taxonomy browser. For example, something like "bannana", however not this exact one, because the misspelling is rather obvious. Having corrected these entried, I ran an entrez search to retrieve the taxonomy data, and added the records to the table "host_reports".
+
+Using the SQL code below, through R (of course), I extracted the Class-level information to allow for groupings:
+
+`SELECT host_value, report_data ->'Taxon'->>'ScientificName' as taxon_name, report_data ->'Taxon'->>'Rank' as taxon_rank, (value->>'ScientificName') as class_name, (value->>'TaxId') as class_tax_id FROM host_reports, LATERAL jsonb_each(report_data->'Taxon'->'LineageEx') as t(key, value) WHERE value->>'Rank' = 'class';`
+
+I then combined this with the accession data that I had generated last week, to analyse the distribution of host Class by sample genus. I created a range of exploratory tables in "02.5_class_analysis.R" that increasingly added levels of complexity, and with names that got increasingly funnier each time I had to think up a new one. In the end, I decided to just output the raw data, to the file "03_outputs//host_evaluation/accession_to_host_class.tsv". Any tables I do in this notebook will be generated here (though, I may borrow the code in case I want to re-use one of those specific tables). For the output tables and distributions, including my interpretations, see @sec-class_distribution_results.
+
 # Results {#sec-week5_results1}
 
 ## Exploration of groups of genera to categorise basic quality (9th to 10th)
@@ -89,7 +97,7 @@ This flextable, shows information on the top 5 hosts for each genus, there is li
 
 @fig-comp_new5 shows that in 3 out of 5 cases, the new genera do have a higher proportion than the existing, excluding Pantoea. The value with the highest proportion is Cryptosporidium, I am taking this as anomalous, because there are, surprisingly, only 87 samples on the NCBI database, so this high percentage could be due to chance. For the genera with more samples, the download capped at 4000 due to API limitations to avoid congestion. Thus, these are only samples of larger datasets, however, if I had taken all the samples, it would have taken hours to run the analysis, so I believe 4000 is a significantly large sample. This is good information to know in terms of data exploration. However, if this greater proportion is caused by most samples being taken from mammals, and there is not a sufficient taxonomic variance, then these genera are not of use. The best signifier that a genus' host information is of use to me is variability in host Class.
 
-## Exploration into Class distribution information as a more specific qualiy metric (10th to -\_\_th)
+## Exploration into Class distribution information as a more specific qualiy metric (10th to -13th) {#sec-class_distribution_results}
 
 ```{r paginated table}
 #| warning: false
@@ -105,12 +113,141 @@ data_table <- result %>%
   gt() %>% 
   opt_interactive(use_search = T)
 data_table
-# cannot get caption to work
 ```
 
 @tbl-paginated shows all 778 hosts across 78 pages. This allows the end-user to explore the range of hosts for these 10 genera. Unsurprisingly, Homo sapiens has the most samples at 7039, massively above the 2nd place Bos taurus at 184. One can use the filter feature to search, for example, typing "homo" will lead one to see the range of ways people have wrote that down. I would say that the hosts are skewed towards plants and mammals, with variations on chicken making up most of the bird samples and very few representatives from amphibians, reptiles and invertebrates.
 
+```{r host-class_info}
+#| echo: false
+#| warning: false
+#| label: tbl-pivoted
+#| tbl-cap-location: top
+#| tbl-cap: "Table showing delineation of host class by bacterial genus"
+
+library(tidyverse)
+library(flextable)
+library(here)
+athc <- read_delim(here("../03_outputs/host_evaluation/accession_to_host_class.tsv"))
+
+display <- athc %>% 
+  group_by(class_name, genus_name) %>% 
+  count(name = "count_of_accessions") %>% 
+  pivot_wider(names_from = genus_name, values_from = count_of_accessions, names_sort = TRUE) %>% 
+  rowwise() %>% 
+  mutate(Total = sum(c_across(where(is.numeric)), na.rm = TRUE)) %>% 
+  ungroup()  %>%
+  arrange(desc(Total)) %>% 
+  filter(Total>3)
+
+display_table <- display %>%
+  flextable() %>%
+  theme_vanilla() %>%
+  autofit()  %>% 
+  italic(i = 1, j = 2:(ncol_keys(.) - 1), part = "header") %>% # used Claude.ai for this, strangely difficult thing to do
+  set_header_labels(class_name = "Host taxonomic Class") %>% 
+  colformat_char(na_str = " - ") %>% 
+  colformat_num(na_str = " - ") %>%
+  bg(bg = "#d8d8d8", j = "Total", part = "all") %>%  
+  add_footer_lines("Table displays host information after parsing null fields and environmental samples. The hosts' taxonomic Class was obtained from the NCBI through the entrez API using the rentrez R package. This table is a subset, taken where the total number of accessions is greater than 3.") %>% 
+     color(part = "footer", color = "#666666")
+display_table
+
+
+```
+
+Firstly, @tbl-pivoted shows the clear mammal-bias in the data, with 8,531 total accessions split between the 10 genera. For all excluding Microbacterium, Pantoea and Sphingomonas it is the largest host Class. The second Class group is flowering plants, Magnoliopsida, which is the largest group for the aforementioned 3 genera. Mammalia and Aves are the only Classes that see contributions from all 10 genera. For the other major groups (fish, amphibians, reptiles, inverts) that I have not yet mentioned, there are significantly less. Mammalia, Magnoliopside and Aves have 8531, 992 and 534 and are 1st, 2nd and 3rd in terms of size. This contrasts the remaining 4, Acinopteri (ray-finned fish) are 4th largest, however have a comparitively lower 173 total accessions, in 5th and 6th there are insecta and amphibia at 136 and 83 total samples respectively. Finally, reptiles (lepidosauria) is in joint 10th place with only 7 total samples. It should be noted that between the 5 genera that I have previously studied, before adding in the more common 5, there are only 2 accessions with amphibian hosts. The bacterial genus *Microbacterium* is the most consistent, with accessions of that genus appearing in 15 of the top 20 host Classes.
+
+```{r host-class_info_with_KO}
+#| echo: false
+#| warning: false
+#| label: tbl-pivoted_KO
+#| tbl-cap-location: top
+#| tbl-cap: "Table showing delineation of host class by bacterial genus for just samples I have already annotated"
+
+library(tidyverse)
+library(flextable)
+library(here)
+athcko <- read_delim(here("../03_outputs/host_evaluation/accession_to_class_KO.tsv"))
+
+display_ko <- athcko %>% 
+  group_by(class_name, genus_name) %>% 
+  count(name = "count_of_accessions") %>% 
+  pivot_wider(names_from = genus_name, values_from = count_of_accessions, names_sort = TRUE) %>% 
+  rowwise() %>% 
+  mutate(Total = sum(c_across(where(is.numeric)), na.rm = TRUE)) %>% 
+  ungroup()  %>%
+  arrange(desc(Total)) %>% 
+  filter(Total>3)
+
+display_table_ko <- display_ko %>%
+  flextable() %>%
+  theme_vanilla() %>%
+  autofit()  %>% 
+  italic(i = 1, j = 2:(ncol_keys(.) - 1), part = "header") %>% # used Claude.ai for this, strangely difficult thing to do
+  set_header_labels(class_name = "Host taxonomic Class") %>% 
+  colformat_char(na_str = " - ") %>% 
+  colformat_num(na_str = " - ") %>%
+  bg(bg = "#d8d8d8", j = "Total", part = "all") %>%  
+  add_footer_lines("Table displays host information after parsing null fields and environmental samples. The hosts' taxonomic Class was obtained from the NCBI through the entrez API using the rentrez R package. This table is a subset, taken where the total number of accessions is greater than 3. This was created by combining the recent dataset with older data pertaining to samples I had run through EggNOG-mapper, as such the 5 new genera (Cryptosporidium, Escherichia, Mycobacterium, Salmonella and Yersinia) do not feature here. In 5 out of 136 instances, I had downloaded opposing accessions between downloads. i.e. I had downloaded GCF_1234 months ago, and downloaded GCA_1234 for this data, they are identical files, but both naming conventions exist on the NCBI database, leading to the error. For this data I cut the GCA/F to find this, explaining why it appears this way in the data. ") %>% 
+     color(part = "footer", color = "#666666")
+display_table_ko
+```
+
+@tbl-pivoted_KO is similar to @tbl-pivoted, it stems from the same data, but is filtered to only include accessions I have both host information and an annotation for. Firstly, contrasting @tbl-pivoted, Magnoliopsida has overtaken Mammalia as largest group. However, now the new 5 genera have been filtered out both of the aforementioned Classes have annotations in all bacterial genera. The remaining groups above 3 total samples are birds, insects and roundworms. Grand total there are 136 accessions with hosts that I have annotations for, this is out of 552 total annotations, meaning there are 416 with either an invalid host field (missing, NA, NULL, etc) or are environmental samples. This proportion is just over 75%, meaning just less than a quarter have ideal host information. This is on the low end, refering to the scale set out in @fig-comp_new5 for individual genera.
+
+TODO:
+
+-   maybe show proportions, but not through a pie chart, like I did in the last results section, specifics TBD
+
+-   heatmap of what I got now? I could def do hosted vs environmental, but trees vs mammals wouldnt make the cut for parametric statistics, maybe worth a go anyway
+
+## New phase of prototype heatmap: host-based ones (2025-06-14 to ?)
+
+@tbl-pivoted_KO is a good proof of concept that I can get data together to do a prototype host-based heatmap. I call it prototype because I am not sure what the final format will be, so will go over multiple iterations. For example, I can try \[hosted vs environmental\], \[animal vs plant hosts\] or perhaps \[mammals vs plants\]. I may try a class-based comparison, though I do not have confidence in the groups with missing values. There will likely be more in the future once I have addressed Major Problem 2 and gotten more samples.
+
+I may also want to do a similarity heat map as a part of this. This would confirm whether I can or cannot compare all genera for a host Class with all genera for another (e.g. Mammalia vs Magnoliopsida with the genera along the bottom... but the Class needs to be on the bottom, yeah, this may not be possible now I think about it), or whether I will need to do heatmaps inside of both bacterial genus and host class (e.g. Pantoea-Mammalia vs Pantoea-Magnoliopsida). Perhaps I could supplement the current data with targetted eggnog-mapping (deliberately selecting accessions with hosts from the under-represented Classes to allow for the more specific analyses I am not currently capable of)
+
 # Conclusions
+
+Firstly, I would like to state on the course of this investigation I have developed stages of a pipeline that can be collated to properly sort host information and permit heatmaps grouped by host Class. As I have demonstrated, the number of accessions containing valid host information is low, usually under 50%. This value is gotten to after I have had to remove many accessions in waves, as follows:
+
+1.  info doesnt exist or needs to be painstakingly parsed out due to varients on "missing",
+
+2.  most samples are environmental \[this is good for a host vs environment comparison but not for more specific comparisons\],
+
+3.  bad quality meaning I need to do a lot of manual fixing to find good tax_ids to match to a class,
+
+4.  heavy human and mammal bias meaning that reptiles especially (for these genera) are waylaid to only 7 values, basically whats left after that is next to nothing.
+
+::: {#prob-reptiles .callout-important}
+It might be ideal to bring in specific bacterial lineages that are known to appear in reptile microbiomes to allow for more specific comparisons between reptile hosts and e.g. amphibian hosts.
+:::
+
+Another conclusion is that with a data-set this small, I would not be able to perform the Class comparisons I might wish, perhaps a more realistic goal is \[hosted vs environmental\] or \[animal vs plant hosts\] at a more broad taxonomic level, perhaps \[mammals vs birds\] could work. This is because I do not believe I can call a host-based comparison valid unless all bacterial genera are present in all host Classes, it means that any correlations seen (or not seen) would be due to the absence of pathways that may be common across genomes in a certain genus, but do not appear due to the gaps.
+
+Finally, I conclude that the first major problem of few samples having adequate host information has been addressed. The 552 samples I had downloaded were a subset of all the accessions available for these genera, as chosen by GTDB-Tk analysis last year. This was ideal at the time as it was a way of deciding a manageable amount of samples while I was still unfamiliar to the area of research by chosing the most evolutionarily similar. Now, it is apparent I am going to need as many as I can get, in order to try and get the major Classes to a respectable amount of accessions. This might also help increase the proportion of samples with an ideally filled out host field, though that is not guaranteed. This leads into major problem 2, running all those accessions through EggNOG-mapper on hawk can be better automated, but will continue to take (what I find) an unacceptable amount of time. This is where my next steps will take me.
+
+\[good start, but Ill def give it a thrice-over when I write it up in the dissertation proper, it needs to flow better, also, its missing something, though Im not sure what, Ill need to read it through in final .html format to be able to read it all properly\]
+
+plan, have I covered all of it?:
+
+-   have I answered major problem 1? Yes, I now have a range of hosts, and a way to group them and the ability to use them, should I want to make them the groups for a new heatmap
+
+-   bring up again that host info is shockingly bad (major culls: 1. info doesnt exist or needs to be painstakingly parsed out due to varients on "missing", 2. most samples are environmental \[good for a host vs environment comp but not for more specific stuff\], 3. bad quality meaning I need to do a lot of manual fixing to find good tax_ids to match to a class, 4. heavy human and mammal bias meaning that reptiles especially \[for these genera\] are waylaid to only 7 values, basically whats left after that is next to nothing, so maybe another next step is to bring in nt only more reptile specific lineages, but just more data in general.)
+
+-   write up as Chapter 1 of the Dissertation
+
+-   anything that can be concluded from all the results
+
+-   Maybe bring in some more amphibian or reptile leaning lineages
+
+-   "with a dataset this small, I would not be able to perform the clade comparisons I might wish, perhaps a more realistic goal is \[hosted vs environmental\] or \[animal vs plant hosts\] at a more broad taxonomic level, perhaps \[mammals vs birds\] could work"
+
+-   need more reptiles, reptile specific bacteria?
+
+-   talk about making "02.FULL_HOST_PIPELINE.R" to summarise the pipeline
+
+-   add a paragraph once heatmap stuff is done
 
 # Scientific papers
 

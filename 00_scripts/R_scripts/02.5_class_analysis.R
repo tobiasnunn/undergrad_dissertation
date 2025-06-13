@@ -205,136 +205,118 @@ host_list
 x <- data.frame(paste0("'", host_list$host_value, "', "))
 print(x, row.names = FALSE)
 
-'alhagi sparsifolia shap.', '218100'
-'allium sativum var. ophioscorodon', '4682'
-'allomyria dichotoma', '273928'
-'alyssum serpyllifolium ssp. lusitanicum', '226043' 
-'amphibian : african clawed toad', '8355'
-'amphisylla', '184247'
-'arabodopsis thaliana', '3702'
-'badger', '9655'
-'bannana', '4640'
-'bean', '3803'
-'beef', '9913' 
-'bird', '8782'
-'bird (turkey)', '9103'
-'bird of prey', '3073808'
-'bivalve mollusk', ' 6544'
-'bos taurus taurus', '9913' 
-'broiler', '9031'
-'buffalo', '27592'
-'bull', '9913'
-'caenorhabditis elegans my316', '6239'
-'calf', '9913'
-'calves', '9913'
-'canine', '9611'
-'carrageenan', '2769'
-'chacoan mara', '181543' 
-'chelonoides carbonaria', '50047'
-'chiloschista parishii seidenf.', '339076'
-'chroicocephalus novaehollandiae (australian silver gull chick)', '2547444' 
-'citellus musticus', '9996' 
-'cotton rat', '42414'
-'crab grass', '66017'
-'crataegus sp.', '23159'
-'crategus cuneata', '2741994'
-'crategus monogyna', '23159'
-'crow', '30420'
-'ctenophthalmus teres', '185849'
-'dairy herd', '9913'
-'edessa sp.', '1225063'
-'egret', '8899'
-'epipcactis palustris', '210730'
-'equus ferus caballus', '1114792'
-'equus ferus caballus (thoroughbred)', '1114792' 
-'eucalyptus sp.', '3932'
-'felix catus domesticus', '9685'
-'finch', '9133'
-'fish (rainbow trout)', '8022'
-'flea', '7509'
-'fleas stenoponia insperata', '7509'
-'fly', '7147'
-'fox', '9625'
-'frog', '8342'
-'grasses', '4479'
-'guar pulse', '3832'
-'hare', '9980'
-'hawk', '56259'
-'indigofera argentea burm.f.', '198858'
-'kalidium foliatum (pall.) moq', '224146'
-'larus sp. (gull)', '8911' 
-'laying hen', '9031'
-'lettuce', '4236'
-'lily', '4688'
-'linum austriacum ssp. austriacum', '586375'
-'malus domestica ''egremont russet''', '3750'
-'malus domestica ''gala''', '3750'
-'malus prunifolia (crab apple)', '106564'
-'mammal', '40674'
-'mango tree', '29780'
-'marmot', '9992'
-'marsupial', '9263'
-'masson pine', '88730'
-'melanaphis sacchari zehntner', '742174' 
-'migratory bird', '8782'
-'mitus arvalis', '47230'
-'mole', '9373'
-'mormidea sp.', '631403'
-'murine', '39107'
-'mus musculus c3h/orl', '10090'
-'mus musculus c57bl/6j', '10090'
-'mushroom', '155619'
-'neopsylla setosa', '129375'
-'neopsylla specialis specialis', '129375'
-'nicotiana tabacum l.', '4097' 
-'night heron', '8900'
-'nosopsylla laeviceps', '507074'
-'opossum', '38605'
-'orange', '23513'
-'oryza sativa cv. hwayoung', '4530'
-'oryza sativa l.', '4530' 
-'otter', '169417'
-'oyster', '98302'
-'pallasiomys meridianus', '261754' 
-'pear tree', '3766'
-'pelicanus rufescens', '1243782'
-'pheasant', '9005'
-'pigeon', '8930'
-'pistacia vera l.', '55513'
-'pisum sativum l.', '3888'
-'porcine', '9823'
-'pork', '9823'
-'possum', '38609'
-'poultry', '9031'
-'protaetia brevitarsis seulensis larva', '438893'
-'pyrus communis ''clapp''s favorite''', '23211' 
-'raphanus sativus var. flamboyant 5', '3726'
-'rhombomis opinus', '186474'
-'rice plant', '4530'
-'richardia scabra l.', '60230'
-'saccharum (sugarcane)', '4546' 
-'salix sp. (willow)', '40685'
-'shrew', '9376'
-'shrew of unidentified species', '9376'
-'siskin', '1647189'
-'solanum tuberosum l.', '4113'
-'sophora davidii (franch.) skeels', '49839'
-'sorbus aucuparia ''rowancroft coral pink''', '36599'
-'sorghum bicolor (l.) moench', '4558'
-'stevia rebaudiana bertoni', '55670'
-'sugar cane yz08-1095', '4546'
-'taurocerus sp.', '2709344'
-'theobroma grandiflorum (isolate c174 resistant to witches broom)', '108881'
-'trachymyrmex sp.', '34717' 
-'turtle', '8459'
-'vole', '337677'
-'walnut', '16718'
-'weever', '56735'
-'wild bird', '8782'
-'wild boars', '41807'
-'zea mays cv. sweet belle', '4577'
-'zea mays l.', '4577'
-'zea mays var. rugosa (sweet corn)', '4577'
+# list was created manually in text file "02_analysis/03_unknown_hosts/manually_assigned_hosts.txt"
+
+manual_hosts <- read.table("../02_analysis/03_unknown_hosts/manually_assigned_hosts.txt", 
+                 sep = ",", 
+                 quote = "'", 
+                 col.names = c("host", "code"),
+                 stringsAsFactors = FALSE)
+manual_hosts$host <- trimws(manual_hosts$host)
+manual_hosts$code <- trimws(manual_hosts$code)
+
+dbWriteTable(conn, "temp_hosts_codes", manual_hosts, temporary = TRUE, overwrite = TRUE)
+# bring two tables together in database
+res <- dbGetQuery(conn, "SELECT * FROM temp_hosts_codes tc
+                         INNER JOIN unprocessed_hosts uh
+                         ON uh.host_value = tc.host;")
+
+dbExecute(conn, "UPDATE unprocessed_hosts
+                 SET host_id = code
+                 FROM temp_hosts_codes 
+                 WHERE host_value = host;")
+
+
+# 06. looking up the taxonomy information ---------------------------------
+
+
+res <- dbGetQuery(conn, "SELECT * FROM  unprocessed_hosts;")
+
+pb <- txtProgressBar(min = 0, max = nrow(res), style = 3)
+
+for (i in 1:nrow(res)) {
+   #i <- 1 
+# retrieve tax record (also from rentrez manual)
+  taxid <- res$host_id[i]
+  host_value <- res$host_value[i]
+ 
+  tax_rec <- entrez_fetch(db="taxonomy", id=taxid, rettype="xml", parsed=TRUE)
+    
+  tax_list <- XML::xmlToList(tax_rec)
+  tax_json <- jsonlite::toJSON(tax_list, auto_unbox = TRUE)
+  
+  dbExecute(
+    conn,
+    paste0("INSERT INTO ", "host_reports", " (host_value, host_id, report_data) VALUES ($1, $2, $3) 
+              ON CONFLICT (host_value) DO UPDATE SET report_data = $3"), # if already exists, will update
+    params = list(host_value, taxid, tax_json))
+  
+  # Print progress
+  setTxtProgressBar(pb, i)
+  Sys.sleep(0.05)
+}
+
+close(pb)
+
+
+# 07. classification ------------------------------------------------------
+
+# now all the duff samples have been turned good and added to the list, I am ready
+# to create my groups.
+
+# gets every host and its taxonomic class
+host_to_class_info <- dbGetQuery(conn, 
+      "SELECT host_value,
+        report_data ->'Taxon'->>'ScientificName' as taxon_name,
+        report_data ->'Taxon'->>'Rank' as taxon_rank,
+        (value->>'ScientificName') as class_name,
+        (value->>'TaxId') as class_tax_id
+        FROM host_reports,
+        LATERAL jsonb_each(report_data->'Taxon'->'LineageEx') as t(key, value)
+        WHERE value->>'Rank' = 'class';")
+
+# gets every accession with a valid host and the host name
+accession_to_host_info <- dbGetQuery(conn, "SELECT Q1.genus_id, Q1.genus_name, Q1.accession, Q1.host FROM 
+(SELECT gi.genus_id, gi.genus_name, gr.accession, gr.report_data #>> '{assembly_info, biosample, host}' as host
+  FROM public.genome_reports gr
+  INNER JOIN public.genus_info gi ON gi.genus_id = gr.genus_id) AS Q1
+WHERE Q1.host IS NOT NULL AND
+Q1.host NOT IN ('missing', 'mssing', 'missed', 'not applicable', 'unknown', 'N/A', 'not collected', 'no collected', 'not available', 'Not applicable');")
+
+# make all words lower case so that I dont get "Bat" and "bat" as seperate entries
+accession_to_host_info <- accession_to_host_info %>% 
+  mutate(host_value = tolower(host))
+
+# so this is my grand-total object of all the important data
+accession_to_class_info <- host_to_class_info %>% 
+  inner_join(accession_to_host_info, by= join_by(host_value))
+
+# now I can see how many accessions there are of each Class
+accession_by_class_count <- accession_to_class_info %>%  
+  count(class_name, sort = T)
+
+# Class count, but by bacterial genus
+accession_by_class_and_genus_count <- accession_to_class_info %>% 
+  group_by(class_name, genus_name) %>% 
+  count() %>% 
+  arrange(class_name, desc(n))
+
+# now pivoted
+pivoted_accession_by_class_and_genus_count <- accession_by_class_and_genus_count %>% 
+  pivot_wider(names_from = genus_name, values_from = n)
+
+# Class count, but by bacterial genus, prob best for display purposes
+accession_by_class_and_genus_count_for_display <- accession_to_class_info %>% 
+  group_by(class_name, genus_name) %>% 
+  count(name = "count_of_accessions") %>% 
+  arrange(desc(count_of_accessions))
+
+# now this pivoted
+pivoted_accession_by_class_and_genus_count_for_display <- accession_by_class_and_genus_count_for_display %>% 
+  pivot_wider(names_from = genus_name, values_from = count_of_accessions)
+
+# TODO: write out accession_to_class_info to txt file so I can do these tables in notebook
+write_delim(accession_to_class_info, "../03_outputs/host_evaluation/accession_to_host_class.tsv", delim = "\t")
 
 # 99. legacy code for using REST API --------------------------------------
 
