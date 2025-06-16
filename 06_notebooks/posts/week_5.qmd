@@ -25,7 +25,7 @@ I plan to build on this by fleshing out the results section, specifically better
 
 I went on to answer point 1 in @sec-week5_results1. However, point 2 is a larger object and I am going to create another methods and results section in order to better separate the two parts of this area of the project.
 
-## Exploration into Class distribution information as a more specific qualiy metric (10th to -\_\_th)
+## Exploration into Class distribution information as a more specific qualiy metric (10th to - 14th)
 
 To answer point 2: "enrich the host information with information on higher taxonomic assignment, which may have to be done partly manually due to the ...inconsistent nature of the host information.", I first wish to display all the hosts in a paginated table format. This will allow a long list to be displayed in a compact format. This table-type would not work in word, so may prove difficult for the write up. I am considering adding a filter so that the end-user can select which genera they would like to observe, however, this may be too complex for me.
 
@@ -76,6 +76,10 @@ Using the SQL code below, through R (of course), I extracted the Class-level inf
 `SELECT host_value, report_data ->'Taxon'->>'ScientificName' as taxon_name, report_data ->'Taxon'->>'Rank' as taxon_rank, (value->>'ScientificName') as class_name, (value->>'TaxId') as class_tax_id FROM host_reports, LATERAL jsonb_each(report_data->'Taxon'->'LineageEx') as t(key, value) WHERE value->>'Rank' = 'class';`
 
 I then combined this with the accession data that I had generated last week, to analyse the distribution of host Class by sample genus. I created a range of exploratory tables in "02.5_class_analysis.R" that increasingly added levels of complexity, and with names that got increasingly funnier each time I had to think up a new one. In the end, I decided to just output the raw data, to the file "03_outputs//host_evaluation/accession_to_host_class.tsv". Any tables I do in this notebook will be generated here (though, I may borrow the code in case I want to re-use one of those specific tables). For the output tables and distributions, including my interpretations, see @sec-class_distribution_results.
+
+## heatmaps (2025-06-15)
+
+@tbl-pivoted_KO presents that I might be able to construct a prototype for a host-based heatmap. I see these heatmaps as being 1 per bacterial genus, with the columns to compare against being host Class, with the cells of course being KO pathways, as it was for the ones I did last year. I would like to do the prototype on the genus *Microbacterium*, because it has accessions to be found across all 5 of the top 5 classes I currently have annotations for. I recognise, however, that some many of these are in very low numbers that would be hard to prove statistical significance. This is why I call it a prototype, it may show something, but the results are largely not to be taken as final or meaningful, more a proof of concept for later work.
 
 # Results {#sec-week5_results1}
 
