@@ -1,0 +1,26 @@
+---
+title: "Week 6 2025-06-16 to 2025-06-22"
+author: "Tobias Nunn"
+date: "2025-06-22"
+categories: [pipeline, Major_Problem_1]
+---
+
+# Introduction {#seq-week6}
+
+I have finished answering Major Problem 1 relating to data availability. I inevitably concluded that more data is required, an obvious conclusion. However, in answering this through the proper channels, I have constructed the pipeline to process the additional data I require once I can obtain it (that would be a good title for the dissertation). This will require answering Major Problem 2 relating to data processing time. This will take much time, and will be waylaid by the fact next week I am doing a course on data visualisation and after that I have a summer internship. Meaning, it may not be until late August I am able to work on this project again.
+
+# Methods
+
+I began this week by finishing up the write up for "week_5.qmd" and generating the final prototype heatmap. I found last year in ENS-2002 that waiting until the end to write up the portfolio is a bad idea because I end up doing so much I haven't the foggiest what I did 3/4 of a year ago. Thus, I would like to write up "Chapter 1: Constructing a Post-annotation data-manipulation pipeline" (working title) now, while it is fresh. This will be another R.project, however, this one will be an R book. I also aim to simplify and reconstruct the current data pipeline into a more refined format (currently, the whole thing is split between 7 different files, I want 1 for the main pipeline, and possibly another just for making the heatmaps so that if I want to create multiple different heatmaps from the same source, the code file does not get messy). After this is concluded, I will not have time to begin on answering Major Problem 2. In preparation for my data-visualisation course I will be doing a self-taught Python online course. I may write that up here, and treat these more generally as work diaries, more than specifically for ENS-3002 (or whatever the code for the dissertation is).
+
+# Results {#sec-week6_results}
+
+# Conclusions
+
+# Scientific papers
+
+#### Genome analysis of multiple pathogenic isolates of *Streptococcus agalactiae*: Implications for the microbial “pan-genome” (<https://www.pnas.org/doi/abs/10.1073/pnas.0506758102>)
+
+#### <https://www.nature.com/articles/d42859-020-00115-3>
+
+I did not finish these papers due to doing a monster amount of work last week, I should start with these, I really REALLY have to get to do some reading.

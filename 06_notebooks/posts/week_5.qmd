@@ -2,7 +2,7 @@
 title: "Week 5 2025-06-09 to 2025-06-15"
 author: "Tobias Nunn"
 date: "2025-06-15"
-categories: [api, database]
+categories: [api, database, Major_Problem_1]
 ---
 
 # Introduction {#seq-week5}
@@ -80,6 +80,8 @@ I then combined this with the accession data that I had generated last week, to 
 ## heatmaps (2025-06-15)
 
 @tbl-pivoted_KO presents that I might be able to construct a prototype for a host-based heatmap. I see these heatmaps as being 1 per bacterial genus, with the columns to compare against being host Class, with the cells of course being KO pathways, as it was for the ones I did last year. I would like to do the prototype on the genus *Microbacterium*, because it has accessions to be found across all 5 of the top 5 classes I currently have annotations for. I recognise, however, that some many of these are in very low numbers that would be hard to prove statistical significance. This is why I call it a prototype, it may show something, but the results are largely not to be taken as final or meaningful, more a proof of concept for later work.
+
+I created a script (00_scripts/R_scripts/02.7_prototype_heatmaping.R) that adapted code I generated last year for bacterial-genus-based delineation to the new class-based system. It is the full 3 files, it brings in the output from 02.6_compare_with_KO_data and pivots it so that it is in the right format, it also makes the values into proportion based on group size (i.e. map100 is found in 1/2 Amphibian samples, thus the proportion for that cell is 0.5). I have to manually add in the data for the Bangor-made samples. Finally, they are run through the adapted heatmap code, specifics are in the file and will have to be fully explained in the dissertation write up. This is so that the code exists for after I answer Major problem 2 and wish to run the full pipeline. Perhaps I should concatenate all the files into one under "full_pipeline" or similar, but I have run out of time this week.
 
 # Results {#sec-week5_results1}
 
@@ -205,17 +207,21 @@ TODO:
 
 -   heatmap of what I got now? I could def do hosted vs environmental, but trees vs mammals wouldnt make the cut for parametric statistics, maybe worth a go anyway
 
-## New phase of prototype heatmap: host-based ones (2025-06-14 to ?)
+## New phase of prototype heatmap: host-based ones (2025-06-14 to 2025-06-15)
 
 @tbl-pivoted_KO is a good proof of concept that I can get data together to do a prototype host-based heatmap. I call it prototype because I am not sure what the final format will be, so will go over multiple iterations. For example, I can try \[hosted vs environmental\], \[animal vs plant hosts\] or perhaps \[mammals vs plants\]. I may try a class-based comparison, though I do not have confidence in the groups with missing values. There will likely be more in the future once I have addressed Major Problem 2 and gotten more samples.
 
-I may also want to do a similarity heat map as a part of this. This would confirm whether I can or cannot compare all genera for a host Class with all genera for another (e.g. Mammalia vs Magnoliopsida with the genera along the bottom... but the Class needs to be on the bottom, yeah, this may not be possible now I think about it), or whether I will need to do heatmaps inside of both bacterial genus and host class (e.g. Pantoea-Mammalia vs Pantoea-Magnoliopsida). Perhaps I could supplement the current data with targetted eggnog-mapping (deliberately selecting accessions with hosts from the under-represented Classes to allow for the more specific analyses I am not currently capable of)
+I may also want to do a similarity heat map as a part of this. This would confirm whether I can or cannot compare all genera for a host Class with all genera for another (e.g. Mammalia vs Magnoliopsida with the genera along the bottom... but the Class needs to be on the bottom, yeah, this may not be possible now I think about it), or whether I will need to do heatmaps inside of both bacterial genus and host class (e.g. Pantoea-Mammalia vs Pantoea-Magnoliopsida). Perhaps I could supplement the current data with targetted eggnog-mapping (deliberately selecting accessions with hosts from the under-represented Classes to allow for the more specific analyses I am not currently capable of).
+
+![PROTOTYPE class-based heatmap for bacterial genus *Microbacterium*](images/proto_class_heatmap.png){#fig-heatmap}
+
+The outputs from \@fig-heatmap should not be taken seriously. The group sizes, as shown in the subtitle are inadequately small, and I lowered the limits for inclusion to get three pathway IDs. From the dataset, only 3 pathways could be found, this is explained by a lack of variation due to small groups. Two of the three are related to metabolism. If these were reliable results I may build on this by looking into what Taurine and hypotaurine are and how they relate to birds, trees, worms and mammals, but not insects or amphibians. The third pathway is related to "central carbon metabolism in cancer", my supervisor told me that this does not mean the bacteria causes cancer, but exhibits a process that is characterised in some cancers, or something like that.
 
 # Conclusions
 
 Firstly, I would like to state on the course of this investigation I have developed stages of a pipeline that can be collated to properly sort host information and permit heatmaps grouped by host Class. As I have demonstrated, the number of accessions containing valid host information is low, usually under 50%. This value is gotten to after I have had to remove many accessions in waves, as follows:
 
-1.  info doesnt exist or needs to be painstakingly parsed out due to varients on "missing",
+1.  info doesn't exist or needs to be painstakingly parsed out due to varients on "missing",
 
 2.  most samples are environmental \[this is good for a host vs environment comparison but not for more specific comparisons\],
 
@@ -227,9 +233,9 @@ Firstly, I would like to state on the course of this investigation I have develo
 It might be ideal to bring in specific bacterial lineages that are known to appear in reptile microbiomes to allow for more specific comparisons between reptile hosts and e.g. amphibian hosts.
 :::
 
-Another conclusion is that with a data-set this small, I would not be able to perform the Class comparisons I might wish, perhaps a more realistic goal is \[hosted vs environmental\] or \[animal vs plant hosts\] at a more broad taxonomic level, perhaps \[mammals vs birds\] could work. This is because I do not believe I can call a host-based comparison valid unless all bacterial genera are present in all host Classes, it means that any correlations seen (or not seen) would be due to the absence of pathways that may be common across genomes in a certain genus, but do not appear due to the gaps.
+Another conclusion is that with a data-set this small, I would not be able to perform the Class comparisons I might wish, perhaps a more realistic goal is \[hosted vs environmental\] or \[animal vs plant hosts\] at a more broad taxonomic level, perhaps \[mammals vs birds\] could work. This is because I do not believe I can call a host-based comparison valid unless all bacterial genera are present in all host Classes, it means that any correlations seen (or not seen) would be due to the absence of pathways that may be common across genomes in a certain genus, but do not appear due to the gaps. I do not believe it possible to infer anything from the results of the prototype heatmap. However, I do conclude that the code is correct and prooves as a good proof-of-concept that the code will function once I am able to get more data. It can also be adapted to any other host-based analyses I may want to do.
 
-Finally, I conclude that the first major problem of few samples having adequate host information has been addressed. The 552 samples I had downloaded were a subset of all the accessions available for these genera, as chosen by GTDB-Tk analysis last year. This was ideal at the time as it was a way of deciding a manageable amount of samples while I was still unfamiliar to the area of research by chosing the most evolutionarily similar. Now, it is apparent I am going to need as many as I can get, in order to try and get the major Classes to a respectable amount of accessions. This might also help increase the proportion of samples with an ideally filled out host field, though that is not guaranteed. This leads into major problem 2, running all those accessions through EggNOG-mapper on hawk can be better automated, but will continue to take (what I find) an unacceptable amount of time. This is where my next steps will take me.
+Finally, I conclude that the first major problem of few samples having adequate host information has been addressed. The 552 samples I had downloaded were a subset of all the accessions available for these genera, as chosen by GTDB-Tk analysis last year. This was ideal at the time as it was a way of deciding a manageable amount of samples while I was still unfamiliar to the area of research by chosing the most evolutionarily similar. Now, it is apparent I am going to need as many as I can get, in order to try and get the major Classes to a respectable amount of accessions. This might also help increase the proportion of samples with an ideally filled out host field, though that is not guaranteed. This leads into major problem 2, running all those accessions through EggNOG-mapper on hawk can be better automated, but will continue to take (what I find) an unacceptable amount of time. This is where my next steps will take me. However, I will first write up this phase of work so that I do not have that to do in half a year when I have forgotten what I did
 
 \[good start, but Ill def give it a thrice-over when I write it up in the dissertation proper, it needs to flow better, also, its missing something, though Im not sure what, Ill need to read it through in final .html format to be able to read it all properly\]
 
