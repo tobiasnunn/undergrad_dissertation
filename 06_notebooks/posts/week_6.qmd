@@ -13,14 +13,24 @@ I have finished answering Major Problem 1 relating to data availability. I inevi
 
 I began this week by finishing up the write up for "week_5.qmd" and generating the final prototype heatmap. I found last year in ENS-2002 that waiting until the end to write up the portfolio is a bad idea because I end up doing so much I haven't the foggiest what I did 3/4 of a year ago. Thus, I would like to write up "Chapter 1: Constructing a Post-annotation data-manipulation pipeline" (working title) now, while it is fresh. This will be another R.project, however, this one will be an R book. I also aim to simplify and reconstruct the current data pipeline into a more refined format (currently, the whole thing is split between 7 different files, I want 1 for the main pipeline, and possibly another just for making the heatmaps so that if I want to create multiple different heatmaps from the same source, the code file does not get messy). After this is concluded, I will not have time to begin on answering Major Problem 2. In preparation for my data-visualisation course I will be doing a self-taught Python online course. I may write that up here, and treat these more generally as work diaries, more than specifically for ENS-3002 (or whatever the code for the dissertation is).
 
+I started by reworking the data pipeline into the file "00_scripts/R_scripts/02_FULL_HOST_PIPELINE" with the aim of removing unnecessary steps and making better use of the PostgreSQL database.
+
 # Results {#sec-week6_results}
 
 # Conclusions
 
 # Scientific papers
 
-#### Genome analysis of multiple pathogenic isolates of *Streptococcus agalactiae*: Implications for the microbial “pan-genome” (<https://www.pnas.org/doi/abs/10.1073/pnas.0506758102>)
+#### Bacterial diseases of reptiles (<https://www.taylorfrancis.com/chapters/edit/10.1201/9781420004038-15/bacterial-diseases-reptiles-elliott-jacobson>)
 
-#### <https://www.nature.com/articles/d42859-020-00115-3>
+Aeromonas, Citrobacter, Enterobacter, Escherichia, Morganella, Providencia, Pseudomonas, and Salmonella are just a
+few of a long list of aerobic bacteria frequently isolated from
+ill captive reptiles (Mayer and Frank, 1974; Jacobson, 1984a).
 
-I did not finish these papers due to doing a monster amount of work last week, I should start with these, I really REALLY have to get to do some reading.
+-   good source of information on how to add more data about reptile bacteria, one thing I will say though is that these are pathogenic to reptiles, but I genuinly cannot find any info on symbiotic bacteria for reptiles, so I am going to work with this for now
+
+Names: Aeromonas, Citrobacter, Enterobacter, Morganella, Providencia, Pseudomonas
+
+Codes:642, 544, 547, 581, 586, 286
+
+but I do find myself asking "why these genera?", just because they were the first I found that someone once said were likely to have reptile information. This would be good for answering the new Major Problem 3, relating to host taxa availibity. However, I do not want to get confused while making the pipeline, so I think I will waylay this analysis until after I have constructed the pipeline using the 5 genera I already have. This means I can make answering MP3 a proper scientific comparison / analysis. Once the pipeline is setup, it will be ideal for for doing the testing for MP3 as I will be able to quickly analyse a lot of metadata.

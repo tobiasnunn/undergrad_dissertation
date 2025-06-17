@@ -1,0 +1,3 @@
+purpose,username,dbname,host,port,password,api_key
+database,postgres,dissertation_test_environment,localhost,5432,St3g0saurus!,
+ncbi,,,https://api.ncbi.nlm.nih.gov/datasets/v2/,,,d4f921c91015c68f48f656a99ad5bcf84a08

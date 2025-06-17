@@ -1,0 +1,11 @@
+# Introduction
+
+```{r test}
+
+bazinga <- data.frame(banana = c("balls", "butts"), coconut = c(1, 2))
+
+library(flextable)
+library(tidyverse)
+
+bazinga %>% flextable()
+```
