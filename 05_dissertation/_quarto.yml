@@ -10,7 +10,7 @@ book:
     - intro.qmd
     - conclusion.qmd
     - references.qmd
-  repo-url: https://github.com/tobiasnunn/tnunn_research/tree/main/Research_Experience_Module/07_portfolio
+  repo-url: https://github.com/tobiasnunn/undergrad_dissertation/tree/main/05_dissertation
   repo-branch: main
   repo-actions: [issue]
   sidebar:
