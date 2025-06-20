@@ -1,11 +1,9 @@
 # Introduction
 
-```{r test}
+-   past papers have discussed X
 
-bazinga <- data.frame(banana = c("balls", "butts"), coconut = c(1, 2))
+-   this is important work to do because Y
 
-library(flextable)
-library(tidyverse)
+-   start broad on bacterial genomics, then bring in public data, then why correlations?
 
-bazinga %>% flextable()
-```
+-   workshop with Aaron because I am always bad at this bit

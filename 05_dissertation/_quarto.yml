@@ -8,6 +8,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - chap1.qmd
     - conclusion.qmd
     - references.qmd
   repo-url: https://github.com/tobiasnunn/undergrad_dissertation/tree/main/05_dissertation

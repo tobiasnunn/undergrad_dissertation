@@ -144,7 +144,7 @@ if (!dbExistsTable(conn, "genus_info")) { # looks for specific table in the data
         report_data JSONB NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )"
-  )) # This creates the table with all the collumns and the necessary charicteristics
+  )) # This creates the table with all the columns and the necessary characteristics
 } # this will mean the command wont throw an error
 
 json_list <- jsonlite::read_json(paste0("../02_analysis/01_existing_genera/", Sys.Date(), "_existing_taxa.json"))
