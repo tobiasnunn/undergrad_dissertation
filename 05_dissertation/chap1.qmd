@@ -6,6 +6,8 @@ This section of work began because I had identified a large problem with the dat
 
 Before full analysis could be run, there were several issues that needed resolving. This chapter relates to the identification and conclusions of the next steps to take to answer this problem. Host availability ...
 
+-   discuss the whole, "bad genera or not enough data?" thing. This section answers part one, but I need to answer MP2 to do the second option, which leads to MP3, which is just kind of MP1, and then there is this whole thing about herps
+
 ## Methods \[when fig-\>table, change refs\]
 
 ### Exploration of groups of genera to categorise basic quality
@@ -18,9 +20,27 @@ The outputs of this script then feed directly into the next, [02.2_analyse_exist
 
 #### Testing better-studied genera for comparison \[better title?\]
 
-The next script "[02.3_comp_with_new_genera.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/94eadc5d1df902963b23082773ae9c67be16f331/00_scripts/R_scripts/02.3_comp_with_new_genera.R)" begins an analysis to compare the genera for which information was held with ones that there was theoretically much more public data for. This would help identify the source of the issue, namely, it would discern whether the lack of host data was due to the genera chosen, or a more general lack of data for those genera. The script begins by Querying the NCBI database for metadata, specifically host data on 5 more genera (*Cryptosporidium*, *Escherichia*, *Mycobacterium*, *Salmonella* and *Yersinia*).
+The next script in this analysis is "[02.3_comp_with_new_genera.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/94eadc5d1df902963b23082773ae9c67be16f331/00_scripts/R_scripts/02.3_comp_with_new_genera.R)", in premise it is similar to [02_analyse_existing_genera.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/94eadc5d1df902963b23082773ae9c67be16f331/00_scripts/R_scripts/02_analyse_existing_genera.R). It follows a similar structure as the aforementioned script, with a different dataset. For example, the script begins by querying the NCBI database for metadata, specifically host data on 5 more genera (*Cryptosporidium*, *Escherichia*, *Mycobacterium*, *Salmonella* and *Yersinia*). This uses the same methods outlined in the description of [02_analyse_existing_genera.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/94eadc5d1df902963b23082773ae9c67be16f331/00_scripts/R_scripts/02_analyse_existing_genera.R). It also reads the data into the same "genome_reports" table as in the same past script. The script then goes onto follow the same steps of reading data into "genus_info". These genera were chosen as there is more available public data for them. Many of the new genera chosen had thousands of public samples, the maximum the API could return was four thousand. The script then goes onto. This would help identify the source of the issue, namely, it would discern whether the lack of host data was due to the genera chosen, or a more general lack of data for those genera. Finally, the script does an analysis of the five most prevalent hosts for these genera, producing @fig-new5, very similar to @fig-top5. However, the final output, @fig-comp_new5, is not a mirror of @fig-host_props. Instead, all of the data for both sets are used to create a table of comparison between the groups.
 
-### Exploration into Class distribution information as a more specific quality metric 
+-   This was made with the aim of identifying if the better-studied genera had significantly more available host information than the ones being studied, which could help answer if the genera of study were the issue, or the lack of data for those genera
+
+-   {this isnt a method, where the hell should it go? introduction?}
+
+# STATISTICS?
+
+#### Other data exploration
+
+The script [02.4_total_host.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.4_total_host.R) is more basic than previous scripts. The sole process in this script is to bring down all of the data from the two tables "genome_reports" and "genus_info" and create a table. This table is different in that it does not group by bacterial genus, instead simply showing an absolute count of all the hosts. For example, Homo sapiens is the most prevalent host with a count of 7039 between all of the samples. Due to the size of this table, it was presented in a paginated format at the beginning of the "Exploration into Class distribution information as a more specific qualiy metric (10th to 13th)" section of my notebook page [week_5.qmd](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/06_notebooks/posts/week_5.qmd). This table cannot be included in this document as it will likely be needed to output to word, thus the interactive nature of the visual will fail. Including this table in another format would subtract from the focus of the document, this table was created for exploration of the data, and whilst an output, will not create conclusions.
+
+-   {what am I gonna do about the link, I cant link to the .qmd, but the .html doesnt back up}
+
+-   maybe cut the whole section? or just really cut it down, leave it like a footnote, as it was just for fun really anyway
+
+### Exploration into Class distribution information as a more specific quality metric
+
+The remaining three scripts all create a pipeline for this section. This refers to; [02.5_class_analysis.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.5_class_analysis.R), [02.6_compare_with_KO_data.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.6_compare_with_KO_data.R) and [02.7_prototype_heatmaping.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.7_prototype_heatmaping.R). These scripts delve more into specific class-based analysis. Firstly, [02.5_class_analysis.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.5_class_analysis.R) loads data from the PostgreSQL database. A unique list of values from the host_value column is created. Then, the [rentrez](https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html) package is used to run the [entrez API](https://www.ncbi.nlm.nih.gov/books/NBK25501/) over this list. This is an older NCBI API that is used to extract taxonomic information from a name. This does not work for every field, due to spelling mistakes, or using a common name instead of the scientific notation. These will be addressed later. This innitial return from the entrez API is written to the table "host_reports" in the SQL server. If the API returned NULL (i.e. it could not get any information, so returns "NULL"), this data is written to another table, called "unprocessed_hosts". This table is more manageable to manually look through, so a list of values that cannot be worked with can be constructed and then used to remove said values from the table (e.g. 'food', 'animal', 'laboratory', 'land crag' etc). Using the [NCBI Taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi), the remaining values can be manually assigned taxonomic codes that can be used later. This was done in the text file [manually_assigned_hosts.txt](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/02_analysis/03_unknown_hosts/manually_assigned_hosts.txt). This is read into a dataframe in R, then is read into a temporary table in SQL, "temp_hosts_codes". This is a temporary table, meaning it reads the values into the "unprocessed_hosts" table now that there is a matching taxonomic ID and then deletes itself. Then, the entrez API is run again on this data, to get the taxonomic information and add this to "host_reports". The report data is pulled out and the class of each host is identified. This data is joined with other data and pivoted to produce [accession_to_host_class.tsv](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/03_outputs/host_evaluation/accession_to_host_class.tsv). [02.6_compare_with_KO_data.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.6_compare_with_KO_data.R) builds on this file by exploring it, doing counts to produce {do the figures come from this and how so explored}. Finally, [02.7_prototype_heatmaping.R](https://github.com/tobiasnunn/undergrad_dissertation/blob/d776b5cb03b1250a8e3dc4affe160749d85b07f6/00_scripts/R_scripts/02.7_prototype_heatmaping.R) uses the outputs from 02.6 to produce heatmaps using adapted code
+
+-   gonna need to build on that, but im out of energy
 
 To answer point 2: "enrich the host information with information on higher taxonomic assignment, which may have to be done partly manually due to the ...inconsistent nature of the host information.", I first wish to display all the hosts in a paginated table format. This will allow a long list to be displayed in a compact format. This table-type would not work in word, so may prove difficult for the write up. I am considering adding a filter so that the end-user can select which genera they would like to observe, however, this may be too complex for me.
 
@@ -58,7 +78,7 @@ So, next steps:
 
 5.  then I can finally do the dashboard comparing group sizes etc once a final format is decided
 
-#### Manual processing 
+#### Manual processing
 
 I started by removing values that could not be given a host, like environmental ones, or vague ones like "animal" or "wildlife" that I could take but... how would I categorise them?
 
@@ -157,7 +177,16 @@ This flextable, shows information on the top 5 hosts for each genus, there is li
 
 ### Exploration into Class distribution information as a more specific qualiy metric
 
-```{r paginated table} #| warning: false #| echo: false #| label: tbl-paginated #| tbl-cap-location: top #| tbl-cap: "Paginated table with total host information for all 10 genera without separation by genus"  library(gt)  source("../../00_scripts/R_scripts/02.4_total_host.R") #data_table <- data.frame(genus = c("penguin"), total = c(1)) %>%  data_table <- result %>%    gt() %>%    opt_interactive(use_search = T) data_table}
+```{r paginated table}
+#| warning: false 
+#| echo: false 
+#| label: tbl-paginated 
+#| tbl-cap-location: top 
+#| tbl-cap: "Paginated table with total host information for all 10 genera without separation by genus"  
+
+library(gt)  
+source("../../00_scripts/R_scripts/02.4_total_host.R") 
+data_table <- data.frame(genus = c("penguin"), total = c(1)) %>%  data_table <- result %>%    gt() %>%    opt_interactive(use_search = T) data_table}
 ```
 
 @tbl-paginated shows all 778 hosts across 78 pages. This allows the end-user to explore the range of hosts for these 10 genera. Unsurprisingly, Homo sapiens has the most samples at 7039, massively above the 2nd place Bos taurus at 184. One can use the filter feature to search, for example, typing "homo" will lead one to see the range of ways people have wrote that down. I would say that the hosts are skewed towards plants and mammals, with variations on chicken making up most of the bird samples and very few representatives from amphibians, reptiles and invertebrates.
@@ -178,7 +207,7 @@ TODO:
 
 -   heatmap of what I got now? I could def do hosted vs environmental, but trees vs mammals wouldnt make the cut for parametric statistics, maybe worth a go anyway
 
-### New phase of prototype heatmap: host-based ones 
+### New phase of prototype heatmap: host-based ones
 
 @tbl-pivoted_KO is a good proof of concept that I can get data together to do a prototype host-based heatmap. I call it prototype because I am not sure what the final format will be, so will go over multiple iterations. For example, I can try \[hosted vs environmental\], \[animal vs plant hosts\] or perhaps \[mammals vs plants\]. I may try a class-based comparison, though I do not have confidence in the groups with missing values. There will likely be more in the future once I have addressed Major Problem 2 and gotten more samples.
 

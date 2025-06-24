@@ -15,6 +15,10 @@ I began this week by finishing up the write up for "week_5.qmd" and generating t
 
 I started by reworking the data pipeline into the file "00_scripts/R_scripts/02_FULL_HOST_PIPELINE" with the aim of removing unnecessary steps and making better use of the PostgreSQL database.
 
+Right, I dont have time for pagentry here. All of those ideas got kind of scrapped, the way things are set up make making the full pipeline a chore I do not have time for at the moment. Also, because Major Problem 2 and now 3 are not answered, the pipeline is incomplete, so that is all a bit of a mess that needs to be sorted after those two things. Instead, this week was used purely for writing up the methods into the dissertation and doing the oggy informatics python course. The write up is taking longer than I assumed it would, the granularity of detail I have to put in is annoying, but necessary. I have not done anything ground-breaking on the course, just learning the basics and doing Chapter 1.
+
+The only special thing of interest I wish to write is the use of window functions in SQL to display tables. I innitially had problems with this, but with a bit of help it was sorted. The person giving me advice was innitially hesitent to help me use them as they are something advanced, but as this is not a method for my dissertation and just a fancier way of doing visuals, I decided learning them would be a fun exercise.
+
 # Results {#sec-week6_results}
 
 # Conclusions
@@ -23,9 +27,7 @@ I started by reworking the data pipeline into the file "00_scripts/R_scripts/02_
 
 #### Bacterial diseases of reptiles (<https://www.taylorfrancis.com/chapters/edit/10.1201/9781420004038-15/bacterial-diseases-reptiles-elliott-jacobson>)
 
-Aeromonas, Citrobacter, Enterobacter, Escherichia, Morganella, Providencia, Pseudomonas, and Salmonella are just a
-few of a long list of aerobic bacteria frequently isolated from
-ill captive reptiles (Mayer and Frank, 1974; Jacobson, 1984a).
+Aeromonas, Citrobacter, Enterobacter, Escherichia, Morganella, Providencia, Pseudomonas, and Salmonella are just a few of a long list of aerobic bacteria frequently isolated from ill captive reptiles (Mayer and Frank, 1974; Jacobson, 1984a).
 
 -   good source of information on how to add more data about reptile bacteria, one thing I will say though is that these are pathogenic to reptiles, but I genuinly cannot find any info on symbiotic bacteria for reptiles, so I am going to work with this for now
 

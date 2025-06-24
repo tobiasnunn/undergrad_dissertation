@@ -103,7 +103,7 @@ This flextable, shows information on the top 5 hosts for each genus, there is li
 
 @fig-comp_new5 shows that in 3 out of 5 cases, the new genera do have a higher proportion than the existing, excluding Pantoea. The value with the highest proportion is Cryptosporidium, I am taking this as anomalous, because there are, surprisingly, only 87 samples on the NCBI database, so this high percentage could be due to chance. For the genera with more samples, the download capped at 4000 due to API limitations to avoid congestion. Thus, these are only samples of larger datasets, however, if I had taken all the samples, it would have taken hours to run the analysis, so I believe 4000 is a significantly large sample. This is good information to know in terms of data exploration. However, if this greater proportion is caused by most samples being taken from mammals, and there is not a sufficient taxonomic variance, then these genera are not of use. The best signifier that a genus' host information is of use to me is variability in host Class.
 
-## Exploration into Class distribution information as a more specific qualiy metric (10th to -13th) {#sec-class_distribution_results}
+## Exploration into Class distribution information as a more specific qualiy metric (10th to 13th) {#sec-class_distribution_results}
 
 ```{r paginated table}
 #| warning: false

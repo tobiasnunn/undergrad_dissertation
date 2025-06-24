@@ -7,3 +7,7 @@
 -   start broad on bacterial genomics, then bring in public data, then why correlations?
 
 -   workshop with Aaron because I am always bad at this bit
+
+## why am I using the same genera from last year?
+
+other than convenience, need to link it back to amphibian skin microbiomes or smth
