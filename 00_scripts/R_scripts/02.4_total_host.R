@@ -10,7 +10,7 @@ library(gt)         # more flexible tabling
 # setup -------------------------------------------------------------------
 
 # load in secrets (passwords etc) needed to link to stuff
-secrets <- read.delim("../../98_config/privatestuff.csv", header = T, sep = ",")
+secrets <- read.delim("../98_config/privatestuff.csv", header = T, sep = ",")
 # path needs to be this way so that the file can be run in the notebook
 # subsequently it won't run on its own
 

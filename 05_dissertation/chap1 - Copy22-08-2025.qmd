@@ -129,7 +129,7 @@ rm(secrets, postgres_secrets)
 ```{sql}
 #| label: top5_hosts
 #| connection: conn
-#| output.var: "result"
+
 
 
 SELECT old_new, genus_name, host, host_count
@@ -186,9 +186,7 @@ This flextable, shows information on the top 5 hosts for each genus, there is li
 #| tbl-cap: "Paginated table with total host information for all 10 genera without separation by genus"  
 
 library(gt)  
-
-#source("../00_scripts/R_scripts/02.4_total_host.R") 
-
+source("../../00_scripts/R_scripts/02.4_total_host.R") 
 data_table <- data.frame(genus = c("penguin"), total = c(1))
 data_table <- result %>%    
   gt() %>%   
