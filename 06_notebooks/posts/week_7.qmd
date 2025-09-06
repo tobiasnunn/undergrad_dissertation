@@ -1,0 +1,50 @@
+---
+title: "Week 7 2025-08-25 to 2025-08-31"
+author: "Tobias Nunn"
+date: "2025-08-31"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+# Methods
+
+*Description of stuff I did.*
+
+## Small bit of notebooking automation
+
+I started on Monday (25th) by creating an R script ("Create_notebooks.R") that automates some of the creation process. In that I pass in the argument for which week it is (i.e. 1 entry beyond the last). The script then creates all of the yaml and quarto code for setting up the title, dates and headings. It is not fully automatic, needing to be done from the command line, the code I use to do this for this notebook was:
+
+`Rscript ../00_scripts/R_scripts/Create_notebooks.R 7`
+
+so the general format is:
+
+`Rscript <filepath-to-creation-script> <entry-number>`
+
+## Reading
+
+As much as I would like to get going with coding and stuff, I really want to nail down a proper hypothesis and at least a general plan before I really begin (discounting the stuff I did in June). So, I will start by just finding relevant papers and reading them this week, trying to get ideas for what is important or where there are gaps in the science that I could explore, using the stuff I have of the NCBI public genomic bacterial data.
+
+## Python course
+
+As a bit of a sidenote, I would like to do some Python coding as part of my dissertation. As such, some of my time will be spent doing a course on bioinformatics python for genomics, as practice for any proper python I may want to do for my dissertation.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

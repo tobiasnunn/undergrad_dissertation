@@ -1,0 +1,48 @@
+---
+title: "Week 8 2025-09-01 to 2025-09-07"
+author: "Tobias Nunn"
+date: "2025-09-07"
+categories:
+---
+
+# Introduction
+
+After a bit of reading in the area and planning in my head, I have decided that in a way I should (re)start from the beginning. I think the reason I was struggling with the concept of this project earlier is because I was half-way through it, trying to pretend like it was a new thing. As such, I will replicate what I did last year, however, more technically superior and on more data, differentiating it from that work. In broad strokes, my plan is to do "data collecting" before the year and "data analysis" during the year. This mirrors what a more conventional dissertation would be like.
+
+Basically, I am going to spend the next few weeks generating KEGG pathways or orthologs or whatever might be considered the "data" that would want to then be analysed. To do this, I will be doing similar things to what I did last year, but with better code and on more.
+
+The work I did in weeks 1-7 are still valid, however, a lot of that probably falls under analysis so in write-up, I may want to move it to after this and treat this as the "beginning"
+
+# Methods
+
+I decided to start by generating metadata for the 5 genera (Sphingomonas, Pantoea, Microbacterium, Brachybacterium, Brevibacterium). There is not a specific scientific reason to continue on these 5 genera, however, I am familiar with them, and one could talk about the importance of skin microbiomes to amphibians, the lack of this data online for amphibians (thats a good hook) and chytrid, that sort of thing, in order to justify why these genera were chosen beyond (why not). maybe it would be good enough to say "these were found on the bangor frogs and passed to me to analyse.
+
+Specifically, I will pull the metadata using an R script that will take advantage of the NCBI REST API. I will download the metadata for all held accessions in the NCBI database, for the given genera. This is so that I have a maximum amount of metadata, allowing for better, more accurate analysis later on. (reading weeks_1 - 7 should help illuminate why having as much as possible is good).
+
+This data will not do anything immediately, this is just going to be kept on the sidelines until it can enrich the data during analysis. However, as it is something quick and easy to do, I thought I would start with this. I will bring them down and store them as .json objects, which at a future point I will upload to the SQL server I will use to store and handle the large quantities of data.
+
+I considered doing this in python, however, I could not find any information online about how I could do what I need to do in a way that was more or equally convenient to how I have done it in R (using the tidyverse and httr2 packages).
+
+I also want to do some planning this week, to block out at least what I want to do before term starts, but also a general idea for what comes after (the stuff from weeks 1 - 7 would be perfect for that). Also to unify all the notes I have made before speaking to Aaron. I will need to do some cleaning up too.
+
+Upon loading up the "03_metadata_obtaining_script.R" script in order to make it, I first had to load my private info to allow connection with the NCBI REST API. This is a process I do for a lot of files that can be standardised. Perfect for my first real foray into using functions in R. I decided to create an R script that will contain all my functions, which can then be called in other scripts so that I can load and use the function, very hi-tec, is nice. This is the "Utility_functions.R" script, for this purpose specifically "01. load private information". The function is named "get_secrets".
+
+NEXT STEPS: read the .json files into the postgreSQL server, mini_analysis for the jsons in this notebook and general planning sessions
+
+# Results
+
+I created the 2 scripts mentioned in the methods section. They are of course in the "00_scripts" section of the repo. The about 30 .json files are stored in "01_inputs/03_metadata/". At a later date I will come back and do a bit of mini-analysis, just basic stuff like a count of how many per genera to see what the group sizes could be.
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   
