@@ -29,9 +29,17 @@ Upon loading up the "03_metadata_obtaining_script.R" script in order to make it,
 
 NEXT STEPS: read the .json files into the postgreSQL server, mini_analysis for the jsons in this notebook and general planning sessions
 
+#### 2025-09-07
+
+Right, while I was away I had the thought that I could make those 2 API calls into functions as I may have to run them again (i.e. if I want to include more genera in the scope), or to get up to date metadata \[also, it will be kinda fun\]. I will put these 2 new functions into a script called "NCBI_functions.R". As a result, the "utility" function I made yesterday is now no longer in the document, as it is now inside the other function(s). Very befitting for something under the name "utility" being a function inside functions.
+
+As part of making the second NCBI function, I hit a problem with checking if the file path that needs to be supplied exists. The best way I thought to remedy this block was by creating my second utility function. After a rather massive ordeal, I managed to finally get this second, but really 4th function to actually work. Now the "03_metadata_obtaining_script.R" is very small and simple, and I can reuse the elements in other places easily now they are setup. The small caveat is that I cannot load the name as well as the ID, so now all the .jsons that get stored are stored with the taxonomy ID, not the name, a bit weird, but not the end of the world.
+
 # Results
 
 I created the 2 scripts mentioned in the methods section. They are of course in the "00_scripts" section of the repo. The about 30 .json files are stored in "01_inputs/03_metadata/". At a later date I will come back and do a bit of mini-analysis, just basic stuff like a count of how many per genera to see what the group sizes could be.
+
+made the script better using functions.
 
 # Conclusion
 

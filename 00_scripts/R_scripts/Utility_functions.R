@@ -25,3 +25,21 @@ get_secrets <- function(secret_name){
   
   return(secret_list)
 }
+
+
+# 02. check if file path exists (if not, create it)-------------------------------------------
+
+check_and_create_dir <- function(dir_path) {
+  if (!dir.exists(dir_path)) {
+    message("Directory ", dir_path, " does not exist. Creating...")
+    
+    # Try to create directory
+    created <- dir.create(dir_path, recursive = TRUE, showWarnings = FALSE)
+    
+    if (!created) {
+      stop("Failed to create directory: ", dir_path)
+    }
+    
+    message("Directory created successfully: ", dir_path)
+  }
+}
