@@ -35,6 +35,12 @@ Right, while I was away I had the thought that I could make those 2 API calls in
 
 As part of making the second NCBI function, I hit a problem with checking if the file path that needs to be supplied exists. The best way I thought to remedy this block was by creating my second utility function. After a rather massive ordeal, I managed to finally get this second, but really 4th function to actually work. Now the "03_metadata_obtaining_script.R" is very small and simple, and I can reuse the elements in other places easily now they are setup. The small caveat is that I cannot load the name as well as the ID, so now all the .jsons that get stored are stored with the taxonomy ID, not the name, a bit weird, but not the end of the world.
 
+right, next steps are still basically as they were yesterday:
+
+NEXT STEPS: read the .json files into the postgreSQL server, mini_analysis for the jsons in this notebook and general planning sessions
+
+THEN: create script that will download the fastas. This will be run directly on hawk to literally cut-out the middle-machine
+
 # Results
 
 I created the 2 scripts mentioned in the methods section. They are of course in the "00_scripts" section of the repo. The about 30 .json files are stored in "01_inputs/03_metadata/". At a later date I will come back and do a bit of mini-analysis, just basic stuff like a count of how many per genera to see what the group sizes could be.
