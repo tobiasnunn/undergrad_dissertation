@@ -1,0 +1,55 @@
+---
+title: "Week 9 2025-09-08 to 2025-09-14"
+author: "Tobias Nunn"
+date: "2025-09-14"
+categories:
+---
+
+# Introduction
+
+I am gonna start this with a plan of what I want to do in the Methods section. Largely, before term starts I want to have all of the accessions for the 5 genera of interest annotated using eggnog-mapper and then enriched for KEGG pathways.
+
+# Methods
+
+### Flow chart of data preparation / collection
+
+```{mermaid}
+flowchart TD
+  A[define genera of interest] -->|get accession numbers| B(download accession metadata)
+  B -->|get genomic information| C(download .fasta information)
+  C --> D[convert genomic data to protein data]
+  D --> E[combine fastas into large files]
+  E --> F(perform eggnog-mapper search)
+  F --> G(perform eggnog-mapper annotation)
+  G --> H(perform KEGG enrichment)
+  H --> I{{perform analysis}}
+  B -->|enrich data for analyses| I
+```
+
+Those are the general stages. I still fear it may be too much to hold in my head at any one time, but at this point, I might as well just get on with it.
+
+Ok, since last week, I have identified areas where the pipeline could be improved. As a list:
+
+1.  my private information vis-a-vis the NCBI key has managed to get up onto github, so I am going to need to fix that
+2.  I am not happy with the output metadata files being stored with the ID, as, when just looking at the files, I will have no earthly idea what genus the ID connects to
+3.  Randomly, I came across a thing in R called rds. This purportes itself to be a more efficient way of data storage than saving them out as files to my disk. Now, doing whatever that means, would mean storing the metadata as some kind of R object on disk, which would circumvent the need for ID or genus name in the title, addressing point 2. However, it would be good to include the genus name in the object, so I may do the thing I was going to do to address point 2 anyway, just because it is still useful to a degree. also because it is very clever as it would prerequisite doing an API call inside of a function that already does and API call.
+
+specifically, I found out about rds [here](https://www.productive-r-workflow.com/r/module1/split-your-code "link to blog post about rds (bananas)").
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

@@ -62,3 +62,8 @@ _freeze/*
 
 # fasta files
 *.fna
+
+# secrets
+98_config/*
+!98_config/.gitkeep
+!98_config/README.md  # Optional: instructions for other developers
