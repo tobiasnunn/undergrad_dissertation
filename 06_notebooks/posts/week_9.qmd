@@ -36,6 +36,32 @@ Ok, since last week, I have identified areas where the pipeline could be improve
 
 specifically, I found out about rds [here](https://www.productive-r-workflow.com/r/module1/split-your-code "link to blog post about rds (bananas)").
 
+To address point 1, I looked up some information online about how to do it. This is what I found:
+
+git status - shows if there are any changes
+
+git add . - stages changes
+
+git rm -r --cached 98_config/ - deletes file from tracking on online view of directory
+
+git commit -m "removed tracking on private information, did some planning" - commits the changes to main
+
+in the .gitignore file I added these lines:
+
+98_config/\* - removes files in this directory, but not the directory itself
+
+!98_config/.gitkeep -does not ignore a file I will create called .gitkeep
+
+!98_config/README.md \# Optional: instructions for other developers - will not ignore a README file for future reference
+
+I then created the aforementioned files.
+
+After this, I addressed points 2 and 3 by modifying my "download_NCBI_metadata_by_taxID" to include a call that gets the scientific name from the ID, to use as naming for the output files.
+
+In testing, I discovered that a lot more than just the scientific name comes back, and that these are pretty good metadata in their own right, so I am going to save much of them and extract the name for use in the function. I got to the point of having done "saveRDS" on this new taxonomy_information object. I am going to take a break and do the same for the final output of the function another day. The function is getting quite large, might need to split it in two, or something.
+
+NEXT STEPS: finish of the upgrade of the function (i.e. point 3 from today), maybe split it up for simplicity, all the stuff from last week still left to do.
+
 # Results
 
 *Key findings, observations, and data from this week's work.*

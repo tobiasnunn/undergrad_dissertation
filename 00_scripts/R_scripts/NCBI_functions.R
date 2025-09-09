@@ -60,10 +60,66 @@ download_NCBI_metadata_by_taxID <- function(tax_ID, file_location){
     "taxonomic_ID cannot be empty" = length(tax_ID) > 0,
     "file_location cannot be empty" = length(file_location) > 0)
   
+  library(tidyverse)
+  
   # check directory "file_location" exists, if not, create
   source("../00_scripts/R_scripts/Utility_functions.R")
   check_and_create_dir(file_location)
   ncbi_secrets <- get_secrets("ncbi")
+  
+  
+  # get the name from the ID for naming outputs better
+  #tax_ID <- c(1696, 13687, 33882)
+  taxon_info <- data.frame(tax_ID = tax_ID)
+  tax_ID_string <- paste0(taxon_info$tax_ID, collapse = ",")
+  
+  req <- httr2::request(ncbi_secrets$host) |> 
+    httr2::req_auth_bearer_token(ncbi_secrets$api_key) |> 
+    httr2::req_url_path_append('taxonomy', 'taxon', tax_ID_string) |> 
+    httr2::req_headers(Accept = 'application/json') |> 
+    httr2::req_url_query(page_size = 1000) |> 
+    httr2::req_perform()
+  
+  # store result
+  if(httr2::resp_is_error(req)){
+    stop(paste("could not find names for IDs. Error number: ", resp_status()))
+  } else{
+    resps <- httr2::resp_body_json(req)
+    taxonomy_information <- resps$taxonomy_nodes %>%
+      map_dfr(~ {
+        # Skip nodes with errors
+        if (!is.null(.x$errors)) {
+          return(NULL)
+        }
+        
+        # Skip if no taxonomy data
+        if (is.null(.x$taxonomy)) {
+          return(NULL)
+        }
+        
+        tax_data <- .x$taxonomy
+        # tax_data <- taxonomy_information[[1]]$taxonomy
+        
+        # Extract and pivot counts to wide format
+        counts_info <- tax_data$counts %>%
+          map_dfr(~ tibble(type = .x$type, count = .x$count)) %>%
+          pivot_wider(names_from = type, values_from = count, values_fill = 0)
+        
+        # Combine with other taxonomy fields
+        tibble(
+          tax_id = tax_data$tax_id %||% NA,
+          organism_name = tax_data$organism_name %||% NA,
+          blast_name = tax_data$blast_name %||% NA,
+          rank = tax_data$rank %||% NA,
+          genomic_moltype = tax_data$genomic_moltype %||% NA,
+          lineage = list(tax_data$lineage),  # Keep as list column
+          children = list(tax_data$children) # Keep as list column
+        ) %>%
+          bind_cols(counts_info)  # Add the flattened count columns
+      })
+    saveRDS(taxonomy_information, file = paste0(file_location, "taxonomy_information.rds"))
+  }
+  # file_location <- "../01_inputs/03_metadata/"
   
   for (taxon in tax_ID) {
     # taxon <- 43668 / file_path <- "../01_inputs/03_metadata_copy/"
