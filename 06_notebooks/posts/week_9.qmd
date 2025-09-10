@@ -62,6 +62,10 @@ In testing, I discovered that a lot more than just the scientific name comes bac
 
 NEXT STEPS: finish of the upgrade of the function (i.e. point 3 from today), maybe split it up for simplicity, all the stuff from last week still left to do.
 
+09/09/25 NEXT STEPS: modify the 3rd function so that it outputs in rds, take a good look to make sure 2 and 3 are right. all the other past next steps excluding fixing the github issue.
+
+I am now done with the functions, I have all the metadata I need, there may be some improvements I want to make as doing functions is still new to me and I do have to use Claude.ai as a bit of a crutch. However, I think it is time to move onto some of the stuff from my previous NEXT STEPS notes. For example, moving onto downloading fastas. I will create a list of next steps below.
+
 # Results
 
 *Key findings, observations, and data from this week's work.*

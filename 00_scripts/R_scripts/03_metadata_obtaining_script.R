@@ -14,11 +14,24 @@ genera <- c("Brachybacterium", "Brevibacterium", "Microbacterium", "Pantoea", "S
 
 taxname_with_ID <- get_taxID(genera, "genus")
 
-# 03. download metadata ---------------------------------------------------
+# 03. download metadata (using cool functions) ---------------------------------------------------
+
 
 result <- tryCatch({
-  download_NCBI_metadata_by_taxID(taxname_with_ID$tax_id, "../01_inputs/03_metadata/")
+  download_taxonomic_information_by_tax_ID(taxname_with_ID$tax_id, "../01_inputs/03_metadata/")
 }, error = function(e) {
   message("Error in download_metadata: ", e$message)
   stop("Download failed: ", e$message)
 })
+
+
+result <- tryCatch({
+  download_accession_metadata_by_taxID(taxname_with_ID$tax_id, "../01_inputs/03_metadata/")
+}, error = function(e) {
+  message("Error in download_metadata: ", e$message)
+  stop("Download failed: ", e$message)
+})
+
+# check to make sure they were written right
+banana <- readRDS("../01_inputs/03_metadata/taxonomy_information_Sphingomonas_Brevibacterium_Microbacterium_Brachybacterium_Pantoea_2025-09-10.rds")
+coconut <- readRDS("../01_inputs/03_metadata/accession_information_43668_1696_33882_53335_13687_2025-09-10.rds")
