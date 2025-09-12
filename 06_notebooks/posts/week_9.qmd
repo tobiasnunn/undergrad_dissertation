@@ -66,9 +66,41 @@ NEXT STEPS: finish of the upgrade of the function (i.e. point 3 from today), may
 
 I am now done with the functions, I have all the metadata I need, there may be some improvements I want to make as doing functions is still new to me and I do have to use Claude.ai as a bit of a crutch. However, I think it is time to move onto some of the stuff from my previous NEXT STEPS notes. For example, moving onto downloading fastas. I will create a list of next steps below.
 
+11/09/25 - I had some rough ideas of doing summary statistics about e.g. how many accessions there are for each genus, maybe a column chart, not vital tho. Now that the functions for downloading metadata is finished, I can move on to the pipeline around downloading the .fasta files. The rough outline of what I want to do for this section is like this:
+
+1.  log back onto hawk SCW
+2.  clean up my space on hawk
+3.  figure out how to clone my github repo up there (so I do not have to manually download any scripts)
+4.  figure out how to run R from the command line on Hawk
+    1.  I know how to run a script through the terminal, i do it for my "create_notebooks.R" script
+    2.  As a part of this, I want to figure out how to run an R script from slurm, may be useful
+5.  create a script that will download the .fasta files directly to hawk
+    1.  this cuts out storing them on my machine, its more efficient
+    2.  I will be downloading both the genomic and protein fastas as I do not know which to use
+6.  At first, the script will only do a few accessions
+    1.  this means I can compare genomic fastas that I process through blast p to their protein fastas, if they are the same, then I might as well save the time and use theirs, when I download them all.
+7.  Regardless of the results from that mini-experiment, I will set-up a script or some pipeline for turning genomic fastas into protein fastas
+    1.  this could still be useful in future, i.e. if Aaron gives me more genomes from Alberto, he wont have the protein fastas, so I might as well already have that pipeline ready
+    2.  I will need to decide if I want to do this through bash or R and command line or slurm
+8.  I will need to figure out how to store the results of the fasta-downloading script
+    1.  i.e. do I do more .rds, would that work on hawk? should it be a list object?
+        1.  I think yes to both, but I'll see when I get there
+
+        2.  A good idea is to test that on my machine before doing it on hawk, more visual so I know better what is actually happening
+
+        3.  another thing to say is that the ideal formatting for blast p vs eggnogmapper is probably different, so I may need to store the protein or genomic fastas differently depending on what tool they are about to be processed by.
+
+By the end of this phase of work, I want all the sequences ready to be processed through a new eggNog-mapper pipeline I will construct. It will be very similar to past ones, but with efficiency tweaks I found online, but the detail for that is for the next phase. A problem I have run into in the past is that the NCBI only returns the first 4000 results for a query. Thankfully, the 5 genera of study are all 2000 or under, so this is not a problem now. However, if I scale the opperation up, it could become problematic.
+
+NOTE: because of how intensive doing the functions was, my notebooking for that section may be not the best, maybe it would be a good idea to write out somewhere what the functions do, step-by-step. maybe beef up the sections from earlier this week. Maybe a description of the metadata_download R script that calls all of these functions. More generally summary this week.
+
+I tried to access hawk, I had innitial success connecting to the ssh box, however, I did not know how to get onto hawk. I tried a few more times, but each time and way I did it, it kept popping up with a "network connection timed out" message. I think that the only thing I can do is wait until later to see if whatever is causing the block is time-related. My final attempt was to use a VPN to try to connect. This was successful, meaning the error was likely with my network. I am now able to access it. There are some steps of automation I can do, found [here](https://bangoroffice365.sharepoint.com/sites/DigitalServices/SitePages/eResearch---Access-to-the-Hawk-Supercomputer.aspx), in the "connect using MobaXterm" section, under "advanced". I used "myquota" on SCW to see that I have used about 160,000M out of about 500,000M. This is enough that I will want to remove some of my old code or bring backup files down to my machine. I have identified a target for this, the "backups" folder. It contains a lot of large zip files, taking up a fair amount of space, however, this may be a case of burning everything in there to the ground and restarting. This would be much simpler once I set up the aforementioned automation steps, so that is what I plan to do next.
+
 # Results
 
-*Key findings, observations, and data from this week's work.*
+#### Descriptions of the 5 functions I made (not really results, but ideal for when it comes time for write up)
+
+#### Any summary statistics for the metadata section (if I decide I want to do that)
 
 # Conclusion
 
