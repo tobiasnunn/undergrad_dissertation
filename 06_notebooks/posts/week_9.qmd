@@ -71,9 +71,9 @@ I am now done with the functions, I have all the metadata I need, there may be s
 1.  log back onto hawk SCW ✅
 2.  clean up my space on hawk ✅
 3.  figure out how to clone my github repo up there (so I do not have to manually download any scripts) ✅
-4.  figure out how to run R from the command line on Hawk
+4.  figure out how to run R from the command line on Hawk ✅
     1.  I know how to run a script through the terminal, i do it for my "create_notebooks.R" script ✅
-    2.  As a part of this, I want to figure out how to run an R script from slurm, may be useful
+    2.  As a part of this, I want to figure out how to run an R script from slurm, may be useful ✅
 5.  create a script that will download the .fasta files directly to hawk
     1.  this cuts out storing them on my machine, its more efficient
     2.  I will be downloading both the genomic and protein fastas as I do not know which to use
@@ -172,6 +172,28 @@ Then to commit the change I typed `git commit -m "Test script for running on haw
 And finally to push I typed `git push origin main`. Mobaxterm opened up a dialog box that prompted me for my git username and my password, into which I put my personal access token. I then went and checked github desktop and the push was successful, so that all works.
 
 Now that I am done with that mini-section, I will test running R on hawk from a slurm script. This may be useful because I will likely want to call the script that collects all of the .fasta files from slurm. This is because it is resource intensive, and slurm is the way of handling stuff like that on hawk. I will do this by modifying that "test_command_line.R" script to output to a file.
+
+I modified and tested the file on my machine first, then pushed them to the github repo. A step of note was using Notepad++ to turn all the carriage returns into Unix style, which does have an impact when on Hawk. Syncing with the repo was as simple as running `git pull` and then a `git status` to check it worked.
+
+### Running R through Slurm on Hawk
+
+Running the modified "test_command_line.R" file was very simple. It is run through a slurm script called "R_from_slurm.sh". It was very similar to running the base R script from the terminal in R studio. The exact code was:
+
+`sbatch R_from_slurm.sh ~/source/01_inputs/03_metadata/taxonomy_information_Sphingomonas_Brevibacterium_Microbacterium_Brachybacterium_Pantoea_2025-09-10.rds`
+
+To note, sbatch is how to call slurm, \~ is needed on hawk as this makes it default to the home directory
+
+To check how the job was doing, I ran the commands:
+
+-   `squeue -u b.tbn23vlc`
+
+-   `scontrol show job 59931057`
+
+It took 5 seconds to complete, and once it was done, the output file of "output.txt" was in my home directory on hawk. In conclusion, it is very viable to run an R script through a slurm script on hawk.
+
+The code inside "R_from_slurm.sh" can be found [here.](https://github.com/tobiasnunn/undergrad_dissertation/blob/12e9a845f20377b0b2cfe99ecffc8b318cabcfa7/00_scripts/Slurm_scripts/R_from_slurm.sh)
+
+NEXT STEPS: Now I am ready to begin construction of my .fasta getting script.
 
 # Results
 
