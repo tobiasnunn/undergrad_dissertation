@@ -16,6 +16,8 @@ if (!file.exists(filename)) {
   stop(paste("File", filename, "does not exist"))
 }
 
+sink(file = "~/output.txt")
+
 # Load the RDS file
 cat("Loading RDS file:", filename, "\n")
 data_list <- readRDS(filename)
@@ -41,3 +43,5 @@ for (i in 1:n_objects) {
   print(head(data_list[[i]]))
   cat("\n")
 }
+
+sink()
