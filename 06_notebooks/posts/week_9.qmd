@@ -195,6 +195,14 @@ The code inside "R_from_slurm.sh" can be found [here.](https://github.com/tobias
 
 NEXT STEPS: Now I am ready to begin construction of my .fasta getting script.
 
+In the "NCBI_functions" script, I created a 4th function that takes a user input of either "genome", "protein" or "both", as well as an accession. It uses these specifications to run a call to an NCBI API endpoint. It stores this result and moves it around until it outputs the desired fasta content as a list into an object in my "04_fastafile_getter.R" script.
+
+I have created a new directory for this fasta information under "01_inputs/04_fastas/". Because this area is going to get rather humungous with the amount of fastas I plan to download, I have placed this directory in the .gitignore, excluding it from making it up to the repo.
+
+I updated the "04_fastafile_getter.R" script to now run a for loop where a vector of accession names are read in, the function is then run and the result is saved out as an rds file inside the loop. They are about 2MB each, and fasta files held raw are about 5-6MB each, so for each fasta I save as rds, I am saving about 3-4MB, multiply by like 5000 accessions and I am saving somewhere between 15 and 20GB
+
+NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be modified in order to run on Hawk(relative file paths will need to be modified), add text to the readme and .gitkeep for 01_inputs/04_fastas to explain why that file exists but is empty, at some point later on, I will combine all the .rds files for each individual accession into mega-rds files based on genus.
+
 # Results
 
 #### Descriptions of the 5 functions I made (not really results, but ideal for when it comes time for write up)

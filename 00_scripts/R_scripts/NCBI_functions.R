@@ -200,3 +200,76 @@ download_accession_metadata_by_taxID <- function(tax_ID, file_location){
                         paste0(tax_ID, collapse = "_"),
                         "_", Sys.Date(), ".rds"))
 }
+
+
+# 04. get protein and/or genome sequence using accession ID ---------------------------------------------------
+
+
+get_dataset_by_accession <- function(accession, ftype = "both"){
+  # debug: accession = "GCF_002407065.1"
+  # throw an error if "accession" is not a character
+  stopifnot(
+    "accession must be character" = is.character(accession),
+    "accession cannot be empty" = length(accession) > 0,
+    "type not in list of compatible types" = ftype %in% 
+      c("genome", "protein", "both"))
+  
+  # NOTE: source path will have to be adjusted when moved to hawk
+  source("../00_scripts/R_scripts/Utility_functions.R")
+  ncbi_secrets <- get_secrets("ncbi")
+  
+  # convert "type" to formats expected by the API
+  types <- data.frame(type = c("genome", "protein"), 
+                      NCBI_value = c("GENOME_FASTA", "PROT_FASTA"),
+                      extension = c("fna", "faa"))
+  
+  
+
+  # setup list for bringing down fastas
+  fasta_list <- list(protein = list(),
+                     genome = list())
+  
+  if(ftype == "both"){
+    fasta_type <- paste0(types$NCBI_value, collapse = ",")
+    search_string <- paste0(types$extension, collapse = "|")
+  } else{
+    fasta_type <- types[types$type == ftype, "NCBI_value"]
+    search_string <- types[types$type == ftype, "extension"]
+    fasta_list <- fasta_list[ftype]
+  } 
+  
+  
+  # setup temp file for temporarily storing zip right after call
+  temp_zip <- tempfaccessiontemp_zip <- tempfile(fileext = ".zip")
+  
+  # query NCBI database using REST API
+  req <- httr2::request(ncbi_secrets$host) |> 
+    httr2::req_auth_bearer_token(ncbi_secrets$api_key) |> 
+    httr2::req_url_path_append('genome', 'accession', accession, 'download') |> 
+    httr2::req_headers(Accept = 'application/zip') |> 
+    httr2::req_url_query(include_annotation_type = fasta_type) |> 
+    httr2::req_perform(path = temp_zip)
+  
+  # Find sequence files, read them into a frame
+  all_files <- unzip(temp_zip, list = TRUE)$Name
+  fasta_files <- data.frame(filename = all_files[grepl(paste0("\\.(", search_string, ")$"), all_files)])
+  
+  # error handling
+  if(nrow(fasta_files) < 1){
+    stop("No fasta files returned from API call")
+  }
+  
+  # merge filename frame with "types"
+  fasta_files$extension <- tools::file_ext(fasta_files$filename)
+  types <- merge(types, fasta_files, by = "extension")
+  
+  
+  # read in files matching "types" from "temp_zip" into "fasta_list"
+  for(type in types$type){
+   fasta_content <- readLines(unz(temp_zip, types[types$type == type, "filename"]))
+   fasta_list[[type]] <- fasta_content
+  }
+  unlink(temp_zip)
+  return(fasta_list)
+}
+

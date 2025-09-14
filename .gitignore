@@ -67,3 +67,8 @@ _freeze/*
 98_config/*
 !98_config/.gitkeep
 !98_config/README.md  # Optional: instructions for other developers
+
+# fastas
+01_inputs/04_fastas/*
+!01_inputs/04_fastas/.gitkeep
+!01_inputs/04_fastas/README.md  # Optional: what is supposed to be here
