@@ -1,0 +1,61 @@
+---
+title: "Week 10 2025-09-15 to 2025-09-21"
+author: "Tobias Nunn"
+date: "2025-09-21"
+categories:
+---
+
+# Introduction
+
+This week is a direct continuation of the stuff I was doing last week. To recap, last week I completed these steps in my plan:
+
+1.  log back onto hawk SCW ✅
+2.  clean up my space on hawk ✅
+3.  figure out how to clone my github repo up there (so I do not have to manually download any scripts) ✅
+4.  figure out how to run R from the command line on Hawk ✅
+    1.  I know how to run a script through the terminal, i do it for my "create_notebooks.R" script ✅
+    2.  As a part of this, I want to figure out how to run an R script from slurm, may be useful ✅
+
+Which means that these are the steps I will ideally do this week, though it will likely spill into the next weeks:
+
+1.  create a script that will download the .fasta files directly to hawk
+    1.  this cuts out storing them on my machine, its more efficient
+    2.  I will be downloading both the genomic and protein fastas as I do not know which to use
+2.  At first, the script will only do a few accessions
+    1.  this means I can compare genomic fastas that I process through blast p to their protein fastas, if they are the same, then I might as well save the time and use theirs, when I download them all.
+3.  Regardless of the results from that mini-experiment, I will set-up a script or some pipeline for turning genomic fastas into protein fastas
+    1.  this could still be useful in future, i.e. if Aaron gives me more genomes from Alberto, he wont have the protein fastas, so I might as well already have that pipeline ready
+    2.  I will need to decide if I want to do this through bash or R and command line or slurm
+4.  I will need to figure out how to store the results of the fasta-downloading script
+    1.  i.e. do I do more .rds, would that work on hawk? should it be a list object?
+        1.  I think yes to both, but I'll see when I get there
+
+        2.  A good idea is to test that on my machine before doing it on hawk, more visual so I know better what is actually happening
+
+        3.  another thing to say is that the ideal formatting for blast p vs eggnogmapper is probably different, so I may need to store the protein or genomic fastas differently depending on what tool they are about to be processed by.
+
+There are two weeks until term start again, and I would at least like to be mostly done with this phase of work by then. As well as this project, I have to prepare for an unrelated small presentation I am doing, so I will need to focus up to get all of this done. I also created a list of next steps last week, this can be thought of as a next level down to the above list, as in, things I need to do either before or during the first element:
+
+NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be modified in order to run on Hawk(relative file paths will need to be modified), add text to the readme and .gitkeep for 01_inputs/04_fastas to explain why that file exists but is empty, at some point later on, I will combine all the .rds files for each individual accession into mega-rds files based on genus. I also realise I will need to upload the secrets file manually to hawk as it would not have copied in the clone, also, to fix the relative file paths thing using the "here" package.
+
+# Methods
+
+I started this week by finishing the content from last week. I populated the "results section", this was just to consolidate what I had done. I did a lot last week and I do not want to find myself over extending and finding that I went too quick (with the help of Claude.ai) that I do not understand what I have done.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

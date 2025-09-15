@@ -201,13 +201,29 @@ I have created a new directory for this fasta information under "01_inputs/04_fa
 
 I updated the "04_fastafile_getter.R" script to now run a for loop where a vector of accession names are read in, the function is then run and the result is saved out as an rds file inside the loop. They are about 2MB each, and fasta files held raw are about 5-6MB each, so for each fasta I save as rds, I am saving about 3-4MB, multiply by like 5000 accessions and I am saving somewhere between 15 and 20GB
 
-NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be modified in order to run on Hawk(relative file paths will need to be modified), add text to the readme and .gitkeep for 01_inputs/04_fastas to explain why that file exists but is empty, at some point later on, I will combine all the .rds files for each individual accession into mega-rds files based on genus.
+NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be modified in order to run on Hawk(relative file paths will need to be modified), add text to the readme and .gitkeep for 01_inputs/04_fastas to explain why that file exists but is empty, at some point later on, I will combine all the .rds files for each individual accession into mega-rds files based on genus. I also realise I will need to upload the secrets file manually to hawk as it would not have copied in the clone, also, to fix the relative file paths thing using the "here" package.
 
 # Results
 
-#### Descriptions of the 5 functions I made (not really results, but ideal for when it comes time for write up)
+#### Descriptions of the 6 functions I made (not really results, but ideal for when it comes time for write up)
 
-#### Any summary statistics for the metadata section (if I decide I want to do that)
+#### Utility Functions
+
+-   "get_secrets" - reads in secrets file from my machine, uses an argument that decides what system the secrets are for. (i.e. "ncbi" or "SQL", not real secrets, as the real names match to the secrets file)
+
+-   "check_and_create_dir" - uses the base R function dir.create to create a directory
+
+#### NCBI Functions
+
+-   "get_taxID" - loads in the secrets file using "get_secrets" and a scientific name. There are two arguments to be passed in, "taxonomic_name" and "desired_rank". For example, "Mustelidae" and "family". I set a default value for "desired_rank" of "genus", because that is the only level I will most likely be working at. Line 27 creates "encoded_taxon", this is important for when the desired rank is species, as the binomial name has to be passed, but the call does not accept spaces, so the space must be encoded. The API call is called, using fairly standard code that can be found in the httr2 documentation, the returned values are then stored in a dataframe called "result", which is returned at the end of the function. This object contains the taxonomic ID and the scientific name. This function uses purrr, a powerful package, and one I understand little. Claude.ai helped a lot with the creation of that as it had to be very clever. I think going forward I would like to do it the hard way of learning about how to do these things from online myself, however, I am on a bit of a time crunch, if I stopped everywhere, this would take a long time.
+
+-   "download_taxonomic_information_by_tax_ID" - There are two arguments for this function, "tax_ID" and "file_location". The first is very similar to the output of "get_taxID", however, is a vector of multiple taxonomic IDs (i.e. the first column of "result"). The second is where the output file of this function should be stored. Firstly, the secrets are loaded, a check is also done to make sure "file_location" exists, if it does not the aforementioned "check_and_create_dir" function creates it. Early on, the vector of taxonomic IDs are transformed into a comma-separated string. This is then passed into another API call. Worryingly, about 50 lines of code exist in this function purely to flatten out the list object that comes back and turns it into a dataframe with all the relevant information inside. After all the fields I have to do different stuff to to keep are recombined, the object is saved out as an .rds file with a name of this format \<file = paste0(file_location, "taxonomy_information\_", paste0(final_frame\$organism_name, collapse = "*"), "*", Sys.Date(), ".rds")\>, in the "01_inputs/03_metadata" section.
+
+-   "download_accession_metadata_by_taxID" - This was originally inside the last function, but it just became too gargantuan. This is just for extra information, it uses another API call which gives information that could help contextualise the data at a later date. This one is simpler, it runs the call inside a for loop as this one can only take one taxonomic ID at a time, it then extracts and stores the result, saving it out as another .rds under \<file = paste0(file_location, "accession_information\_", paste0(tax_ID, collapse = "*"), "*", Sys.Date(), ".rds")\>
+
+-   "get_dataset_by_accession" - There are two arguments to pass in. The first is "accession", this is a vector extracted from the output of "download_taxonomic_information_by_tax_ID". The second is "ftype", this call is capable of returning genomic fastas and protein fastas (as well as other things that did not seem important enough to include). I set the default as "both" because I am not sure which I want yet. This one will be called on a file run on Hawk. The usual setup is done, as well as an extra bit. I decided that the best way to resolve the "both" or one or the other issue was to create a blank list with both fields, then use an if statement to remove one or the other if the ftype isnt both. A tempzip file is set up, this is a clean way of temporarily storing the output of the call and is then read in after. At the end of the file this then needs to be deleted. The call is run to get the fasta files. The output is modified until the desired information remains, then it is returned as a list where each item is the information for one accession. In the "04_fastafile_getter.R" script (from where it will be run), they are saved out as rds files. I will do this as 1 rds per genus.
+
+#### Any summary statistics for the metadata section (maybe? is this worth doing yet?)
 
 # Conclusion
 
@@ -217,7 +233,7 @@ NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be 
 
 *Relevant literature read this week.*
 
--   
+-   I am not reading papers, but I have started reading a book called "parasite rex" which is kind of relevant to bacteria, however, it is more for my module next year called "parasites and pathogens". I felt as a book it wouldnt be so dry as a normal paper, so it is a good way to segway into the practice.
 
 -   
 
