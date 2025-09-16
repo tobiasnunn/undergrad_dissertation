@@ -225,6 +225,29 @@ NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be 
 
 #### Any summary statistics for the metadata section (maybe? is this worth doing yet?)
 
+```{r summary stats}
+
+library(here)
+here::i_am("06_notebooks/posts/week_9.qmd")
+here()
+file_name <- here("01_inputs/03_metadata/accession_information_43668_1696_33882_53335_13687_2025-09-10.rds")
+accession_list <- readRDS(file_name)
+```
+
+I used this code block as a chance to test the functionality of the "here" package, which I will use later for the fasta getting script. This will be useful as the file system on hawk is different to that of my machine, so relative file paths are important.
+
+Ok, from testing I have found that here::here() shows the current working directory (i.e. where the relative file path will start). here::i_am() is a way of manually setting the path from the aforementioned start to where the file the code is being run in is, I suppose it could be more reliable than it trying to autmatically do it. I have also found the function here::set_here() - which I believe will allow me to set the start of the path, this is important as currently the path is in "06_notebooks", and it would be good to have the path start at the top level of "undergrad_dissertation". This would be ideal for hawk as "C:/Users/\<etc\>/undergrad_dissertation" does not exist on hawk, instead it would be something like "\~/source/undergrad_dissertation". Ordinarily, this would mean I would have to manually change the file paths when I want to run them on hawk, but here should mean that both of those paths get set by here and I just need to do the rest of the path (which should be the same at that point).
+
+Right, ok, I was looking at "set_here()" in the help pane and I saw it was classed as (lifecycle \| superseded), and that "i_am" is apparently a replacement. So, I tried setting the file path from where I would want it to start:
+
+`here::i_am("06_notebooks/posts/week_9.qmd")`
+
+I think it works, I did not get an error, and it tells me this:
+
+"here() starts at \<top_level_directory\>", which I think is good
+
+Ok, took a minute, but I understand. the "here()" function on its own tells you what the path to the root set in "i_am()". However, it is also used to construct the file paths, so when I want to read in the rds, I must put the file path (from the new root to the file) inside another "here()" function, I guess so here knows that its one of their file paths.
+
 # Conclusion
 
 *Summary of outcomes, implications, and next steps.*

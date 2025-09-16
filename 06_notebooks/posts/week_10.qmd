@@ -40,7 +40,7 @@ NEXT STEPS: add a progress bar to the loop for fun, file is going to need to be 
 
 # Methods
 
-I started this week by finishing the content from last week. I populated the "results section", this was just to consolidate what I had done. I did a lot last week and I do not want to find myself over extending and finding that I went too quick (with the help of Claude.ai) that I do not understand what I have done.
+I started this week by finishing the content from last week. I populated the "results section", this was just to consolidate what I had done. I did a lot last week and I do not want to find myself over extending and finding that I went too quick (with the help of Claude.ai) that I do not understand what I have done. Then, I will begin working through my NEXT STEPS list.
 
 # Results
 
