@@ -14,7 +14,7 @@ get_taxID <- function(taxonomic_name, desired_rank = "genus"){
     "desired_rank not in list of known ranks" = desired_rank %in% 
       c("domain", "kingdom", "phylum", "class", "order", "family", "genus", "species"))
   
-  source("../00_scripts/R_scripts/Utility_functions.R")
+  source(here::here("00_scripts/R_scripts/Utility_functions.R"))
   ncbi_secrets <- get_secrets("ncbi")
   
   genus_info <- data.frame(tax_id = numeric(), sci_name = character()) # setup hollow df
@@ -57,7 +57,7 @@ download_taxonomic_information_by_tax_ID <- function(tax_ID, file_location){
     "file_location cannot be empty" = length(file_location) > 0)
   
   # check directory "file_location" exists, if not, create
-  source("../00_scripts/R_scripts/Utility_functions.R")
+  source(here::here("00_scripts/R_scripts/Utility_functions.R"))
   check_and_create_dir(file_location) # create dir if not already exist
   ncbi_secrets <- get_secrets("ncbi") # get secrets for API call
   
@@ -155,7 +155,7 @@ download_accession_metadata_by_taxID <- function(tax_ID, file_location){
     "file_location cannot be empty" = length(file_location) > 0)
   
   # check directory "file_location" exists, if not, create
-  source("../00_scripts/R_scripts/Utility_functions.R")
+  source(here:here("00_scripts/R_scripts/Utility_functions.R"))
   check_and_create_dir(file_location)
   ncbi_secrets <- get_secrets("ncbi")
   
@@ -215,7 +215,7 @@ get_dataset_by_accession <- function(accession, ftype = "both"){
       c("genome", "protein", "both"))
   
   # NOTE: source path will have to be adjusted when moved to hawk
-  source("../00_scripts/R_scripts/Utility_functions.R")
+  source(here::here("00_scripts/R_scripts/Utility_functions.R"))
   ncbi_secrets <- get_secrets("ncbi")
   
   # convert "type" to formats expected by the API
