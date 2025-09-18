@@ -16,14 +16,14 @@ This week is a direct continuation of the stuff I was doing last week. To recap,
     1.  I know how to run a script through the terminal, i do it for my "create_notebooks.R" script ✅
     2.  As a part of this, I want to figure out how to run an R script from slurm, may be useful ✅
 
-Which means that these are the steps I will ideally do this week, though it will likely spill into the next weeks:
+Which means that these are the steps I will do in the next few weeks:
 
 1.  create a script that will download the .fasta files directly to hawk
     1.  this cuts out storing them on my machine, its more efficient
     2.  I will be downloading both the genomic and protein fastas as I do not know which to use
-2.  At first, the script will only do a few accessions
-    1.  this means I can compare genomic fastas that I process through blast p to their protein fastas, if they are the same, then I might as well save the time and use theirs, when I download them all.
-3.  Regardless of the results from that mini-experiment, I will set-up a script or some pipeline for turning genomic fastas into protein fastas
+2.  At first, the script will only do a few accessions ✅
+    1.  this means I can compare genomic fastas that I process through prodigal to their protein fastas, if they are the same, then I might as well save the time and use theirs, when I download them all. ✅
+3.  Regardless of the results from that mini-experiment, I will set-up a script or some pipeline for turning genomic fastas into protein fastas❓
     1.  this could still be useful in future, i.e. if Aaron gives me more genomes from Alberto, he wont have the protein fastas, so I might as well already have that pipeline ready
     2.  I will need to decide if I want to do this through bash or R and command line or slurm
 4.  I will need to figure out how to store the results of the fasta-downloading script
@@ -81,6 +81,80 @@ Right, nothing I can do seems to work, I just cannot get httr2 to download onto 
 Ok, so, moving onto something I *can* work with. As mentioned in a previous entry, I can download fastas either in their genomic or protein state. I would like to see if running genomic fastas through prodigal will give the same result as just using the protein fastas. If they are different, this will then raise the question of "which do I use?", but I am going to burn that bridge when I get there.
 
 Right, I really cannot make heads or tails of any of this, today has been a bit of a failure. I figure, "bugger it, might as well just use the NCBI protein.faa's because they do not require conversion it will be faster (and jump a step). The local samples will still have to be fed through blast or prodigal or something though.
+
+### figuring out how to do it on hawk
+
+With the rather invaluable help of Claude.ai, I managed to get the script to run on hawk. Yesterday, I mentioned that the block to this was getting the httr2 package installed onto hawk, because of its dependencies. Claude suggested a way to fix this, that being:
+
+-   The use of the "singularity" container system \[[SCW-link](https://portal.supercomputing.wales/index.php/singularity/), [user-guide](https://docs.sylabs.io/guides/latest/user-guide/introduction.html#why-use-singularityce)\]. I am not really sure what this is, but I tried it and it worked.
+
+    -   <div>
+
+        > "Singularity [\[1\]](https://www.sylabs.io/)
+        > is a container system that doesn’t need root access. Containers are a
+        > set of applications and a minimal operating system bundled together in a
+        > single file. They are a good way to ensure that anyone running the
+        > software is using the exact same set of libraries and dependencies. This
+        > is helpful to reproducible science where we want somebody else to be
+        > able to recreate our results. They also allow us to run
+        > newer/older/different operating systems than the one installed on the
+        > host system."
+        >
+        > -SCW-link
+
+        </div>
+
+-   The first step is \<`module load singularity`\> - this loads the singularity program on hawk
+
+-   Next, I ran \<`singularity pull docker://rocker/tidyverse:latest`\> - this downloaded an image file (.sif) to my home directory, called "tidyverse_latest.sif", this image contains a copy of R and some R packages, all the tidyverse ones included
+
+    -   This means I did all that removing of tidyverse to use base R kind of for nothing, well, it still might be worth it in some areas and to be fair, I never could have predicted this
+
+-   In order to run my R scripts, on hawk, I have to be in the "source" directory, so the next step is to `cd source`
+
+-   Finally, I ran \<`singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R`\> - this successfully ran the mentioned R script, which just had a test amount of 5 accessions in it, placing them in the 01_inputs/04_fastas/ directory
+
+This means that I can (finally) get around to actually sculpting that script into the final product. This is what I will attempt next, and I shall now make a list of the stuff I want to do to it:
+
+-   add a progress bar (for my own enjoyment as it will likely not work in slurm)
+
+-   add a line for reading in an argument, this will be the taxon ID of a genus
+
+    -   this is then used to filter the accession list .rds so that 1 genus is run at a time
+
+    -   this would be done using code similar to "test_command_line.R"'s `args <- commandArgs(trailingOnly = TRUE)`
+
+-   rewrite the for loop to iterate over the list of accessions in the filtered list, calling my function "get_dataset_by_accession()" for each accession in turn
+
+    -   I should build in some error handling so that if the function returns an error for 1 accession, it doesnt stop the for loop from continuing
+
+-   add logging for both errors or successes, helping to address the above point
+
+    -   I am thinking 1 log file for each genus
+
+-   maybe a "resumability" feature, this would check to see if any accessions passed in had been run before and will skip them
+
+    -   good for when I have to rerun errors
+
+-   update the "saveRDS" line so that there is a top-level item in the list which contains the accession ID
+
+-   NOTE: after I get the roughly 5K .rds files back, I will combine them by genus into mega .rds files
+
+This file will be run from slurm, there will also be updates I need to do in slurm:
+
+-   create the slurm script
+
+-   add an "`#SBATCH --array=1-5`" - this will allow 5 jobs to run simultaneously inside 1 job
+
+-   The script will have to do a few things, like `cd`-ing to the source/ directory
+
+-   It will need to \<`module load singularity`\>
+
+-   It will need to figure out which genus ID wants to be passed in as an argument to the script:
+
+    -   `genus_ids=(``43668``1696 13867 33882 53335)genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}`
+
+-   It will execute the R script usinge \<`singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R genus_id`\>
 
 # Results
 
