@@ -270,6 +270,12 @@ get_dataset_by_accession <- function(accession, ftype = "both"){
    fasta_list[[type]] <- fasta_content
   }
   unlink(temp_zip)
-  return(fasta_list)
+  
+  # properly format the .rds
+  result <- list()
+  result[[accession]] <- fasta_list
+  
+  return(result)
 }
 
+# debug: result <- get_dataset_by_accession("GCF_011617245.1")

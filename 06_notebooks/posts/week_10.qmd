@@ -116,27 +116,27 @@ With the rather invaluable help of Claude.ai, I managed to get the script to run
 
 This means that I can (finally) get around to actually sculpting that script into the final product. This is what I will attempt next, and I shall now make a list of the stuff I want to do to it:
 
--   add a progress bar (for my own enjoyment as it will likely not work in slurm)
+-   add a progress bar (for my own enjoyment as it will likely not work in slurm) ✅
 
--   add a line for reading in an argument, this will be the taxon ID of a genus
+-   add a line for reading in an argument, this will be the taxon ID of a genus ✅
 
-    -   this is then used to filter the accession list .rds so that 1 genus is run at a time
+    -   this is then used to filter the accession list .rds so that 1 genus is run at a time ✅
 
-    -   this would be done using code similar to "test_command_line.R"'s `args <- commandArgs(trailingOnly = TRUE)`
+    -   this would be done using code similar to "test_command_line.R"'s `args <- commandArgs(trailingOnly = TRUE)`✅
 
--   rewrite the for loop to iterate over the list of accessions in the filtered list, calling my function "get_dataset_by_accession()" for each accession in turn
+-   rewrite the for loop to iterate over the list of accessions in the filtered list, calling my function "get_dataset_by_accession()" for each accession in turn ✅
 
-    -   I should build in some error handling so that if the function returns an error for 1 accession, it doesnt stop the for loop from continuing
+    -   I should build in some error handling so that if the function returns an error for 1 accession, it doesnt stop the for loop from continuing ✅
 
--   add logging for both errors or successes, helping to address the above point
+-   add logging for both errors or successes, helping to address the above point ✅
 
-    -   I am thinking 1 log file for each genus
+    -   I am thinking 1 log file for each genus ✅
 
--   maybe a "resumability" feature, this would check to see if any accessions passed in had been run before and will skip them
+-   maybe a "resumability" feature, this would check to see if any accessions passed in had been run before and will skip them ✅
 
-    -   good for when I have to rerun errors
+    -   good for when I have to rerun errors ✅
 
--   update the "saveRDS" line so that there is a top-level item in the list which contains the accession ID
+-   update the "saveRDS" line so that there is a top-level item in the list which contains the accession ID ✅
 
 -   NOTE: after I get the roughly 5K .rds files back, I will combine them by genus into mega .rds files
 
