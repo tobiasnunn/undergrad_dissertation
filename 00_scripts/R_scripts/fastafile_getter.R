@@ -53,5 +53,6 @@ for (i in seq_along(accession_list)) {
     next
   })
   setTxtProgressBar(pb, i)
+  Sys.sleep(0.5)
 }
 close(pb)

@@ -156,6 +156,8 @@ This file will be run from slurm, there will also be updates I need to do in slu
 
 -   It will execute the R script usinge \<`singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R genus_id`\>
 
+After making the final R script, I added two debug lines so that only 3 accessions would be run. This test was successsful, I noticed that it took about 2 seconds to process 1 accession. This made me decide to add a rate-limiting step to the script so that I do not breach the NCBI API's rate limit.
+
 # Results
 
 *Key findings, observations, and data from this week's work.*
