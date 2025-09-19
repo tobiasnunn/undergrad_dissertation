@@ -23,6 +23,10 @@ file_list <- data.frame(filename = list.files(path = here::here("01_inputs/04_fa
 file_list$accession <- gsub(".rds", "", file_list$filename)
 accession_list <- accession_list[!names(accession_list) %in% file_list$accession]
 
+#debug lines
+random_number <- sample(5:50,3, replace=F) 
+accession_list <- accession_list[random_number]
+
 
 source(here::here("00_scripts/R_scripts/NCBI_functions.R"))
 
