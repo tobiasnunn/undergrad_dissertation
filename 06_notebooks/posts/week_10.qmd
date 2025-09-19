@@ -160,6 +160,10 @@ This file will be run from slurm, there will also be updates I need to do in slu
 
 After making the final R script, I added two debug lines so that only 3 accessions would be run. This test was successsful, I noticed that it took about 2 seconds to process 1 accession. This made me decide to add a rate-limiting step to the script so that I do not breach the NCBI API's rate limit. In order to do this, I added this code: `Sys.sleep(0.5)`. This makes the script stall for 0.5 seconds, meaning I will definitely not break the rate limit, but it will still go very fast. I will now begin construction of the slurm script.
 
+To run the slurm script from the command line on hawk, I will use the code:
+
+`sbatch 00_scripts/Slurm_scripts/fasta_getter_runner.sh`
+
 # Results
 
 *Key findings, observations, and data from this week's work.*
