@@ -154,7 +154,7 @@ This file will be run from slurm, there will also be updates I need to do in slu
 
 -   It will need to figure out which genus ID wants to be passed in as an argument to the script:
 
-    -   `genus_ids=(``43668``1696 13867 33882 53335)genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}`
+    -   `genus_ids=(``43668``1696 13687 33882 53335)genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}`
 
 -   It will execute the R script usinge \<`singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R genus_id`\>
 
@@ -163,6 +163,8 @@ After making the final R script, I added two debug lines so that only 3 accessio
 To run the slurm script from the command line on hawk, I will use the code:
 
 `sbatch 00_scripts/Slurm_scripts/fasta_getter_runner.sh`
+
+I ran that test, and it ran in 16 seconds, returning the 3 random accessions for 4 of the 5 genera. (This was due to a mistake I made where I accidently flipped an 8 and a 6 when passing in the ID for a genus. So, now that I fixed that, it should be ready for the full thing.
 
 # Results
 
