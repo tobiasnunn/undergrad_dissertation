@@ -1,15 +1,20 @@
 #!/bin/bash
 #SBATCH --account=scw2160
-#SBATCH --job-name=R_test
+#SBATCH --job-name=fasta_downloader
 #SBATCH --partition=compute           # compute (max resources: 192g; ), highmem (max resources: 384g; 40 threads; 72h)
-#SBATCH --ntasks=1                   # Number of tasks
-#SBATCH --time=00:10:00                # Run time
+#SBATCH --time=02:00:00                # Run time
 #SBATCH --mem=1g                     # Memory pool for all cores (in MB: 4096 == 4 GB)
-#SBATCH -o /scratch/scw2160/09_logs/R_test%A.out
-#SBATCH -e /scratch/scw2160/09_logs/R_test%A.err
+#SBATCH -o /scratch/scw2160/09_logs/fasta_downloader%A.out
+#SBATCH -e /scratch/scw2160/09_logs/fasta_downloader%A.err
 #SBATCH --mail-user=0rtpjri2@anonaddy.me
 #SBATCH --mail-type=ALL
+#SBATCH --array=1-5
 
-module load R/4.4.2
+cd ~/source
 
-Rscript ~/source/00_scripts/R_scripts/test_command_line.R ~/source/01_inputs/03_metadata/taxonomy_information_Sphingomonas_Brevibacterium_Microbacterium_Brachybacterium_Pantoea_2025-09-10.rds
+module load singularity
+
+genus_ids=(43668 1696 13867 33882 53335)
+genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}
+
+singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R $genus_id
