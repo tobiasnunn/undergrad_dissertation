@@ -10,6 +10,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --array=1-5
 
+
 cd ~/source
 
 module load singularity

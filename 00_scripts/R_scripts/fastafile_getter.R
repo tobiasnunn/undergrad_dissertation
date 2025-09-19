@@ -18,10 +18,15 @@ all_genera_accession_list <- readRDS(file_name)
 
 accession_list <- all_genera_accession_list[[as.character(taxon_ID)]]
 
+
+
 # make sure accessions are not being repeated
 file_list <- data.frame(filename = list.files(path = here::here("01_inputs/04_fastas/"), pattern = "*.rds"))
 file_list$accession <- gsub(".rds", "", file_list$filename)
 accession_list <- accession_list[!names(accession_list) %in% file_list$accession]
+
+log_msg <- paste(Sys.time(), "Number of accessions to process:", length(accession_list))
+cat(log_msg, "\n", file = here::here(log_file), append = TRUE)
 
 #debug lines
 #random_number <- sample(5:50,3, replace=F) 
@@ -31,7 +36,7 @@ accession_list <- accession_list[!names(accession_list) %in% file_list$accession
 source(here::here("00_scripts/R_scripts/NCBI_functions.R"))
 
 #run query and return value, save as .rds
-pb <- txtProgressBar(min = 0, max = length(accession_list), style = 3)
+#pb <- txtProgressBar(min = 0, max = length(accession_list), style = 3)
 
 for (i in seq_along(accession_list)) {
   tryCatch({
@@ -50,9 +55,9 @@ for (i in seq_along(accession_list)) {
     error_msg <- paste(Sys.time(), "Error with accession",
                        accession, ":", e$message) 
     cat(error_msg, "\n", file = here::here(log_file), append = TRUE)
-    next
+
   })
-  setTxtProgressBar(pb, i)
-  Sys.sleep(0.5)
+#  setTxtProgressBar(pb, i)
+  Sys.sleep(1)
 }
-close(pb)
+#close(pb)
