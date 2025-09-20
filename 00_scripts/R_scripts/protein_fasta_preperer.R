@@ -19,23 +19,31 @@ total_fasta_list <- readLines(here::here("01_inputs/04_fastas/total_fasta_list.t
 process_list <- file.path("01_inputs/04_fastas", paste0(total_fasta_list[1:200]))
 
 for (rds_file in process_list) {
-  # rds_file <- process_list[1]
-  # Load the RDS file
-  fasta_data <- readRDS(rds_file)
-  
-  # Extract accession from filename
-  accession <- tools::file_path_sans_ext(basename(rds_file))
-  
-  # Extract protein fasta
-  protein_fasta <- fasta_data$protein  # Adjust this based on your RDS structure
-  
-  # Update header lines to include accession at the beginning
-  header_lines <- grepl("^>", protein_fasta)
-  protein_fasta[header_lines] <- paste0(">", accession, "_", substring(protein_fasta[header_lines], 2))
-  
-  # Save protein fasta to file
-  output_file <- file.path("01_inputs/04_fastas/_working", paste0(accession, "_protein.faa"))
-  writeLines(protein_fasta, output_file)  
-  print(paste0("Successfully extracted the protein for ", accession, 
-               ". File path = ", output_file))
+  tryCatch({
+      # rds_file <- process_list[1]
+      # Load the RDS file
+      fasta_data <- readRDS(rds_file)
+      
+      # Extract accession from filename
+      accession <- tools::file_path_sans_ext(basename(rds_file))
+      
+      # Extract protein fasta
+      genome_fasta <- fasta_data[[accession]]$genome  
+      
+      # Update header lines to include accession at the beginning
+      #header_lines <- grepl("^>", protein_fasta)
+      #protein_fasta[header_lines] <- paste0(">", accession, "_", substring(protein_fasta[header_lines], 2))
+      
+      # Save protein fasta to file
+      output_file <- file.path("01_inputs/04_fastas/_working", paste0(accession, "_genome.fna"))
+      writeLines(genome_fasta, output_file)  
+      print(paste0("Successfully extracted the genome for ", accession, 
+                   ". File path = ", output_file))
+    }, error = function(e) {
+      # print error messages
+      error_msg <- paste(Sys.time(), "Error with accession",
+                       accession, ":", e$message) 
+      print(error_msg)
+
+    })
 }
