@@ -360,7 +360,39 @@ Right, so, here is the new TODO LIST:
 3.  Run EggNOG-mapper search against the larger combined fastas
 4.  I will eventually have to explain why I am running the parts of EggNOG-mapper individually (its for speed, but its a bit more complex than that)
 
-/scratch/scw2160/TN_area/01_inputs
+I created the script that turns genomic fastas into protein fastas. This is called "prodigal_test_script.sh" in the "Bash_scripts" section. For the innitial 200 accessions, it took 16 minutes and 55 seconds to complete, meaning just over 5 seconds per accession. At the end of that script is a line that uses "cat" to bring all the individual fastas into one file, which apparently makes the "search" stage of EggNOG-mapper run faster. As well as this, it changes the names of the contig labels to include the accession ID. Thus, when I separate them at the end, I will know what contigs belong to what accession.
+
+I then created another script, this time ran on slurm, which conducts the "search" phase. I used code from Claude to optomise it, as it would take me a good long while to get familiar enough with the environment to create that alone. This script is called "eggnog_searcher.sh". The parameters I used were:
+
+`-m diamond--no_annot--no_file_comments-i /scratch/scw2160/TN_area/01_inputs/combined_proteins.faa--output_dir /scratch/scw2160/TN_area/02_outputs-o search_200_accessions--itype proteins--sensmode fast--pident 30--query_cover 50--evalue 1e-5--cpu 4`
+
+These are the stats for that stage processing the 200:
+
+`Total hits processed: 606665Total time: 1741 secs (29m)`
+
+This outputs two files:
+
+-   search_200_accessions.emapper.hits
+
+-   search_200_accessions.emapper.seed_orthologs
+
+I then ran the "annotation" stage using the script "eggnog_annotator.sh. I did not chose the excel parameter because I need to manipulate the text file that returns from it. The stats are:
+
+`Total hits processed: 606665Total time: 2016 secs (33m)`
+
+This creates the output file "annotation_200_accessions.emapper.annotations", which can be enriched with the KEGG database to get KEGG Pathway information.
+
+I observed that in the log file eggnogmapper writes an update message saying how many rows it has processed and how many queries per second it is performing:
+
+`595500 2001.0973300933838 297.59 q/s (% mem usage: 23.50, % mem avail: 76.48)596000 2001.5944957733154 297.76 q/s (% mem usage: 23.50, % mem avail: 76.48)596500 2002.1451756954193 297.93 q/s (% mem usage: 23.50, % mem avail: 76.48)597000 2002.5639278888702 298.12 q/s (% mem usage: 23.50, % mem avail: 76.48)597500 2003.0883193016052 298.29 q/s (% mem usage: 23.50, % mem avail: 76.48)598000 2003.6249256134033 298.46 q/s (% mem usage: 23.50, % mem avail: 76.48)`
+
+The thing to note is that it only ever got faster over time, there may be a limit to this, but I like to think it evidences Claude's claim that bigger amounts of data is relatively faster.
+
+It is important to note that EggNOG-mapper comprises the three sections I just covered. This means that in this configuration eggnogmapping these 200 samples took (1015s + 1741s + 2016s = 4772s) 80 minutes. In the past, I was lucky to get maybe 3 done in that same time, so my rate of opperation has rather exploded.
+
+Next, I think it would be good to compare the content of these new annotations to the aforementioned old ones. Because, it is not very useful of them being quick if their quality is bad.
+
+Then, it will be time to eggnog all the remaining accessions, after some upgrades to the scripts so that they can handle the increased workload (for example, things like resumability so I do not end up doing copies). I think the next batch size I will do is 1000.
 
 # Results
 
