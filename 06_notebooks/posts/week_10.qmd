@@ -174,8 +174,14 @@ I discovered that one genus had stopped running quite soon after beginning, 3388
 
 What was strange was that this error hadn’t been caught. The loop should have just continued. After consulting with Claude I discovered I don’t need a ‘next’ statement within the `tryCatch..else` structure. Catching the error means the loop will just keep going. The problem was that the `next` was causing a syntax error:
 
-| Error in value\[\[3L\]\](cond) : no loop for break/next, jumping to top levelCalls: tryCatch -\> tryCatchList -\> tryCatchOne -\> \<Anonymous\>Execution halted |
-|:-----------------------------------------------------------------------|
++-------------------------------------------------------------------------------+
+| Error in value\[\[3L\]\](cond) : no loop for break/next, jumping to top level |
+|                                                                               |
+| Calls: tryCatch -\> tryCatchList -\> tryCatchOne -\> \<Anonymous\>            |
+|                                                                               |
+| Execution halted                                                              |
++:==============================================================================+
++-------------------------------------------------------------------------------+
 
 So I removed the `next` and also the progress bar, as this was filling up the slurm `out` files with nothing useful. I increased the `Sys.sleep()` time to 1 second. This will ensure I do not breach the rate limit again.
 
@@ -311,6 +317,7 @@ Now that I have my fasta files, I can move on to the first step of annotating th
 5.  Create ‘mega fastas’ by combing multiple fastas together\
 6.  Email from hawk a different way, by including a line in the file\
 7.  Think about how to monitor progress of the eggNOG search step, which is what the mega fastas will be used to do first.
+8.  explain why I have cut eggnog into 2 pieces
 
 I created the script "suppressed_accession_remover.R" with the code to remove all suppressed accessions. However, when I ran the code on hawk, I decided to do it in the singularity image using the code:
 
@@ -319,6 +326,41 @@ I created the script "suppressed_accession_remover.R" with the code to remove al
 This created a sort of R console, that meant I could run the code 1 line at a time. This was good as it allowed me to make sure that it really had identified supressed accessions.
 
 I have decided that in order to test whether the EggNOG-mapper "search" function works better with larger data sets, I am going to split the accessions into increasingly bigger groups, starting with an innitial 200 or so.
+
+I created the script "protein_fasta_preperer". This will eventually look much different, maybe be a function. For now, it does a test 200. It extracts the protein sequence from the rds and reads in the file, changing the contig label so that the accession ID is in the name. I have found some problems on hawk.
+
+### Hit a snag
+
+The problem with my script as written was it didn't take into account a change I'd made 2 days ago to the NCBI_functions script, specifically [this commit:](https://github.com/tobiasnunn/undergrad_dissertation/commit/a9d7db651f3131c94838fa8fe779ffb6f77fc527)
+
+and it's this [line of code:](https://github.com/tobiasnunn/undergrad_dissertation/blob/06e20f06c7fc7614d967e4829c917c8ee9306ba0/00_scripts/R_scripts/NCBI_functions.R#L275)
+
+This changed the structure of each of the fasta RDS files, to add in a top level node with the accession number in it - to make them easier to manage if I ever want to read them all back into one list object. This meant the new script wasn't reading far enough down into the object, I needed to read  genome_fasta \<- fasta_data\[\[accession\]\]\$protein   not fasta_data\$protein. I obviously hadn't tested this on my machine so the few rds files that were there pre-dated the change.
+
+After this I ran the script on my first 200 fastas and it errored on the 3rd one, saying writeLines(protein_fasta, output_file) : can only write character objects.
+
+The 3rd accession didn't have a protein fasta. So I added some error handling and then ran it again. It ran to the end but only 137 of the 200 accessions have protein fastas on the NCBI website. Needs a rethink, as only having 68.5% of samples in proteins is not really an acceptible number to just say "leave the ones that dont have a protein fasta. Meaning I am going to have to make my own genome -\> protein conversion after all.
+
+I therefore amended the script again to:\
+
+-   output the genome fasta, not the protein fasta\
+
+-   remove the file manipulation that inserts the accession into the header rows (marked with a \> at the beginning). This step will need to wait.
+
+With the redirection of that script, I now have all the genomic fastas in the 01_etc/04_etc/\_working directory.
+
+I think I will need to convert the genome fastas to protein fastas myself on hawk, using Prodigal. I have now found it - it has a capital P which is why I couldn't find it in the list of modules before.
+
+Right, so, here is the new TODO LIST:
+
+1.  setup the script that will turn genomic fastas into protein fastas on hawk
+    1.  this script will also update the contig labels to include the accession ID, this will be useful later on
+2.  combine the protein fastas into "mega-fastas" (group all contigs into 1 file, thus the necessity of ID in name)
+    1.  starting with an innitial batch of 200 for testing then making them bigger to test eggnog-mapper's "search" pipeline
+3.  Run EggNOG-mapper search against the larger combined fastas
+4.  I will eventually have to explain why I am running the parts of EggNOG-mapper individually (its for speed, but its a bit more complex than that)
+
+/scratch/scw2160/TN_area/01_inputs
 
 # Results
 

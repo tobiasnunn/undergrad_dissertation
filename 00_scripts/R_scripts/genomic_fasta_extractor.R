@@ -27,7 +27,7 @@ for (rds_file in process_list) {
       # Extract accession from filename
       accession <- tools::file_path_sans_ext(basename(rds_file))
       
-      # Extract protein fasta
+      # Extract genome fasta
       genome_fasta <- fasta_data[[accession]]$genome  
       
       # Update header lines to include accession at the beginning
