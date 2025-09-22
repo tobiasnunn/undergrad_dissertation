@@ -1,6 +1,7 @@
 # list rds files and extract protein fastas to make ready for eggnog search
 #NOTE: this is an innitial build with some stuff (resumability mainly) left to add, 
 # just for the test 200 to begin with
+print(Sys.time())
 
 source(here::here("00_scripts/R_scripts/Utility_functions.R"))
 check_and_create_dir("01_inputs/04_fastas/_working")
@@ -11,12 +12,12 @@ if(!file.exists(here::here("01_inputs/04_fastas/total_fasta_list.txt"))){
   writeLines(file_list, here::here("01_inputs/04_fastas/total_fasta_list.txt"))
 }
 
-# read list in, in order to extract protein
+# read list in, in order to extract genome
 total_fasta_list <- readLines(here::here("01_inputs/04_fastas/total_fasta_list.txt"))
 
-# extract protein file from each read in accession, update contig name
+# extract genome file from each read in accession, update contig name
 #TODO: make sure this does not pad with NAs if the list is too short
-process_list <- file.path("01_inputs/04_fastas", paste0(total_fasta_list[1:200]))
+process_list <- file.path("01_inputs/04_fastas", paste0(total_fasta_list[201:length(total_fasta_list)]))
 
 for (rds_file in process_list) {
   tryCatch({
@@ -47,3 +48,4 @@ for (rds_file in process_list) {
 
     })
 }
+print(Sys.time())
