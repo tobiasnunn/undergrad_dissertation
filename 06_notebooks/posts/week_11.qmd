@@ -1,0 +1,58 @@
+---
+title: "Week 11 2025-09-22 to 2025-09-28"
+author: "Tobias Nunn"
+date: "2025-09-28"
+categories:
+---
+
+# Introduction
+
+Continuing the work from last week. I am now running the whole EggNOG pipeline for all 5-ish thousand accessions.
+
+NEXT STEPS from last week:
+
+> Next, I think it would be good to compare the content of these new annotations to the aforementioned old ones. Because, it is not very useful of them being quick if their quality is bad.
+>
+> Then, it will be time to eggnog all the remaining accessions, after some upgrades to the scripts so that they can handle the increased workload (for example, things like resumability so I do not end up doing copies). I think the next batch size I will do is 1000.
+
+# Methods
+
+I started this week by modifying the Genomic_fasta_extractor.R file to take the accessions 201 to end. I figured as this step took a negligible amount of time for the sample that running all 4.5k at once would be fine, without needing the resources slurm provides. However, for the 3 eggnog steps (prodigal \| search \| annotation) I will run them in batches of increasing size. starting with 1000 accessions.
+
+I will also need to modify the files with things like resumability, however, that takes a bit of a backseat as I want to have all the annotated fastas in a weeks time (when term starts).
+
+The file took 17 minutes to run.
+
+I had moved the 200 processed accessions to the processed folder, now, I am going to move another 1000 to a "\_running" folder using this line of code from Claude:
+
+`ls -1 /path/to/source/folder/ | head -1000 | xargs -I {} mv /path/to/source/folder/{} /path/to/destination/folder/`
+
+specifically this (run from 01_inputs/04_fastas/:
+
+`ls -1 _working/ | head -1000 | xargs -I {} mv _working/{} _running/`
+
+When I moved the code over, the source folder remained the same size, so its possible they copied, I decided to leave that problem to later, as it is nearly lunch and this slurm job I think will take like 6 hours.
+
+Next, I will retrofit the "prodigal_test_script.sh" so that it works on this new directory. I changed the directory, however, due to the 5x larger workload, I will have to do it on slurm. This is too much for before lunch, so I will stop here.
+
+I made that slurm script, called "prodigal_translationiser.sh", this is running 1000 samples at the moment, it is taking just over an hour. I have now modified it so that once it is done, I will pass in 1500 accessions next. I noticed the .out log file contained all the output, so I have redirected that to NULL so that it does not bloat the log files. I tried to get email notifications to work, but I do not think slurm can do that anymore, so I will impliment something separate. This will be a bash script that is run in the home directory which will monitor how many "\_renamed.faa" files there are, I will set it up with a chron (a function of the linux opperating system that will allow me to schedule it as a job). So, its kind of like a brute force way of getting it to email me on how many it has processed.
+
+NEXT STEPS: I modified eggnog_searcher.sh with an alternate call, using the old parameters. With this, I saw that...
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   
