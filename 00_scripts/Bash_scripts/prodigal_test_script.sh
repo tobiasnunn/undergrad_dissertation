@@ -4,7 +4,7 @@
 module load Prodigal/2.6.3
 
 #path to where .fna files are
-cd ~/source/01_inputs/04_fastas/_working
+cd ~/source/01_inputs/04_fastas/_running
 
 # Run prodigal on all .fna files
 for file in *.fna; do
