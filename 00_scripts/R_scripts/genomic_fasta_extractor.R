@@ -1,6 +1,7 @@
 # list rds files and extract protein fastas to make ready for eggnog search
 #NOTE: this is an innitial build with some stuff (resumability mainly) left to add, 
 # just for the test 200 to begin with
+sink(file = "07_log_files/genome_extractor_log.txt")
 print(Sys.time())
 
 source(here::here("00_scripts/R_scripts/Utility_functions.R"))
@@ -49,3 +50,4 @@ for (rds_file in process_list) {
     })
 }
 print(Sys.time())
+sink(file = NULL)
