@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EMAIL="0rtpjri2@anonaddy.me"
-WORK_DIR="~/source/01_inputs/04_fastas/_running_1500"
+WORK_DIR="$HOME/source/01_inputs/04_fastas/_running_1500/"
 LAST_COUNT_FILE="$HOME/.last_faa_count"
 
 cd "$WORK_DIR"
