@@ -37,7 +37,55 @@ Next, I will retrofit the "prodigal_test_script.sh" so that it works on this new
 
 I made that slurm script, called "prodigal_translationiser.sh", this is running 1000 samples at the moment, it is taking just over an hour. I have now modified it so that once it is done, I will pass in 1500 accessions next. I noticed the .out log file contained all the output, so I have redirected that to NULL so that it does not bloat the log files. I tried to get email notifications to work, but I do not think slurm can do that anymore, so I will impliment something separate. This will be a bash script that is run in the home directory which will monitor how many "\_renamed.faa" files there are, I will set it up with a chron (a function of the linux opperating system that will allow me to schedule it as a job). So, its kind of like a brute force way of getting it to email me on how many it has processed.
 
-NEXT STEPS: I modified eggnog_searcher.sh with an alternate call, using the old parameters. With this, I saw that...
+I will need to remember to turn the script off after the job is done, because otherwise it will keep going, it wont email, but it will still be running.
+
+So, I use the two lines of code:
+
+`crontab -e`
+
+`*/20 * * * * /home/b.tbn23vlc/source/00_scritps/Bash_scripts/emailer.sh`
+
+This should make the script schedule for every 20 minutes, then, when I want it to stop, I will have to do
+
+`crontab -e` again, and comment that line out.
+
+#### old parameters vs new parameters
+
+When I used EggNOG-mapper last year, I copied the parameters from those used by the online version of EggNOG-mapper. I have since discovered, from the eggnog wiki, that I should not have run DIAMOND on complete genomes (which is what I was doing). I now have a separate step to convert genomic fastas to protein fastas, using prodigal.
+
+Claude.ai recommended the following parameters, as "providing a good balance between accuracy and performance":
+
+`--sensmode fast--pident 30--query_cover 50--evalue 1e-5`
+
+For comparison, my original parameters were:
+
+`--score 60`
+
+`--pident 40`
+
+`--query_cover 20`
+
+`--subject_cover 20`
+
+`--evalue 0.001`
+
+I have no idea what the significance of these parameters are. It is the type of thing one would need an expert to explain to them (or, at least, several years of experience), so I am going to trust that Claude.ai knows what it is talking about. Here is the wiki for [DIAMOND:](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options)
+
+I wanted to compare the outputs of the old and new parameters on 5 sample fastas. I intended to both search and annotation, in order to compare the two annotation files. However, search took so long with the old parameters that I instead decided to compare the 2 "hits" files, which are created at the end of the search phase. I also upped the memory usage from 8g to 32g.
+
+OLD:
+
+`Total hits processed: 16168`
+
+`Total time: 5216 secs`
+
+NEW:
+
+`Total hits processed: 16573`
+
+`Total time: 1396 secs`
+
+So, I actually got more hits using the new parameters (which I assume is good), in much less time than the old parameters. I did a comparison of the values for a random selection of contigs, and the values were the same in each file. I conclude that Claude.ai knows what is good, it takes far less time and requires far less memory.
 
 # Results
 
