@@ -87,9 +87,151 @@ NEW:
 
 So, I actually got more hits using the new parameters (which I assume is good), in much less time than the old parameters. I did a comparison of the values for a random selection of contigs, and the values were the same in each file. I conclude that Claude.ai knows what is good, it takes far less time and requires far less memory.
 
+### running full pipeline
+
+After this innitial round of testing, I did the rest of the accessions in differently sized batches. There was the innitial 200, then 1000, 1500 and the remaining 2040. This can help see what the ideal size of a batch is.
+
+I set off the job to create protein fastas for 1500 genome fastas and it ran fine for over an hour, but then I realised I hadn’t received an expected email from the monitoring. I had a look and I had exceeded my file quota in my home directory. I hit the limit of 52GB.
+
+I noticed from the `myquotas` command that I have an area on scratch as well - there is no file quota but the limit is 3TB. So I moved the `_running` and `_processed` folders to there to park them whilst I sort this out.
+
+After this I had a look at how much was being used in each folder, using the command `du -hs *`
+
+**15G bacteria_dmnd**\
+28K history.txt\
+4.0K output.txt\
+12M R\
+**24G source**\
+863M tidyverse_4.4.2.sif\
+873M tidyverse_latest.sif
+
+I should definitely delete the `bacteria_dmnd` database - I haven’t used that since last year. I should also delete the tidyverse_4.4.2.sif that I originally downloaded as well.
+
+Within source, the file sizes look like this:
+
+88K 00_scripts\
+**24G 01_inputs**\
+7.0M 04_images\
+7.3M 05_dissertation\
+4.0K 05_dissertation.Rproj\
+5.7M 06_notebooks\
+1.2M 07_log_files\
+12K 98_config\
+88M 99_archive\
+36K LICENSE\
+4.0K README.md
+
+And within 01_inputs:
+
+33M 01_Bangor_fastas\
+15M 02_previous_analysis_results\
+2.7M 03_metadata\
+**24G 04_fastas**
+
+And within 04_fastas:\
+40K \_processed\
+160K \_running\
+**7.4G \_running_1500**\
+96K total_fasta_list.txt\
+**7.9G \_working**
+
+In addition the rds file representations of the genomic fastas live in this directory as well, they are 8.6G - I calculated this using the command `find . -type f -name '*.rds' -exec du -ch {} + | grep total$` (which Claude.ai gave me)
+
+The `_working` folder contains all the genomic fastas extracted from their rds and not yet processed. The `_running_1500` folder (and likewise the `_running` and `_processed` folders I’ve moved to scratch) contain:
+
+-   For each accession:
+    -   Genomic fasta\
+    -   Protein fasta with original contig labels\
+    -   Protein fasta with revised contig labels\
+-   Combined fasta containing all protein fastas with revised contig labels
+
+I have no need to store any of the individual files at all, least of all the genomic fasta and the protein fasta with the original contig label. I might want to move the final protein fasta into the rds file in case I need to use it again, although it can easily be recreated.
+
+I manually deleted the genomic fastas and original protein fastas in `_running` and `_processed`, and for `_running_1500` I moved the renamed fastas out, deleting the matching genomic and original protein fastas, and then restarted the job to convert the rest of them.
+
+Hopefully this will allow it all to fit within my own quota, so I am not using files in my own scratch area, but really I should be using the bigger quota (and faster disks) of `scratch/scw2160` unless Aaron says not to.
+
+### **Group of 1000**
+
+Last night I had left the group of 1000 going through the search phase. Unfortunately this hit an out of memory error at 9pm.
+
+I restarted the job this morning and it completed successfully. All timings are in the table below. I then sent this group through the annotation process and realised after it had been running for 29 minutes that I hadn’t increased the maximum time allowed in the slurm headers, so I cancelled the job, increased the maximum time to 6 hours (more than enough) and restarted the job. I could probably have used the `--resume` option in eggNOG-mapper to restart where it stopped, but I wanted to make sure the jobs were comparable to each other.
+
+### **Group of 1500**
+
+When I left these last night, I had run out of disk space performing the prodigal conversion on them. I revised the prodigaliser script with Claude’s help, so that now it checks to see which files have already been processed and only does the ones that haven’t. In addition, it no longer keeps the genomic fasta and the intermediate protein fasta, but deletes them when it’s done with them. This makes sure I don’t use up too much disk space for this part of the operation.
+
+I increased the memory for the search job for this group to 48GB to prevent an out of memory error, but I noticed from the log files it was using 67% memory. So I increased this again for the group of 2040 to 64GB memory.
+
+### **Group of 2040**
+
+The prodigal stage for this group took 3hr30 to complete.
+
+The search phase was not complete when I wanted to go to bed, but I expect it to be done quite soon. So I used `sbatch --begin=now+2hours` to put a delay on the annotation phase, which will hopefully complete overnight.
+
+## **24th September 2025**
+
+I logged in this morning to find that the annotation of the group of 1500 and the search of the group of 2040 finished last night. I set off the annotation job on the group of 2040 with a 2 hour delay, so it would start after the search completed. But it timed out after 6 hours. Based on the testing with the group of 100, I had expected the search to take under 6 hours so I didn’t increase the timeout.
+
+I added the `--resume` option to the slurm script and set the job running again. This way it won’t repeat all the annotation that has already been done.
+
+I don’t have perfect timings for all the search and annotation jobs but they look like this:
+
+#### Searching
+
+| Batch size | Hits | Time (seconds) | Time (hh:mm:ss) | Rate (hits/second) | Hits / accession |
+|:----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+| 200 | 606,665 | 1,741 | 00:29:01 | 348.46 | 3033.33 |
+| 1000 | 3,071,155 | 3,050 | 00:50:50 | 1006.94 | 3071.16 |
+| 1500 | 5,427,001 | 5,018 | 01:23:38 | 1081.51 | 3618.00 |
+| 2040 | 7,256,306 | 8,362 | 02:19:22 | 867.77 | 3557.01 |
+
+#### Annotating
+
+| Batch size | Hits      | Time (seconds) | Time (hh:mm:ss) | Rate (hits/second) |
+|:-----------|:----------|:---------------|:----------------|:-------------------|
+| 200        | 606,665   | 2,016          | 00:33:36        | 300.93             |
+| 1000       | 3,071,155 | 9,813          | 02:43:33        | 312.97             |
+| 1500       | 5,427,001 | 18,640         | 05:10:40        | 291.15             |
+| 2040       | 7,256,306 | 27,009         | 07:30:09        | 268.66             |
+
+These tables show that the ideal batch size for searching is somewhere around 1500. For annotating, it is somewhere closer to 1000. As these are the groups with the highest hits per second of their categories. I think that in the future, I will split the difference and do batches sized around 1250 accessions.
+
+## Planning
+
+I needed to take some time off for doing a presentation on the stuff I did for my summer internship. There is little time to do much with the weekend this week (before term starts), I would like to have an idea of the next steps though:
+
+-   Upgrade the prodigal, search and annotation scripts with things like resumability etc (I skipped this in order to get them processed as quickly as possible)
+
+-   enrich the annotated KO data
+
+    -   This will involve reading around about enrichment, as I am unsure that enrichKO is the best option, or if it is I want to know what it actually does (how it works and what I actually want from it)
+
+    -   I found [this site](https://yulab-smu.top/biomedical-knowledge-mining-book/clusterprofiler-kegg.html), which may be useful
+
+-   back up the annotation files that are on hawk
+
+    -   explore the use of "Rclone" (a programme that manages files across cloud storage services) (I saw someone on hawk that used it and thought that might be a good idea)
+
+    -   The annotation files are too big to live in github, so I need another place for them that is convenient
+
+-   Do some preliminary visuals or analysis from host information as it doesnt require the genomic info and it could be useful when talking to Aaron to say "the information really is of a bad quality"
+
+-   maybe run the annotation through enrichKO and use the old code to make heatmaps like last year, just to see how they compare (this one is a big maybe)
+
 # Results
 
-*Key findings, observations, and data from this week's work.*
+I feel I need to put this somewhere, might as well be here:
+
+I split eggnogmapper into 3 pieces because it made the process go faster
+
+This can be found on the [github](https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.5-to-v2.1.13#user-content-Setting_up_large_annotation_jobs) for EggNOG-mapper, I gave this info to Claude.ai and it helped explain this stuff to me.
+
+The in-built process of converting genomic fastas to protein fastas in eggnog-mapper is much slower than using prodigal directly, I am not sure quite why.
+
+To perform the search, DIAMOND is used, and there is a large amount of time for this to load and start searching. It is much more efficient to load it once and perform much bigger searches (i.e. on 1000 protein fastas at once).
+
+To perform the annotation, the eggnog database (44 GB) is used. Even running on a high memory node on hawk, it takes a minimum of 60 seconds to load the eggnog database. It is therefore more efficient to load it once and perform much bigger annotations.
 
 # Conclusion
 

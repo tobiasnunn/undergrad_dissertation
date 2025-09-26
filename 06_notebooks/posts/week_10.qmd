@@ -181,6 +181,7 @@ What was strange was that this error hadn’t been caught. The loop should have 
 |                                                                               |
 | Execution halted                                                              |
 +:==============================================================================+
+|                                                                               |
 +-------------------------------------------------------------------------------+
 
 So I removed the `next` and also the progress bar, as this was filling up the slurm `out` files with nothing useful. I increased the `Sys.sleep()` time to 1 second. This will ensure I do not breach the rate limit again.
