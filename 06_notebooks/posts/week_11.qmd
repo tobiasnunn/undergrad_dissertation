@@ -180,7 +180,7 @@ I don’t have perfect timings for all the search and annotation jobs but they l
 #### Searching
 
 | Batch size | Hits | Time (seconds) | Time (hh:mm:ss) | Rate (hits/second) | Hits / accession |
-|:----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+|:---|:---|:---|:---|:---|:---|
 | 200 | 606,665 | 1,741 | 00:29:01 | 348.46 | 3033.33 |
 | 1000 | 3,071,155 | 3,050 | 00:50:50 | 1006.94 | 3071.16 |
 | 1500 | 5,427,001 | 5,018 | 01:23:38 | 1081.51 | 3618.00 |
@@ -215,9 +215,15 @@ I needed to take some time off for doing a presentation on the stuff I did for m
 
     -   The annotation files are too big to live in github, so I need another place for them that is convenient
 
+    -   A good idea may be to join and then split the annotation files by genus
+
+    -   maybe read around online about rclone before using
+
 -   Do some preliminary visuals or analysis from host information as it doesnt require the genomic info and it could be useful when talking to Aaron to say "the information really is of a bad quality"
 
 -   maybe run the annotation through enrichKO and use the old code to make heatmaps like last year, just to see how they compare (this one is a big maybe)
+
+I decided my first Next step would be to test this "rclone" thing as it should be done quickly. Using `module avail rclone`, I see that rclone/1.64.0 is installed on hawk. I proceeded to ask Claude.ai about how I might utilise it. I did some testing around, when I gzip the annotation files, I get a compression ratio of roughly 4.2. This is pretty good, but the files are still large. I am thinking a good idea might be to join them all up and then re-split by genus, so that all accessions of a certain genus are together, and I will then not have to search through the arbitrarily disconnected files if I want to find a specific accession. I will still need to use rclone to do this. I am not going to start on that today, and may do some research on it as a next step.
 
 # Results
 
@@ -232,6 +238,15 @@ The in-built process of converting genomic fastas to protein fastas in eggnog-ma
 To perform the search, DIAMOND is used, and there is a large amount of time for this to load and start searching. It is much more efficient to load it once and perform much bigger searches (i.e. on 1000 protein fastas at once).
 
 To perform the annotation, the eggnog database (44 GB) is used. Even running on a high memory node on hawk, it takes a minimum of 60 seconds to load the eggnog database. It is therefore more efficient to load it once and perform much bigger annotations.
+
+I ended off by simply gziping copies of all 4 annotation files, and manually dragging them into my onedrive using the mobaxterm interface, just for safe keeping.
+
+I think, before I see Aaron during term time. I want to:
+
+1.  Be read up on enrichment methods
+2.  have stuff to show him about why host analysis is not viable
+3.  I also want to separate the annotations by genus (that one is just for me tho)
+4.  potentially, figure out how to synchronise using rclone, but that is a stretch goal
 
 # Conclusion
 

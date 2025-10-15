@@ -1,0 +1,54 @@
+---
+title: "Week 14 2025-10-13 to 2025-10-19"
+author: "Tobias Nunn"
+date: "2025-10-19"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+One of the major things I want to get done this week is a full walk-through of what the pipeline is and the scripts that make it up, the order those should be used in, where they reach out to hawk. That sort of thing, because its a lot and it would be good to have it down in one place. Other than that, I want to make improvements to the pipeline, nothing that should corrupt the current systems, just tweaks here and there to make the process more fluid. I also need to figure out what analyses I want to do at the end of the pipeline, Aaron has confirmed my hypothesis, I should read those papers. I might have time to download the M. bovis and M. smegmata accessions this week, but I think with the other stuff I need to be getting on with, that is unrealistic.
+
+# Methods
+
+*Description of stuff I did.*
+
+## Pipeline walk-through
+
+### Acquire genomic fasta files from the NCBI
+
+## pipeline improvements
+
+### Fix hard-coded file paths
+
+Firstly, I would like to address the hard-coded file paths, it makes the code not-portable. The reason why this is a problem in the first place is that the files are too large to store in github. This is a problem I am likely to hit in the future, github is more for code than data, so coming up with a solution I can use again and again would be good.
+
+I am going to address this by finding another storage location, I am leaning toward onedrive. Then, I am going to use the Rclone program, like I used (or looked at) on hawk, to upload the large files to it. They will be added to the .gitignore. I think Rclone should be able to keep the large files on onedrive and keep a copy in the repo, however, as mentioned, this will not be synced to the online version.
+
+I did some looking around and have concluded that trying to use Rclone for this is too complex. So, I will just manually do this step for ease, keeping a copy in the repo, but with a .gitignore so it does not bloat git and then keeping a copy in onedrive.
+
+### Batch by genus, not abstractly
+
+Secondly, I would like to add a step to the pipeline wherein I turn the .gzip files from abstract sizes and contents to be split by genus, which will be convenient when I have to process them en masse. I.e. I will be able to grab all the KOs for 1 genus just by reading in 1 file. To do this, I am going to write some code in the reorder_annotations.R script that I will run on hawk, after the zips are made, but before I bring them down. This is more efficient because I have access to the greater memory on hawk. I may even decide to do that on slurm for extra efficiency.
+
+I am going to test the theory of rebatching each .zip file, so that the accessions are split by genus. I will do this by creating code in R that will do that for just the first zip of 200 accessions. Once that is confirmed to work, the code will be able to run on hawk, so that I can just download the .zip files once, split by genus, so that they are in an ideal format for doing whatever KEGG stuff I want to do.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   
