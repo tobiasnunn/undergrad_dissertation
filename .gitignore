@@ -72,3 +72,8 @@ _freeze/*
 01_inputs/04_fastas/*
 !01_inputs/04_fastas/.gitkeep
 !01_inputs/04_fastas/README.md  # Optional: what is supposed to be here
+
+# annotations
+01_inputs/05_annotations/*
+!01_inputs/05_annotations/.gitkeep
+!01_inputs/05_annotations/README.md  # Optional: what is supposed to be here
