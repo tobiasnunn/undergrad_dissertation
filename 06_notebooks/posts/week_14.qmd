@@ -35,6 +35,8 @@ Secondly, I would like to add a step to the pipeline wherein I turn the .gzip fi
 
 I am going to test the theory of rebatching each .zip file, so that the accessions are split by genus. I will do this by creating code in R that will do that for just the first zip of 200 accessions. Once that is confirmed to work, the code will be able to run on hawk, so that I can just download the .zip files once, split by genus, so that they are in an ideal format for doing whatever KEGG stuff I want to do.
 
+This has been completed in "3. code for hawk" of the "reorder_annotations.R" script. So, the code is basically ready to go on hawk when I need it.
+
 # Results
 
 *Key findings, observations, and data from this week's work.*
@@ -47,7 +49,7 @@ I am going to test the theory of rebatching each .zip file, so that the accessio
 
 *Relevant literature read this week.*
 
--   
+-   [Short-Read Pangenomes and Their Potential Utility in Population and Conservation Genomics](https://onlinelibrary.wiley.com/doi/10.1111/1755-0998.70060)
 
 -   
 

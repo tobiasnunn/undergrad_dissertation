@@ -1,0 +1,36 @@
+---
+title: "Week 15 2025-10-20 to 2025-10-26"
+author: "Tobias Nunn"
+date: "2025-10-26"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+This week, I want to continue to build up the pipeline, so that it is ready for the M. bovis samples from the NCBI to flush right through
+
+# Methods
+
+*Description of stuff I did.*
+
+To do this, I am going to start with continuing my work from last week to add a small step to the pipeline. This will be an R script "reorder_annotations.R", ran from a slurm script I will likely call "Reorder_annotations_runner.sh". This will mean that, if I wish, I can use the high memory of Hawk to do this. Afterwards, the annotations will be in much easier-to-work-with groups for the next steps of the pipeline, thus why this is important to do. So, I will need to modify the script that is down wind of this change, but I will do that after.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   
