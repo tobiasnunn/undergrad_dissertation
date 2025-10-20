@@ -1,12 +1,12 @@
 #!/bin/bash
 #SBATCH --account=scw2160
-#SBATCH --job-name=TN_1500_emapper_search
+#SBATCH --job-name=TN_2040_emapper_search
 #SBATCH --partition=compute
 #SBATCH --time=08:00:00
-#SBATCH --mem=48g
+#SBATCH --mem=64g
 #SBATCH --cpus-per-task=4
-#SBATCH -o /scratch/scw2160/09_logs/TN_1500_emapper_search_%j.out
-#SBATCH -e /scratch/scw2160/09_logs/TN_1500_emapper_search_%j.err
+#SBATCH -o /scratch/scw2160/09_logs/TN_2040_emapper_search_%j.out
+#SBATCH -e /scratch/scw2160/09_logs/TN_2040_emapper_search_%j.err
 
 
 # Setup conda environment
@@ -21,9 +21,9 @@ time emapper.py \
   -m diamond \
   --no_annot \
   --no_file_comments \
-  -i /scratch/scw2160/TN_area/01_inputs/combined_1500_proteins.faa \
+  -i /scratch/scw2160/TN_area/01_inputs/combined_2040_proteins.faa \
   --output_dir /scratch/scw2160/TN_area/02_outputs \
-  -o search_1500_accessions \
+  -o search_2040_accessions \
   --itype proteins \
   --sensmode fast \
   --pident 30 \
