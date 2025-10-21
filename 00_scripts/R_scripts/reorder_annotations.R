@@ -51,6 +51,10 @@ if (length(args) == 0) {
 # debug: MISSING
 directory <- args[1]
 
+# load utility function so script can create output site
+source(here::here("00_scripts/R_scripts/Utility_functions.R"))
+check_and_create_dir(here::here("01_inputs/05_annotations/by_genus"))
+  
 # setup hollow for error file
 log_file <- paste0("07_log_files/log_annotation_", Sys.Date(), ".txt")
 

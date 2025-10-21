@@ -155,7 +155,7 @@ download_accession_metadata_by_taxID <- function(tax_ID, file_location){
     "file_location cannot be empty" = length(file_location) > 0)
   
   # check directory "file_location" exists, if not, create
-  source(here:here("00_scripts/R_scripts/Utility_functions.R"))
+  source(here::here("00_scripts/R_scripts/Utility_functions.R"))
   check_and_create_dir(file_location)
   ncbi_secrets <- get_secrets("ncbi")
   
