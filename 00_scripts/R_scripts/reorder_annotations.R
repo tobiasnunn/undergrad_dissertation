@@ -91,7 +91,7 @@ for (KO_file in KO_files) {
     rename(query = `#query`)
   
   # make new column with just accession (cut the contig part of the "query")
-  annotations$accession <- gsub("_[0-9]+$", "", annotations$query)
+  annotations$accession <- substr(annotations$query, 1, 15)
   
   # combine the two objects so genus information transfers to "annotations"
   annotations <- annotations %>% 
