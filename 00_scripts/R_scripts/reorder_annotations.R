@@ -48,7 +48,7 @@ if (length(args) == 0) {
   stop("Please provide the directory the zip files are located in.")
 }
 
-# debug: MISSING
+# debug: directory <- here::here("01_inputs/05_annotations/original")
 directory <- args[1]
 
 # load utility function so script can create output site
@@ -85,6 +85,7 @@ print(paste0("KO files:", KO_files, collapse = ","))
 # for loop to read in each file in turn, lookup the genus in "genus_with_accession" and copy the relevant lines
 # to a new dataframe specific to each genus, so the thing will have essentially been split by genus
 for (KO_file in KO_files) {
+  #debug: KO_file <- KO_files[1]
   # read in file
   annotations <- readr::read_tsv(KO_file, id = "file_name") %>% 
   #rename important column with weird name
