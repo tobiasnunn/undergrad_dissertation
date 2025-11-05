@@ -12,7 +12,7 @@ source(here::here("00_scripts/R_scripts/NCBI_functions.R"))
 # vector of genus names
 genera <- c("Brachybacterium", "Brevibacterium", "Microbacterium", "Pantoea", "Sphingomonas")
 
-taxname_with_ID <- get_taxID(genera, "genus")
+taxname_with_ID <- get_taxID(genera, "species")
 
 # 03. download metadata (using cool functions) ---------------------------------------------------
 

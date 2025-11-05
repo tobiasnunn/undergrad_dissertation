@@ -1,0 +1,44 @@
+---
+title: "Week 16 2025-10-27 to 2025-11-02"
+author: "Tobias Nunn"
+date: "2025-11-02"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+# Methods
+
+*Description of stuff I did.*
+
+I started this week by doing an outline of the pipeline in word, this is in onedrive, not the repo, but when its done, I should move a copy in. Aaron responded saying a more large-scale but still technical thing would be better (as if I was writing up the methods section for the dissertation).
+
+I have been busy with other work, so I dont think I have done much dissertation work post this other than planning and the meeting with Aaron. Next week I said I would get the info downloaded for the Mycobacterium species I wanted, which means the pipeline needs to be in a useable state, doubt it will be perfect, but it needs to be operational in the next 7 days so I have the next 5 weeks to do analysis and some write up. I am going to try to write up aaron's proto-methods section today, though there are a lot of projects trying to divvy my time at this moment.
+
+Methods:
+
+"Firstly, data is downloaded off of the NCBI genomic database, specifically genomic accessions for the two genera of interest, *M. bovis* and *M. smegmata*. Metadata pertaining to these accessions is also downloaded, as it helps with certain steps of the pipeline, as well as being useful for analysis. This downloading is done through the NCBI REST API, which is called through an Rscript running on the Hawk supercomputer, run by Super Computing Wales, which downloads the vast amounts of information directly to the supercomputer where it will need to be transformed.
+
+From here, the data enters a bioinformatics pipeline. Firstly, the genomic sequences for each accession are translated into protein sequences with Prodigal version \_\_, this stage is not run using the supercomputer's resources, as it is minimally intensive, instead ran on my local area, using my machine's resources. Next, the accessions are annotated for their genes, using EggNOG-mapper version \_\_\_. I split this into two stages as running them separately decreases the over-all time taken. The first stage is 'search', which maps the protein sequences to seed orthologs. These orthologs are then read into the next stage 'annotate', which produces the annotated protein contigs for each accession.
+
+Finally, the genes need to be enriched for KEGG information. the R function 'enrichKEGG' from the 'ClusterProfiler' package does this. Producing KEGG pathway information for each accession, including BgRatio and \_\_\_. This information can then be used to plot the data on a heatmap to compare statistically significant enrichments, after a **statistics step to decide which pathways are significantly more enriched in one group than another (aaron mentioned this, but I need to find it in the original scripts he gave me)**. A chi-squared test can be used to confirm statistical significance."
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

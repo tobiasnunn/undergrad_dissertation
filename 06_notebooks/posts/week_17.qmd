@@ -1,0 +1,48 @@
+---
+title: "Week 17 2025-11-03 to 2025-11-09"
+author: "Tobias Nunn"
+date: "2025-11-09"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+The objective for this week is to sure up the pipeline and rerun it for the M. bovis and M. smegmata samples.
+
+# Methods
+
+*Description of stuff I did.*
+
+First, I want to fix the code that makes the contig IDs in the outputs of the annotation stage, as for the large groups, there was a lot of extra stuff that needs pruning.
+
+Then, I want to make the pipeline less dependent on hard-coded variables. I think I can create some reuseable variables in a script, and then call that in each script, using `source()`, like I do for my functions.
+
+I decided to give up on fixing the contig IDs because it was more trouble than it was worth, as the workaround I created works fine, and I do not want to mess up that stage of the pipeline. I am still going to do the source script thing, as I am going to have to manually update each script anyway.
+
+### BAD
+
+right, bad news, mycobacterium smegmatis is not mycobacterium, it got moved to mycolicibacterium. I dont think I can use that. Anyway, Myco was just the set dressing over the methods I wanted to use, the internals are still the same if I look for amino acid catabolism in another species. I asked Claude, and he suggested Pseudomonas, he also told me that comparative genomics studies typically use 10-50 representative genomes, which means I can validly use a lower number, makes some of what I done literally fucking pointless, but hey ho. Anyway, this means that the 46k for Pseudomonas aeruginosa can be cut down to size to compare with the 500 or 300 of the others of Claudes suggestions for environmental. Anyway, out of lack of want to download 46k metadata files, I am now using quality checks:
+
+![](images/clipboard-621221697.png)
+
+This gets P. aeruginosa down to a reasonable 1,336. So, I would download all those files, look at quality metrics and then keep the top 20-50, why Aaron did not tell me this, I will never know. Anyway, the hypothesis is still sound, the methods are still sound, its just the genus and a bit of extra pipeline-age, so its all good.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

@@ -1,4 +1,4 @@
-# list rds files and extract protein fastas to make ready for eggnog search
+# list rds files and extract genome fastas to make ready for eggnog search
 #NOTE: this is an innitial build with some stuff (resumability mainly) left to add, 
 # just for the test 200 to begin with
 sink(file = "07_log_files/genome_extractor_log.txt")
@@ -36,7 +36,7 @@ for (rds_file in process_list) {
       #header_lines <- grepl("^>", protein_fasta)
       #protein_fasta[header_lines] <- paste0(">", accession, "_", substring(protein_fasta[header_lines], 2))
       
-      # Save protein fasta to file
+      # Save genome fasta to file
       output_file <- file.path("01_inputs/04_fastas/_working", paste0(accession, "_genome.fna"))
       writeLines(genome_fasta, output_file)  
       print(paste0("Successfully extracted the genome for ", accession, 

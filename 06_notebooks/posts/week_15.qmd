@@ -19,7 +19,9 @@ To do this, I am going to start with continuing my work from last week to add a 
 
 It appears to have run successfully, I will analyse the results at a later point in time. Then make sure the preceding script the outputs will be read into is updated. I had a look at the .out file and it looks like it only ran the loop twice.
 
-Right, I have had a poke about in the files and I now know the problem. For the batches of 1500 and 2040, the contig_ID has been formatted weirdly. For example, "GCF_025144205.1_2JALXWZ010000001.1_2", instead of the usual "GCF_025144205.1_2". I am not sure why it has done this, but it means there is a problem with the code that creates the protein .fasta files, which I will need to go and fix. This, alongside fixing the part where I pull the accession ID out of the contig ID, for example, so it only works on the first (however many) characters. Also, I need to still update the pipeline after this fraught step so that it can take the new output 
+Right, I have had a poke about in the files and I now know the problem. For the batches of 1500 and 2040, the contig_ID has been formatted weirdly. For example, "GCF_025144205.1_2JALXWZ010000001.1_2", instead of the usual "GCF_025144205.1_2". I am not sure why it has done this, but it means there is a problem with the code that creates the protein .fasta files, which I will need to go and fix. This, alongside fixing the part where I pull the accession ID out of the contig ID, for example, so it only works on the first (however many) characters. Also, I need to still update the pipeline after this fraught step so that it can take the new output.
+
+The code for heading gzips looks like this: `zcat /scratch/scw2160/TN_area/02_outputs/annotation_2040_accessions.emapper.annotations.copy.gz | head -n 10`
 
 # Results
 
