@@ -150,15 +150,15 @@ hosts <- list(
                   "cattle", "cow", "Holstein cow"),
   "canine_group"   = c("canis", "Canis", "canine", "Canine", "Canis lupus", 
                     "Canis lupus familiaris", "coyote", "dog", "Dog"),
-  "feline group" = c("cat", "Cat", "Mink", "Phalangeriformes", "Felidae", "feline", "Felis catus", "Feline"),
+  "feline group" = c("cat", "Cat", "Felidae", "feline", "Felis catus", "Feline"),
   "chicken_group" = c("chicken", "gallus gallus", "Gallus gallus", "Gallus gallus domesticus"),
   "fish_group" = c("Astronotus ocellatus", "Oreochromis niloticus (Nile tilapia)"),
   "goat_group" = c("Capra hircus"),
   "deer_group" = c("Cervus elaphus", "forest musk deer"),
   "dolphin_group" = c("Delphinidae", "Pinnipedia", "dolphin"),
   "duck_group" = c("Dendrocygna viduata"),
-  "not_sure_group" = c("nematode", "Phascolarctos cinereus", "Macropus", "elephant", "Sus scrofa domesticus", "Macrobrachium rosenbergii", 
-                       "Mus musculus CF-1", "Sus scrofa", "mouse", "mice", "Macropodidae"),
+  "misc_mammals_group" = c("nematode", "Phascolarctos cinereus", "Macropus", "elephant", "Sus scrofa domesticus", "Macrobrachium rosenbergii", 
+                       "Mus musculus CF-1", "Sus scrofa", "mouse", "mice", "Macropodidae", "Mink", "Phalangeriformes"),
   "horse_group" = c("Equus", "equidae", "Equus asinus", "horse", "Equus caballus"),
   "reptile_group" = c("Reptilia", "Testudines", "Physignathus cocincinus", "Pelodiscus sinensis"),
   "insect_group" = c("Musca domestica", "Holotrichia oblita", "Zophobas morio", "fly", "Humpbacked fly"),
@@ -175,4 +175,6 @@ filtered_banana <- banana2 %>% filter(host %in% host_reference$host) %>% left_jo
 # count by group
 count_of_thing2 <- filtered_banana %>% count(host_group)
 
+# write the filtered_banana object to an RDS file so it can be used to download
+saveRDS(filtered_banana, file = paste0(here::here("01_inputs/03_metadata/"), accession, ".rds"))
 
