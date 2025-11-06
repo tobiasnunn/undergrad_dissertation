@@ -54,6 +54,10 @@ I decided to pull the metadata for the 44k samples for P. aeruginosa, take a bit
 1.  Filter the metadata so I have a list of just animal-associated hosts, for which I can then pull the genomic fastas
 2.  plot those on a phylogenetic tree using GTDBTK
 
+I finished filtering the accession list by creating a unique lookup table that placed hosts in groups, I should error-check the work there, because it was very manual, but I needed to press forward for time. Then, after a bit of trial and error editing the "fastafile_getter.R" and the "fasta_getter_runner.sh" scripts, I sent the job off, and it started downloading the fastas in the list.
+
+I have identified the scripts that I can rip GTDB-TK code from from last years project, they are in the Wolbachia subproj section. After all those finished running, I ran "genomic_file_extractor.R" to extract all the genomic fastas. I then used code from last year in the new "gtdbtk_runner.sh", to run GTDB-Tk overnight. Of note, I added the argument "`--skip_gtdb_refs`"
+
 # Results
 
 *Key findings, observations, and data from this week's work.*
