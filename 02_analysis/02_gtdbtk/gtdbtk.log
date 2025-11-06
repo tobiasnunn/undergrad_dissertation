@@ -1,0 +1,5 @@
+[2025-11-06 21:29:32] INFO: GTDB-Tk v2.1.1
+[2025-11-06 21:29:32] INFO: gtdbtk de_novo_wf --genome_dir /home/b.tbn23vlc/source/01_inputs/04_fastas/_working --bacteria --outgroup_taxon p__Chloroflexota --out_dir /home/b.tbn23vlc/source/02_analysis/02_gtdbtk -x .fna --cpus 10 --skip_gtdb_refs
+[2025-11-06 21:29:32] INFO: Using GTDB-Tk reference data version r207: /apps/genomics/gtdb-tk/2.1.1/refdb/release207_v2
+[2025-11-06 21:29:32] ERROR: When running de_novo_wf, The '--skip_gtdb_refs' flag requires'--custom_taxonomy_file' to be included to the command line.
+[2025-11-06 21:29:32] ERROR: Controlled exit resulting from an unrecoverable error or warning.
