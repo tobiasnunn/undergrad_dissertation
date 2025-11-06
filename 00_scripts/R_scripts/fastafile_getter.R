@@ -23,7 +23,7 @@ accession_list <- all_genera_accession_list$accession_id
 # make sure accessions are not being repeated
 file_list <- data.frame(filename = list.files(path = here::here("01_inputs/04_fastas/"), pattern = "*.rds"))
 file_list$accession <- gsub(".rds", "", file_list$filename)
-accession_list <- accession_list[!names(accession_list) %in% file_list$accession]
+accession_list <- accession_list[!accession_list %in% file_list$accession]
 
 log_msg <- paste(Sys.time(), "Number of accessions to process:", length(accession_list))
 cat(log_msg, "\n", file = here::here(log_file), append = TRUE)

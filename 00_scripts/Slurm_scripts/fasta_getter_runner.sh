@@ -17,6 +17,6 @@ module load singularity
 
 #genus_ids=(43668 1696 13687 33882 53335)
 #genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}
-genus_id=(287)
+genus_id=287
 
 singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R $genus_id

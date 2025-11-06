@@ -8,17 +8,23 @@ source(here::here("00_scripts/R_scripts/Utility_functions.R"))
 check_and_create_dir("01_inputs/04_fastas/_working")
 
 # get list of rds files
-if(!file.exists(here::here("01_inputs/04_fastas/total_fasta_list.txt"))){
-  file_list <- list.files(path = "01_inputs/04_fastas/", pattern = "*.rds")
-  writeLines(file_list, here::here("01_inputs/04_fastas/total_fasta_list.txt"))
-}
+file_name <- here::here("01_inputs/03_metadata/filtered_accessionframe.rds")
+all_genera_accession_list <- readRDS(file_name)
+all_genera_accession_list$filepath <- paste0("01_inputs/04_fastas/", all_genera_accession_list$accession_id, ".rds")
+print(all_genera_accession_list$filepath)
+
+#if(!file.exists(here::here("01_inputs/04_fastas/total_fasta_list.txt"))){
+#  file_list <- list.files(path = "01_inputs/04_fastas/", pattern = "*.rds")
+#  writeLines(file_list, here::here("01_inputs/04_fastas/total_fasta_list.txt"))
+#}
 
 # read list in, in order to extract genome
-total_fasta_list <- readLines(here::here("01_inputs/04_fastas/total_fasta_list.txt"))
+#total_fasta_list <- readLines(here::here("01_inputs/04_fastas/total_fasta_list.txt"))
 
 # extract genome file from each read in accession, update contig name
 #TODO: make sure this does not pad with NAs if the list is too short
-process_list <- file.path("01_inputs/04_fastas", paste0(total_fasta_list[201:length(total_fasta_list)]))
+#process_list <- file.path("01_inputs/04_fastas", paste0(total_fasta_list[201:length(total_fasta_list)]))
+process_list <- all_genera_accession_list$filepath
 
 for (rds_file in process_list) {
   tryCatch({
