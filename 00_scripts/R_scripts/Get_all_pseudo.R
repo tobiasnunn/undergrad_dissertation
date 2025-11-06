@@ -176,5 +176,5 @@ filtered_banana <- banana2 %>% filter(host %in% host_reference$host) %>% left_jo
 count_of_thing2 <- filtered_banana %>% count(host_group)
 
 # write the filtered_banana object to an RDS file so it can be used to download
-saveRDS(filtered_banana, file = paste0(here::here("01_inputs/03_metadata/"), accession, ".rds"))
+saveRDS(filtered_banana, file = paste0(here::here("01_inputs/03_metadata/filtered_accessionframe"), ".rds"))
 

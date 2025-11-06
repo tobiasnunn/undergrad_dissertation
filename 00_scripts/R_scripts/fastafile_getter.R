@@ -13,11 +13,11 @@ taxon_ID <- args[1]
 log_file <- paste0("07_log_files/log_genus_", taxon_ID, ".txt")
 
 
-file_name <- here::here("01_inputs/03_metadata/accession_information_43668_1696_33882_53335_13687_2025-09-10.rds")
+file_name <- here::here("01_inputs/03_metadata/filtered_accessionframe.rds")
 all_genera_accession_list <- readRDS(file_name)
 
-accession_list <- all_genera_accession_list[[as.character(taxon_ID)]]
-
+#accession_list <- all_genera_accession_list[[as.character(taxon_ID)]]
+accession_list <- all_genera_accession_list$accession_id
 
 
 # make sure accessions are not being repeated
@@ -41,9 +41,10 @@ source(here::here("00_scripts/R_scripts/NCBI_functions.R"))
 for (i in seq_along(accession_list)) {
   tryCatch({
     # i <- 1
-    accession <- accession_list[[i]]$accession
+    #accession <- accession_list[[i]]$accession
+    accession <- accession_list[i]
     # Args: ftype can be "genome", "protein" or "both"
-    fasta_list <- get_dataset_by_accession(accession, "both")
+    fasta_list <- get_dataset_by_accession(accession, "genome")
     # debug-line: "GCF_016027095.1"
     saveRDS(fasta_list, file = paste0(here::here("01_inputs/04_fastas/"), accession, ".rds"))
     # log the success

@@ -8,14 +8,15 @@
 #SBATCH -e /scratch/scw2160/09_logs/fasta_downloader%A.err
 #SBATCH --mail-user=0rtpjri2@anonaddy.me
 #SBATCH --mail-type=ALL
-#SBATCH --array=1-5
+##SBATCH --array=1-5
 
 
 cd ~/source
 
 module load singularity
 
-genus_ids=(43668 1696 13687 33882 53335)
-genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}
+#genus_ids=(43668 1696 13687 33882 53335)
+#genus_id=${genus_ids[$SLURM_ARRAY_TASK_ID-1]}
+genus_id=(287)
 
 singularity exec ~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/fastafile_getter.R $genus_id
