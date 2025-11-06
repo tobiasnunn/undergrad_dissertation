@@ -87,14 +87,16 @@ results_list <- list()
 
 banana2 <- imap(results_list, function(taxon_data, tax_id) {
   imap(taxon_data, function(accession_data, accession_id) {
-    checkm_info <- pluck(accession_data, "checkm_info", .default = list())
-    assembly_stats <- pluck(accession_data, "assembly_stats", .default = list())
+    #checkm_info <- pluck(accession_data, "checkm_info", .default = list())
+    #assembly_stats <- pluck(accession_data, "assembly_stats", .default = list())
     tibble(
-      tax_id = pluck(accession_data, "organism", "tax_id", .default = NA),
+      #tax_id = pluck(accession_data, "organism", "tax_id", .default = NA),
       accession_id = accession_id,
       #number_of_contigs = pluck(accession_data, "assembly_stats", "number_of_contigs", .default = NA),
       host = pluck(accession_data, "assembly_info", "biosample", "host", .default = NA),
-      iso_source = pluck(accession_data, "assembly_info", "biosample", "isolation_source", .default = NA)
+      iso_source = pluck(accession_data, "assembly_info", "biosample", "isolation_source", .default = NA),
+      release_date = pluck(accession_data, "assembly_info", "release_date", .default = NA),
+      no_of_contigs = pluck(accession_data, "assembly_stats", "number_of_contigs", .default = NA)
     )
   }) |> list_rbind()
 }) |> list_rbind()
@@ -108,7 +110,7 @@ count_of_thing <- banana2 %>% count(host)
 # filter list to just animal hosts ----------------------------------------
 
 # unique list to compare with
-unique_list <- data.frame(unique(banana2$host))
+unique_list <- data.frame(hostname = unique(banana2$host))
 
 #filtered_metadata <- filtered_metadata[-which(is.na(filtered_metadata$host)),]
 
@@ -143,58 +145,34 @@ filtered_metadata <-
 # method 2 - many sub-frames that later get combined ----------------------
 
 
-# cows
-cow_group <- banana2[which(banana2$host %in% 
-                  c("Bos taurus", "Bos indicus", "Bos taurus indicus","bovine",
-                    "cattle", "cow")),] |> mutate(group = "Bovine_group")
+hosts <- list(
+  "bovine_group" = c("Bos taurus", "Bos indicus", "Bos taurus indicus","bovine",
+                  "cattle", "cow", "Holstein cow"),
+  "canine_group"   = c("canis", "Canis", "canine", "Canine", "Canis lupus", 
+                    "Canis lupus familiaris", "coyote", "dog", "Dog"),
+  "feline group" = c("cat", "Cat", "Mink", "Phalangeriformes", "Felidae", "feline", "Felis catus", "Feline"),
+  "chicken_group" = c("chicken", "gallus gallus", "Gallus gallus", "Gallus gallus domesticus"),
+  "fish_group" = c("Astronotus ocellatus", "Oreochromis niloticus (Nile tilapia)"),
+  "goat_group" = c("Capra hircus"),
+  "deer_group" = c("Cervus elaphus", "forest musk deer"),
+  "dolphin_group" = c("Delphinidae", "Pinnipedia", "dolphin"),
+  "duck_group" = c("Dendrocygna viduata"),
+  "not_sure_group" = c("nematode", "Phascolarctos cinereus", "Macropus", "elephant", "Sus scrofa domesticus", "Macrobrachium rosenbergii", 
+                       "Mus musculus CF-1", "Sus scrofa", "mouse", "mice", "Macropodidae"),
+  "horse_group" = c("Equus", "equidae", "Equus asinus", "horse", "Equus caballus"),
+  "reptile_group" = c("Reptilia", "Testudines", "Physignathus cocincinus", "Pelodiscus sinensis"),
+  "insect_group" = c("Musca domestica", "Holotrichia oblita", "Zophobas morio", "fly", "Humpbacked fly"),
+  "rabbit_group" = c("Leporidae"),
+  "bird_group" = c("Psittaciformes", "swallow", "Magellanic penguin", "falcons")
+)
 
-# dogs
-dog_group <- banana2[which(banana2$host %in% 
-                             c("canis", "Canis", "canine", "Canine", "Canis lupus", 
-                               "Canis lupus familiaris", "coyote")),] |>
-  mutate(group = "Canine_group")
+host_reference <- enframe(hosts, name = "host_group", value = "host") %>%
+  unnest(host)
 
-#cats
-cat_group <- banana2[which(banana2$host %in% 
-                             c("cat", "Cat")),] |>
-  mutate(group = "Feline_group")
+filtered_banana <- banana2 %>% filter(host %in% host_reference$host) %>% left_join(host_reference)
 
-#chickens
-chicken_group <- banana2[which(banana2$host %in% 
-                                 c("chicken")),] |>
-  mutate(group = "Chicken_group")
-
-#fish
-fish_group <- banana2[which(banana2$host %in% 
-                                 c("Astronotus ocellatus")),] |>
-  mutate(group = "Fish_group")
-
-#goat
-goat_group <- banana2[which(banana2$host %in% 
-                              c("Capra hircus")),] |>
-  mutate(group = "Goat_group")
-
-#deer
-deer_group <- banana2[which(banana2$host %in% 
-                              c("Cervus elaphus")),] |>
-  mutate(group = "Deer_group")
-
-#dolphin
-dolph_group <- banana2[which(banana2$host %in% 
-                              c("Delphinidae")),] |>
-  mutate(group = "Dolphin_group")
-
-#duck
-duck_group <- banana2[which(banana2$host %in% 
-                               c("Dendrocygna viduata")),] |>
-  mutate(group = "Duck_group")
-
-
-# bind them all together
-
-filtered_metadata2 <- rbind(cow_group, dog_group, cat_group, chicken_group,
-                            fish_group, goat_group, deer_group, dolph_group,
-                            duck_group)
 
 # count by group
-count_of_thing2 <- filtered_metadata2 %>% count(group)
+count_of_thing2 <- filtered_banana %>% count(host_group)
+
+
