@@ -53,5 +53,5 @@ done
 
 # Combine all renamed files (including any that existed before)
 echo "Combining all *_renamed.faa files..."
-cat *_renamed.faa > combined_2040_proteins.faa
-echo "Created combined_proteins.faa with $(grep -c "^>" combined_2040_proteins.faa) total proteins"
+cat *_renamed.faa > combined_pseudomonas_proteins.faa
+echo "Created combined_proteins.faa with $(grep -c "^>" combined_pseudomonas_proteins.faa) total proteins"

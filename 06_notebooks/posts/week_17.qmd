@@ -58,6 +58,31 @@ I finished filtering the accession list by creating a unique lookup table that p
 
 I have identified the scripts that I can rip GTDB-TK code from from last years project, they are in the Wolbachia subproj section. After all those finished running, I ran "genomic_file_extractor.R" to extract all the genomic fastas. I then used code from last year in the new "gtdbtk_runner.sh", to run GTDB-Tk overnight. Of note, I added the argument "`--skip_gtdb_refs`"
 
+After the gtdb-tk finished running, I downloaded the files output to my machine, cut the outgroup out of the tree using Dendroscope and spent a good amount of time trying and failing to get a useable tree. It was a lot of cobbling together from old code and online code, I am not sure what I am doing with this, why is this so confusing for me?
+
+I got this:
+
+![Figure 1 - first attempt at a phylogenetic tree... I dont think I remember how to do this.](images/innitial_tree.png)
+
+It has its problems, the main ones are:
+
+1.  Because I used p\_\_Acinobacter as the outgroup, it is rooted all the way back to d\_\_Bacteria, not good, means I have to remove branch length
+    1.  To fix: rerun GTDBTK and use that weird method where I manually pass in an outgroup (as like P putida or florescence or something more closely related)
+    2.  There are too many groups and accessions, the tree is unreadable
+        1.  merge groups or cut small groups or just do inside mammalia
+        2.  use quality metrics file I already set up to filter the accessions I have to just the high quality ones
+    3.  I am not sure what I am actually trying to visualise, I am pretty sure I am trying to see if any of the clades of the tree match to a group, which would suggest host adaptation
+        1.  Ask Aaron what I am trying to see with the tree
+    4.  The information online, steps to follow, whatever word that is (instructions?) is very confusing, I am not sure what I am really doing
+        1.  Ask Aaron the kind of things he would want to see in a good tree
+        2.  Also, just take a really good read over the old trees, maybe try actually running some of the old code to understand it better
+
+What is even the hypothesis of this dissertation anymore?
+
+There is a lot of dog. Maybe something like "I hypothesise that *P. aeruginosa* samples found internal in canine hosts, compared to those found exturnally will have significantly more enrichment for KEGG pathways involved in amino acid catabolism, due to the higher likelihood of encountering rogue proteins in internal systems, like the gut"
+
+I messaged Aaron to ask for a meeting to figure some stuff out next week. Other than that, I just looked down the main scripts of the pipeline leading up to EggNOG-mapper and made some small tweaks so that I can run the P. aeruginosa accessions I currently have next week. This pretty much only involved changing file names, a good reason for why parameterising that stuff is important, but I have to consider time, or the lack thereof.
+
 # Results
 
 *Key findings, observations, and data from this week's work.*
