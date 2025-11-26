@@ -1,12 +1,12 @@
 #!/bin/bash
 #SBATCH --account=scw2160
-#SBATCH --job-name=TN_2040_annotation
+#SBATCH --job-name=TN_pseudomonas_annotation
 #SBATCH --partition=highmem
 #SBATCH --time=06:00:00
 #SBATCH --mem=50g
 #SBATCH --cpus-per-task=4
-#SBATCH -o /scratch/scw2160/09_logs/TN_2040_annotation_%j.out
-#SBATCH -e /scratch/scw2160/09_logs/TN_2040_annotation_%j.err
+#SBATCH -o /scratch/scw2160/09_logs/TN_pseudomonas_annotation_%j.out
+#SBATCH -e /scratch/scw2160/09_logs/TN_pseudomonas_annotation_%j.err
 
 source activate
 module load eggnog-mapper/2.1.12

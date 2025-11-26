@@ -83,6 +83,8 @@ There is a lot of dog. Maybe something like "I hypothesise that *P. aeruginosa* 
 
 I messaged Aaron to ask for a meeting to figure some stuff out next week. Other than that, I just looked down the main scripts of the pipeline leading up to EggNOG-mapper and made some small tweaks so that I can run the P. aeruginosa accessions I currently have next week. This pretty much only involved changing file names, a good reason for why parameterising that stuff is important, but I have to consider time, or the lack thereof.
 
+I ran the 539 accessions through prodigal, manually moved the "combined_pseudomonas_proteins.faa" file to scratch so it can be eggnogmapper searched. They successfully did that in under an hour. Now going through annotator.
+
 # Results
 
 *Key findings, observations, and data from this week's work.*
