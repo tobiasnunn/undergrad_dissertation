@@ -1,0 +1,75 @@
+---
+title: "Week 18 2025-12-01 to 2025-12-07"
+author: "Tobias Nunn"
+date: "2025-12-07"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+Ok, it has been a minute since I have had time to work on the dissertation, because it is already Sunday, I do not have time to do much actual work, so I am going to use this notebook to plan out what I want to get done next week, ahead of the progress check on the 17th. Now, I think the last 17 notebooks evidence I have done enough work, but I want something to show for it, especially with all this flip-flopping around due to metadata quantitiy and quality issues on the NCBI database. Had a few meetings with Aaron a while back, the summary is that I am now working on the genus Pseudomonas, as this should be able to out quantity the quality issues, also its a model organism for bacteria that many people have studied, blah blah, I will eventually need a good justification for the Introduction, but I am a ways off of that yet. I should probably be a little less fuzzy about the "why", but this project has only ever really been about the technology, bacterial genomics is just the medium, feel like it should be the other way around, but I work with what I have.
+
+One thing I could write up is the methods, the pipeline is going to be the same no matter what gets run through it, I did a thorough version, but he wanted a more big-picture version of the pipeline, did I ever get around to writing that up? **I did**
+
+ok, other than that there is a laundry list of stuff that I have got to do before Christmas, so that the data collection and analysis can be done ahead of semester 2, giving me all that time for write-up, and this gives me something to actually show for the check-in.
+
+# Methods
+
+*Description of stuff I did.*
+
+## List of stuff to do
+
+1.  get metadata for all of Pseudomonas
+    1.  this is going to present problems as I am going to hit the 4000 object limit, so something fancy is going to need to be done to get all the accessions, maybe split into species, but aeruginosa still has 46k, problem for later
+2.  Cut down the list into just those that are good, i.e.
+    1.  high quality (95%+ completeness, 90 used as a backup if this overfilters, 5% or 10% contaminations) that is all I put, does he want any more filters, like N50 or number of contigs?
+    2.  Only wild animal host, he says we need at least 10 for each group, may not get enough rep or amph (no idea why they are so under-represented in all bacterial taxa I have tried, there are plenty of herp people out there, are there specific herp databases?), may want to include plants or environmental if not enough, lab animals may be ambiguous, if so add a disclaimer
+        1.  That all basically boils down to "try to use wild animal hosts, but you gotta do what you gotta do"
+3.  Make descriptive tables for that remaining data, like ones I made for him previously:
+    1.  I was a bit vague in my notes, but I think the first is a table that flattens out the major metadata from the metadata files, ID, species name, host, that sort of thing, "filtered_accessionframe" is the reference, whatever that file is. Somewhere I would also like a percentage of the accessions that could be used out of the total accessions, because its always something under 10% and I think it is important that is reported.
+    2.  a count by host group. so, after host groups are decided, do a count by that to visualise how many are in each group, descriptive stuff
+4.  Descriptive visuals continue in that the next step is to make a phylogenetic tree out of them, this will require me downloading the fastas of the ones I am keeping before I do that. Making the tree presents other issues, like rooting, we said I would root in the sister genus "Azobacter", "symbols dont matter", whatever that means" and I think he is allowing me to prune branches of interest, like the outgroup we are not interested in
+
+After that it will be a matter of running the accessions through the pipeline, ironically, this is the easy bit as I have done it several times at this point, what analysis to run on the enriched and annotated samples on the other side though... that still illudes me, but one thing at a time.
+
+Oh, he also wanted me to keep on top of literature surrounding Pseudomonas and bacterial host-association, oops. well, I will have plenty of time for that when doing write up.
+
+## Next steps
+
+Right, so that is all the stuff that needs to be done, but what of that am I going to manage next week?
+
+It is too late in the game to change the study taxa again (honestly, its probably not, with the help of Claude I can run things through the pipeline very fast)), which means the methods section should now be concrete, which means I can get that written up maybe even this afternoon as a way of helping me remember where I am. so the methods section should cover all the stuff above, as well as the pipeline and descriptions of the analysis on the other side, so 3 sub-headings, gonna need to work out that analysis stuff soon then.
+
+I dont think it would be impossible to get the whole list done next week, going to need some serious support from Claude.ai, but it is what it is, I have to use what I have, better that than spending a week spinning my wheels. Sometimes I think I have to remind myself that trying to do what I am doing correctly is very difficult, and at this point in my career (having started on this path about a year and a half ago) it is not a bad thing to need support from something that understands what to do much better than I do, because it is unrealistic to expect myself to grasp everything perfectly this early on, especially with having to balance this work with everything else.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+## Previous methods
+
+Methods:
+
+"Firstly, data is downloaded off of the NCBI genomic database, specifically genomic accessions for the two genera of interest, *M. bovis* and *M. smegmata*. Metadata pertaining to these accessions is also downloaded, as it helps with certain steps of the pipeline, as well as being useful for analysis. This downloading is done through the NCBI REST API, which is called through an Rscript running on the Hawk supercomputer, run by Super Computing Wales, which downloads the vast amounts of information directly to the supercomputer where it will need to be transformed.
+
+From here, the data enters a bioinformatics pipeline. Firstly, the genomic sequences for each accession are translated into protein sequences with Prodigal version \_\_, this stage is not run using the supercomputer's resources, as it is minimally intensive, instead ran on my local area, using my machine's resources. Next, the accessions are annotated for their genes, using EggNOG-mapper version \_\_\_. I split this into two stages as running them separately decreases the over-all time taken. The first stage is 'search', which maps the protein sequences to seed orthologs. These orthologs are then read into the next stage 'annotate', which produces the annotated protein contigs for each accession.
+
+Finally, the genes need to be enriched for KEGG information. the R function 'enrichKEGG' from the 'ClusterProfiler' package does this. Producing KEGG pathway information for each accession, including BgRatio and \_\_\_. This information can then be used to plot the data on a heatmap to compare statistically significant enrichments, after a **statistics step to decide which pathways are significantly more enriched in one group than another (aaron mentioned this, but I need to find it in the original scripts he gave me)**. A chi-squared test can be used to confirm statistical significance."
+
+## re-written
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   
