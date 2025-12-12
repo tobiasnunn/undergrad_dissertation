@@ -77,3 +77,6 @@ _freeze/*
 01_inputs/05_annotations/*
 !01_inputs/05_annotations/.gitkeep
 !01_inputs/05_annotations/README.md  # Optional: what is supposed to be here
+
+# weird duckdb file
+*.wal
