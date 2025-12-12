@@ -21,7 +21,7 @@ Then, I want to make the pipeline less dependent on hard-coded variables. I thin
 
 I decided to give up on fixing the contig IDs because it was more trouble than it was worth, as the workaround I created works fine, and I do not want to mess up that stage of the pipeline. I am still going to do the source script thing, as I am going to have to manually update each script anyway.
 
-### Its joever
+### slight problem
 
 right, bad news, mycobacterium smegmatis is not mycobacterium, it got moved to mycolicibacterium. I dont think I can use that. Anyway, Myco was just the set dressing over the methods I wanted to use, the internals are still the same if I look for amino acid catabolism in another species. I asked Claude, and he suggested Pseudomonas, he also told me that comparative genomics studies typically use 10-50 representative genomes, which means I can validly use a lower number, makes some of what I done literally fucking pointless, but hey ho. Anyway, this means that the 46k for Pseudomonas aeruginosa can be cut down to size to compare with the 500 or 300 of the others of Claudes suggestions for environmental. Anyway, out of lack of want to download 46k metadata files, I am now using quality checks:
 
@@ -47,7 +47,7 @@ Right, so in the end, I have a list of 50 each for P. aeroginosus and P. putida.
 
 Which limits the list to those withing acceptable checkm scores and low number of contigs, then orders by 1. low contig number, 2. high N50, 3. high length (this prioritises length, even though the ideal would be close to 1, might need to "abs()" it.
 
-### We're Barack
+### problem solved
 
 I decided to pull the metadata for the 44k samples for P. aeruginosa, take a bit of a look at what I was dealing with. I then had a meeting with Aaron, by the end of this week I should:
 
@@ -82,6 +82,8 @@ What is even the hypothesis of this dissertation anymore?
 There is a lot of dog. Maybe something like "I hypothesise that *P. aeruginosa* samples found internal in canine hosts, compared to those found exturnally will have significantly more enrichment for KEGG pathways involved in amino acid catabolism, due to the higher likelihood of encountering rogue proteins in internal systems, like the gut"
 
 I messaged Aaron to ask for a meeting to figure some stuff out next week. Other than that, I just looked down the main scripts of the pipeline leading up to EggNOG-mapper and made some small tweaks so that I can run the P. aeruginosa accessions I currently have next week. This pretty much only involved changing file names, a good reason for why parameterising that stuff is important, but I have to consider time, or the lack thereof.
+
+I ran the 539 accessions through prodigal, manually moved the "combined_pseudomonas_proteins.faa" file to scratch so it can be eggnogmapper searched. They successfully did that in under an hour. Now going through annotator.
 
 # Results
 

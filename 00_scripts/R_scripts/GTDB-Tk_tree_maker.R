@@ -6,7 +6,7 @@ library(tidyverse)
 # was cut using the tool dendroscope
 # following code from book by G Yu: https://yulab-smu.top/treedata-book/chapter2.html
 # read in outputs of gtdbtk -----------------------------------------------
-shapes <- c(1:15)
+#shapes <- c(1:15)
 
 tree <- treeio::read.newick(here::here("02_analysis/02_gtdbtk/pruned_gtdbtk.bac120.decorated.tree"))
 tree_plot <- ggtree(tree, layout = "circular", branch.length = "none") %<+% mapping_data + 

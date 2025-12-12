@@ -47,7 +47,7 @@ get_taxID <- function(taxonomic_name, desired_rank = "genus"){
   }
   return(genus_info)
 } 
-# 02. get metadata by taxon ID --------------------------------------------
+# 02. get taxon information by taxon ID --------------------------------------------
 
 download_taxonomic_information_by_tax_ID <- function(tax_ID, file_location){
   # throw an error if "taxonomic_name" is not a character
@@ -70,8 +70,9 @@ download_taxonomic_information_by_tax_ID <- function(tax_ID, file_location){
     httr2::req_auth_bearer_token(ncbi_secrets$api_key) |> 
     httr2::req_url_path_append('taxonomy', 'taxon', tax_ID_string) |> 
     httr2::req_headers(Accept = 'application/json') |> 
-    httr2::req_url_query(page_size = 1000) |> #size = 1000 so no need for pagination
+    httr2::req_url_query(page_size = 1000) |> #pagination?
     httr2::req_perform()
+  
   
   # store result
   if(httr2::resp_is_error(req)){ # error handling

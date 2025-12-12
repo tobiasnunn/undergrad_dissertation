@@ -1,12 +1,12 @@
 #!/bin/bash
 #SBATCH --account=scw2160
-#SBATCH --job-name=TN_2040_emapper_search
+#SBATCH --job-name=TN_pseudomonas_emapper_search
 #SBATCH --partition=compute
 #SBATCH --time=08:00:00
 #SBATCH --mem=64g
 #SBATCH --cpus-per-task=4
-#SBATCH -o /scratch/scw2160/09_logs/TN_2040_emapper_search_%j.out
-#SBATCH -e /scratch/scw2160/09_logs/TN_2040_emapper_search_%j.err
+#SBATCH -o /scratch/scw2160/09_logs/TN_2040_pseudomonas_search_%j.out
+#SBATCH -e /scratch/scw2160/09_logs/TN_2040_pseudomonas_search_%j.err
 
 
 # Setup conda environment
