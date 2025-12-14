@@ -12,10 +12,10 @@ source activate
 module load eggnog-mapper/2.1.12
 
 time emapper.py \
-  --annotate_hits_table /scratch/scw2160/TN_area/02_outputs/search_pseudomonas_accessions.emapper.seed_orthologs \
+  --annotate_hits_table /scratch/scw2160/TN_area/02_outputs/search_all_pseudomonas_accessions.emapper.seed_orthologs \
   --resume \
   --no_file_comments \
   --output_dir /scratch/scw2160/TN_area/02_outputs \
-  -o annotation_pseudomonas_accessions \
+  -o annotation_all_pseudomonas_accessions \
   --dbmem \
   --cpu 4
