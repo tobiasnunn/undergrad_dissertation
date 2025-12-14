@@ -43,9 +43,27 @@ Through selecting all the accessions under the genus *Pseudomonas*, and clicking
 
 ![](images/clipboard-4215696619.png)
 
-### Analysis - filtering
+### Analysis - filtering and descriptive analysis
 
-Due to the files of interest being in the Jsonlite, or .jsonl, format, accessing the information for filtering required specialist tools. In order to do this, duckDB was used, this was done because... \[fill in when done\].
+Due to the files of interest being in the Jsonlines, or .jsonl, format, accessing the information for filtering required specialist tools. In order to do this, duckDB was used, this was done because it is a fast and easy to use visual medium of accessing the data. It allowed the aggregation of many files into a single data-table, allowing me to run SQL queries on the data with ease. I downloded it off of the duckDB website: <https://duckdb.org/>
+
+I set it up on the PATH of my machine, so that it was easier to run. I open it in a command-line window using the code `duckdb pseudomonas.db -ui` (adding it to the PATH of the machine means I do not need to give the full path to where I store it). In DuckDB, using the community plugin zipfs, I read in each .zip from the NCBI database as each row of a data-table. Next, I created a lookup table, with all the unique values of animal hosts and their group. To do this, I first had to use a SQL query to create a list of all the unique host values for the field. I then passed this list to the GenAI tool Claude.ai, I told it that I wanted to keep only the values that were wild animals (no NAs / NULL values, no clinical human samples and no domesticated animals, also no environmental or plant samples). Then, I asked it to group those at the level of Class (to allow comparison of hosts at the level of mammals vs birds vs amphibians etc). At first, it only handed back vertebrate taxa, but I figured crustacean and insect hosts should count to, so I asked it to give me invertebrate hosts too.
+
+This lead to Claude producing a lookup table with 2 columns (host, animal group). This is visualised in Figure Y \[I dont think X with the clinical human and other info is necessary, but I think Y is, aaron also wants another table of some sort characterising the 992 samples, but that comes later\]. When filtering the data-table to just those that match the unique lookup, there are 992 accessions with those hosts. As seen in Figure Y, this encompases a for mammals, b for fish, c for amphibians etc\[fill in when put figure in\]. This is not yet accounting for quality metrics, which will be specified at a later point, as running the samples through the pipeline is best done at the weekend, and quality filtering is not a crucial step at this point (it will not add, only subtract, and it does not take long enough to process through the pipeline to make the cutting down critical). I will have to ask Aaron what the lower limit of group size is, in my mind I have either 30 or 10, if it is 30, I have 6 groups, if 10, there are 9 groups. Reptiles is a major vertebrate taxa that hits 16 accessions, so if the limit is 30, maybe it could be combined with amphibians into a "herp" group, not sure that is valid though. Side note: why do people study amphs and reps together? These numbers include nematodes and protists, which Aaron may not want to see. So, in short, I shall have to go over this with him at some point, but it is not critical to do that before pipeline-ing.
+
+NOTE: There is some other table that Aaron said he wants to see, I will have to do that at some point
+
+SIDE NOTE: (for after putting Figure Y in, which will give exact numbers) Because the group sizes are so big for mammals and fish and birds (over 100 each). It is possible I could do comparisons inside of each host taxa, potentially breaking it down by spcies of Pseudomonas (I.e. for those species that have more than 10 accessions.
+
+### Input - genomic information
+
+Once the 992 total accessions were decided upon, based on the specifications Aaron and I discussed, the genomic .fasta files could be downloaded off of the NCBI database. This was done using the R script "fastafile_getter.R", ran through "fasta_getter_runner.sh". Fasta files are big, and thus using Slurm resources makes download faster. These were downloaded directly onto the Hawk supercomputer (SCW), where they will be processed through the pipeline.
+
+### Analysis - processing of genomic fastas
+
+Firstly, the R script "genomic_fasta_extractor.R" pulls out just the genomic fasta, as the protein fasta is sometimes also downloaded (where there is already one on the NCBI), however, the inconsistency in existence necessitates that I turn them into protein fastas on my end. This is the next step, the slurm script "prodigal_translationiser.sh" translates each genomic fasta into a protein fasta, adds the accession to the contig labels and batches all 992 into one file (thus why the accession needs to be in each contig label). This is the ideal format for being annotated using EggNOG-mapper.
+
+Once the final agregated protein files were created, they could then be sent through Eggnog-mapper's search stage on slurm, using the "eggnog_searcher.sh" file. The stages were separated to increase speed. The "etc.emapper.seedorthologs" \[check to make sure syntax is right\] were then annotated on the "high mem" area of hawk. This produced...
 
 ## proto-intro ideas
 
