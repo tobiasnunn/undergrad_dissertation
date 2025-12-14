@@ -23,7 +23,7 @@ time emapper.py \
   --no_file_comments \
   -i /scratch/scw2160/TN_area/01_inputs/combined_pseudomonas_proteins.faa \
   --output_dir /scratch/scw2160/TN_area/02_outputs \
-  -o search_pseudomonas_accessions \
+  -o search_all_pseudomonas_accessions \
   --itype proteins \
   --sensmode fast \
   --pident 30 \
