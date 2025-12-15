@@ -1,4 +1,0 @@
-Process	checkM2
-Run date	2024-12-28
-Run on	Hawk/SCW
-Version	

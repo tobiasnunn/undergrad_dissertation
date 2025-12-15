@@ -1,3 +1,0 @@
-# Title: An analysis of public genomic data to create novel correlations by fields of host and geographic information
-
-# Abstract
