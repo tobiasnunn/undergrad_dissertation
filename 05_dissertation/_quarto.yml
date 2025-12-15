@@ -1,0 +1,32 @@
+project:
+  type: book
+
+book:
+  title: "05_dissertation"
+  author: "Tobias Nunn"
+  date: "17/06/2025"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - chap1.qmd
+    - conclusion.qmd
+    - references.qmd
+  repo-url: https://github.com/tobiasnunn/undergrad_dissertation/tree/main/05_dissertation
+  repo-branch: main
+  repo-actions: [issue]
+  sidebar:
+    search: false
+
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
