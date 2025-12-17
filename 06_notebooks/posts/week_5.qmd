@@ -15,7 +15,7 @@ This week I am continuing from the work I began during [week_4](week_4.qmd#sec-w
 
 I have all of the data I need to analyse and characterise. I will create tables or graphs exploring the bredth of hosts apparent in the 5 past genera. I may chose to make a dashboard of this information for the practice. During this process, I will run into the sub-issue that the quality of host information is ... bad. I need to create groups by class like "mammalia", "aves", whatever the one for fish is. But some hosts are in latin, some are in english, some are non-specific, it is going to be... interesting.
 
-I decided that because [02_analyse_existing_genera.R](../../../00_scripts/R_scripts/02_analyse_existing_genera.R) had 170 lines, that the rest of the analysis should be performed in a new file for clarity. So I created [02.2_analyse_existing_genera_extended.R](../../../00_scripts/R_scripts/02.2_analyse_existing_genera_extended.R). In this file I read back in the data, having transformed it using a SQL command. It is now a count of the top 5 hosts for each genus. I then used R to make a flextable, to present this data, this is @fig-top5.
+I decided that because `../../../00_scripts/R_scripts/02_analyse_existing_genera.R` had 170 lines, that the rest of the analysis should be performed in a new file for clarity. So I created `../../../00_scripts/R_scripts/02.2_analyse_existing_genera_extended.R`. In this file I read back in the data, having transformed it using a SQL command. It is now a count of the top 5 hosts for each genus. I then used R to make a flextable, to present this data, this is @fig-top5.
 
 I plan to build on this by fleshing out the results section, specifically better describing @fig-top5. To build on the work, I will:
 
@@ -29,7 +29,7 @@ I went on to answer point 1 in @sec-week5_results1. However, point 2 is a larger
 
 To answer point 2: "enrich the host information with information on higher taxonomic assignment, which may have to be done partly manually due to the ...inconsistent nature of the host information.", I first wish to display all the hosts in a paginated table format. This will allow a long list to be displayed in a compact format. This table-type would not work in word, so may prove difficult for the write up. I am considering adding a filter so that the end-user can select which genera they would like to observe, however, this may be too complex for me.
 
-I first did a paginated table, @tbl-paginated. This displays all of the hosts for all 10 genera non-deliminated. The paginated nature means that all 778 hosts can be displayed without being massive.
+I first did a paginated table, `@tbl-paginated`. This displays all of the hosts for all 10 genera non-deliminated. The paginated nature means that all 778 hosts can be displayed without being massive.
 
 There are two options for deriving the class data:
 
@@ -105,25 +105,10 @@ This flextable, shows information on the top 5 hosts for each genus, there is li
 
 ## Exploration into Class distribution information as a more specific qualiy metric (10th to 13th) {#sec-class_distribution_results}
 
-```{r paginated table}
-#| warning: false
-#| echo: false
-#| label: tbl-paginated
-#| tbl-cap-location: top
-#| tbl-cap: "Paginated table with total host information for all 10 genera without separation by genus"
 
-library(gt)
- source("../../00_scripts/R_scripts/02.4_total_host.R")
-#data_table <- data.frame(genus = c("penguin"), total = c(1)) %>% 
-data_table <- result %>% 
-  gt() %>% 
-  opt_interactive(use_search = T)
-data_table
-```
+`table no longer works` shows all 778 hosts across 78 pages. This allows the end-user to explore the range of hosts for these 10 genera. Unsurprisingly, Homo sapiens has the most samples at 7039, massively above the 2nd place Bos taurus at 184. One can use the filter feature to search, for example, typing "homo" will lead one to see the range of ways people have wrote that down. I would say that the hosts are skewed towards plants and mammals, with variations on chicken making up most of the bird samples and very few representatives from amphibians, reptiles and invertebrates.
 
-@tbl-paginated shows all 778 hosts across 78 pages. This allows the end-user to explore the range of hosts for these 10 genera. Unsurprisingly, Homo sapiens has the most samples at 7039, massively above the 2nd place Bos taurus at 184. One can use the filter feature to search, for example, typing "homo" will lead one to see the range of ways people have wrote that down. I would say that the hosts are skewed towards plants and mammals, with variations on chicken making up most of the bird samples and very few representatives from amphibians, reptiles and invertebrates.
-
-```{r host-class_info}
+```{r}
 #| echo: false
 #| warning: false
 #| label: tbl-pivoted
@@ -133,7 +118,7 @@ data_table
 library(tidyverse)
 library(flextable)
 library(here)
-athc <- read_delim(here("../03_outputs/host_evaluation/accession_to_host_class.tsv"))
+athc <- read_delim(here("../99_archive/host_evaluation/accession_to_host_class.tsv"))
 
 display <- athc %>% 
   group_by(class_name, genus_name) %>% 
@@ -163,7 +148,7 @@ display_table
 
 Firstly, @tbl-pivoted shows the clear mammal-bias in the data, with 8,531 total accessions split between the 10 genera. For all excluding Microbacterium, Pantoea and Sphingomonas it is the largest host Class. The second Class group is flowering plants, Magnoliopsida, which is the largest group for the aforementioned 3 genera. Mammalia and Aves are the only Classes that see contributions from all 10 genera. For the other major groups (fish, amphibians, reptiles, inverts) that I have not yet mentioned, there are significantly less. Mammalia, Magnoliopside and Aves have 8531, 992 and 534 and are 1st, 2nd and 3rd in terms of size. This contrasts the remaining 4, Acinopteri (ray-finned fish) are 4th largest, however have a comparitively lower 173 total accessions, in 5th and 6th there are insecta and amphibia at 136 and 83 total samples respectively. Finally, reptiles (lepidosauria) is in joint 10th place with only 7 total samples. It should be noted that between the 5 genera that I have previously studied, before adding in the more common 5, there are only 2 accessions with amphibian hosts. The bacterial genus *Microbacterium* is the most consistent, with accessions of that genus appearing in 15 of the top 20 host Classes.
 
-```{r host-class_info_with_KO}
+```{r}
 #| echo: false
 #| warning: false
 #| label: tbl-pivoted_KO
@@ -173,7 +158,7 @@ Firstly, @tbl-pivoted shows the clear mammal-bias in the data, with 8,531 total 
 library(tidyverse)
 library(flextable)
 library(here)
-athcko <- read_delim(here("../03_outputs/host_evaluation/accession_to_class_KO.tsv"))
+athcko <- read_delim(here("../99_archive/host_evaluation/accession_to_class_KO.tsv"))
 
 display_ko <- athcko %>% 
   group_by(class_name, genus_name) %>% 
