@@ -1,0 +1,56 @@
+---
+title: "Week 21 2026-01-12 to 2026-01-18"
+author: "Tobias Nunn"
+date: "2026-01-18"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+# Methods
+
+*Description of stuff I did.*
+
+re-beggining dissertation work after exam season.
+
+I have identified the output file of the eggnog stuff, it should be a combined file with all the kos for all the samples. However, I am not wholly sure how it was made, I think it was done with a command on the command line, so I will have to go back and look for that. The file is in "02_analysis/post_annotation_analysis/pseudomonas_annotation_kos.tsv.gz".
+
+Todo:
+
+-   find the code that made the eggnog combined output file
+
+-   prep the output file in duckdb so it is ready for enrichKO
+
+as a reminder: duckdb is accessed from a command window, cd into source, and the repo for the dissertation, then use the command "duckdb 02_analysis/analysis_database/pseudomonas.db -ui" and this will open the ui for duckdb, allowing manipulation of the data in a SQL environment. To close duckdb ui, ".quit" is written back on the command line that opened it.
+
+basic SQL was leveraged to modify the output, a SELECT statement was then crafted to combine the ko and host information, inner joining on accession. It was decided that the best way to run this command "SELECT ahp.accession, ahp.animal_group, awk.ko FROM animal_hosted_pseudo ahp INNER JOIN accession_w_ko awk ON awk.accession = ahp.accession;" was by accessing the duckdb database from inside Rstudio so that the result could be read into vectors which are easily passed into the enrichKO function from the microbiomeProfiler package, also in R. This will first be tested and ran locally, as HPC should not be required for this step.
+
+I found out about the R package pacman. It apparantly acts as a failsafe to make sure specified packages are both downloaded and loaded before the script runs, which I think will potentially be quite useful, so I will start using it.
+
+The SQL code passed to duckdb was modified slightly to produce a unique list without accessions. This is done because enrichKO will act on the host groups, not the accessions, and would make the list unique as its first step anyway, thus, making it unique myself just means that there is less bloat in the files I have to move around and work with before passing them to enrichKO. This has all been done in the script enrichko_runner.R. This created the background "universe", which I think is a field that in this case is a field passed into enrichKO containing a list of all the kos from all 4 groups used in study, in the form of a vector.
+
+Similar code was used to create 4 vectors, unique lists of kos for each host group.
+
+enrichKO could then be tested. The vectors for each group and the universe were passed into 4 enrichKO functions, each took about 10 seconds. The output looked typical, meaning lookedl like enrichKO outputs I had seen before, not sure if they are correct, but I will analyse them later. After this, they were saved out to RDS files in 02_analysis/post_annotation_analysis.
+
+Next steps is to read up on what the output of enrichKO actually means, i.e. what fields are important for understanding differential pathway enrichment, and which are just descriptive. I can look around at the documentation, but I have not had much luck with that in the past, perhaps a better thing to do is to look at the R script Aaron first gave to me in the summer of Year 1 of my degree. I am hoping that in the time since I last laid eyes on it, I have come a long way with R and will be able to understand it better.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

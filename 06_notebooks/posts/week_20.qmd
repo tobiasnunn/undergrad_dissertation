@@ -1,0 +1,50 @@
+---
+title: "Week 20 2025-12-15 to 2025-12-21"
+author: "Tobias Nunn"
+date: "2025-12-21"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+Had a meeting with Aaron after having sent my innitial plan / mini-write up in. Did some planning of what is left to do and what I have done. Then spent a few hours trying to get my data into a configuration for enrichKO (I also did some reading around and found out that enrichKO is the way to go over enrichKEGG. Made a data matrix and did some preliminary testing to see which groups had significant enrichments. Patterns seen could be caused by geography, instead of host group, limitation of the data, not much I can do about that. However, the patterns are interesting, worth making it into another descriptive analysis. that was the \> 80 / \< 50 analysis, but done before enrichment.
+
+# Methods
+
+*Description of stuff I did.*
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+So, stuff left to do by Jan in order for me to just spend JAN, FEB and however-much of MAR writing:
+
+-   proffessionally plot the innitial descriptive tables with gt or flextable
+
+-   make the phylogenetic tree
+
+-   professionally plot the matrix showing non-statistical enrichment
+
+-   figure out how to run enrichKO
+
+-   run enrichKO on the data
+
+-   make a heatmap of that data
+
+-   do some reading around on microbiomes and Pseudomonas
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   

@@ -271,3 +271,14 @@ WHERE ah.domestication_status IN ('Wild', 'Both') AND
 pm.checkmInfo.contamination < 16 AND
 pm.checkmInfo.completeness > 79 AND
 ah.animal_group IN ('Mammal', 'Bird', 'Amphibian', 'Fish');
+
+-- manipulate eggnog output from Hawk into files useable for enrichKO analysis
+
+-- read in zip file
+CREATE OR REPLACE TABLE accession_w_ko AS
+(SELECT accession, ko FROM
+(SELECT *, LEFT(column0, 15) AS accession, 
+REPLACE(UNNEST(string_split(column1, ',')), 'ko:', '') AS ko
+FROM read_csv_auto('02_analysis\post_annotation_analysis\pseudomonas_annotations_kos.tsv.gz', 
+                    header=false)
+WHERE column1 != '-'));

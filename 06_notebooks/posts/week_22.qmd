@@ -1,0 +1,76 @@
+---
+title: "Week 22 2026-01-19 to 2026-01-25"
+author: "Tobias Nunn"
+date: "2026-01-25"
+categories:
+---
+
+# Introduction
+
+*Brief overview of the week's objectives and context.*
+
+Re-started work in Earnest on the dissertation. Specifically focussing on completing descriptive analysis (running GTDB-Tk and creating the phylogenetic tree of the samples) as well as completing main analysis, involving the running of enrichKO and the interpretation of results.
+
+# Methods
+
+*Description of stuff I did.*
+
+Firstly, GTDB-Tk analysis was considered. Specifically, the outgroup was changed to the sister taxon of Pseudomonas g\_\_Azotobacter. This roots the tree closer and thus makes a proportional view of things more possible. This necessitated the use of genomic fastas, which had long been deleted for space, so I had to run the script that extracted the genomic fastas again, this did 991 of 992. However, as the missing sample was found to have a host of "canis lupus familiaris" (which is excluded as a non-wild host anyway), I continued anyway. I should have mentioned before this that I decided to do all 992 with an animal host and prune after, so that, in case I over-pruned before running it, I would have to run gtdb-tk again. This way, I can just make small tweaks to prune the tree differently. Running this R script to re-make the genomic fastas, on Hawk, necessitated the loading of the containerised R environment singularity.
+
+"module load singularity" and "singularity exec \~/tidyverse_latest.sif Rscript 00_scripts/R_scripts/genomic_fasta_extractor.R"
+
+NOTE: I think I had to download the singularity window onto my section of Hawk, probably detailed in past notebook, not sure how to do that anymore.
+
+As the Necessary genomic files were in the correct input directory, GTDB-Tk ran over night, I had innitially given the job 10 hours, however, it timed out, so, I re-ran it with 24 hours, however, it was able to quickly power through what was already done, so probably did not need the entirety of that time. Thus far, I have looked at the tree in dendroscope (the tree viewing app I use), but have not begun editing or pruning or formatting.
+
+As the output file of eggNOG-mapper had been put in the right format for enrichKO, in enrichKO_runner.R (as in, a unique list of the KOs found in each host group, as well as a unique list of the KOs found in all groups, the "universe"), enrichKO was ran for each group, producing 4 output files that were stored as RDS, this did not take long and did not require HPC. t should be noted that the unique lists were constructed using SQL queried to the duckDB database through R. Not for any particular reason, but there is good value in learning SQL I think.
+
+After they had run, I needed to interpret the results, so, I first looked at the script Aaron had provided when he did something analagous to what I am doing. I learned that he ran each genome of his through eggNOG-mapper individually, and then took the proportion of genomes that had a certain gene over those that did not for the group. As I had ran enrichKO on the whole groups at once, I could not use this method. So, I asked Claude.ai if analysis was still possible the way I had done it, and he said: "**Yes, you can absolutely reach analogous conclusions about host-associated pathway enrichment using your group-wise enrichKO approach**, but you're right that you'll need a different visualization strategy than your supervisor's proportion-based heatmap.
+
+The key insight you've already grasped is this: Your supervisor ran enrichKO on individual genomes and is visualizing "what proportion of genomes in each host group show enrichment for pathway X" (a prevalence-based approach). You ran enrichKO on the complete gene repertoire of each host group and have statistical enrichment metrics for each pathway.
+
+**Both approaches are valid** - they just answer slightly different questions:
+
+-   
+
+-   Your supervisor: "How widespread is this pathway across individuals in each host group?"
+
+-   
+
+-   You: "Is this pathway statistically over-represented in the gene repertoire of each host group?"
+
+-   
+
+For your host-adaptation hypothesis, **your approach is actually more directly relevant** because you're asking whether certain metabolic capabilities are enriched in the pan-genome of host-associated bacterial populations, which speaks directly to functional adaptation at the population level rather than just prevalence.", So, I think I did it right.
+
+I then set about just learning what each of the things in the response from enrichKO meant (with further help from Claude.ai). [**We concluded that the methodology to use was to compare FoldEnrichment (the ratio of the GeneRatio to the BgRatio), RichFactor(the ratio of the absolute amount of the number of KOs in a pathway to background) and p.adjusted (the P value adjucted by "BH", which was like "Benjamini-Hochberg" or something, statistics) for each pathway between the 4 groups, looking for differential expression in these 3 factors.**]{.underline}
+
+I found out that even though enrichKO takes a unique list of KOs, it filters those which do not map to anything or other such vague criterion that cut down the list. Bit of a black-box, but it isnt reasonable to try to understand all of it right now. As the group made up a significant proportion of the universe, I asked Claude if it would be better to use the whole list of bacterial KOs, he said: "**Using the entire bacterial KO universe would actually make your results less interpretable, not more**, for exactly the reason you identified: you'd be diluting your statistics with KOs that have zero relevance to your study system.
+
+Your current approach - using only KOs found in your four host groups as the background - is asking: **"Within the functional repertoire of Pseudomonas strains isolated from wild vertebrate hosts, which pathways are differentially represented across host ecologies?"**
+
+This is precisely the right question for your host-adaptation hypothesis."
+
+Are conversation then turned to the high overlap between the groups, as each made up over 70% of the universe, and over 90% in the case of mammals. We came to the conclusion that Pseudomonas has a large core-genome, but that analysis was still possible. As mammalia is so diverse, and has so many samples in it, maybe it would be possible (as a stretch goal) to do an inter-taxa analysis of mammalia.
+
+[**However, it would be very good to say (in the conclusion), "this work could be expanded on through more specific analysis inside mammalia, which should have enough samples to accomodate that. In the other direction, it may be idea to do analysis between hosted and environmental Pseudomonas, to see how the core-genome splits under wider variations in conditions.**]{.underline}
+
+hmm, I am going to need to explain why those statistics were used, I could probably get away with saying something like: "These are statistics output by enrichKO that define the over-representation of the pathway in a group to the background.", that should be good enough.
+
+# Results
+
+*Key findings, observations, and data from this week's work.*
+
+# Conclusion
+
+*Summary of outcomes, implications, and next steps.*
+
+# Scientific Papers
+
+*Relevant literature read this week.*
+
+-   
+
+-   
+
+-   
