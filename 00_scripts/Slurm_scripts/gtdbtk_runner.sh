@@ -3,7 +3,7 @@
 #SBATCH --job-name=gtdbtk
 #SBATCH --partition=compute           # compute (max resources: 192g; ), highmem (max resources: 384g; 40 threads; 72h)
 #SBATCH --ntasks=5                   # Number of tasks
-#SBATCH --time=10:00:00                # Run time
+#SBATCH --time=24:00:00                # Run time
 #SBATCH --mem=50g                     # Memory pool for all cores (in MB: 4096 == 4 GB)
 #SBATCH -o /scratch/scw2160/09_logs/gtdbtk-%A.out
 #SBATCH -e /scratch/scw2160/09_logs/gtdbtk-%A.err
@@ -19,7 +19,7 @@ module load gtdb-tk/2.1.1
 
 # assign input and output folders to variables that can be changed in different runs:
 in_dir=~/source/01_inputs/04_fastas/_working
-out_dir=~/source/02_analysis/02_gtdbtk
+out_dir=~/source/02_analysis/gtdbtk_rerun
 
 # if you don't run the "export CHECKM2DB" command above, you can assign the database to a variable name:
 # my_db=/home/b.tbn23vlc/Checkm2_area/CheckM2_database.dmnd
@@ -31,6 +31,5 @@ mkdir -p ${out_dir}
 #gtdbtk classify_wf --genome_dir ${in_dir} --out_dir ${out_dir} -x .fasta
 
 gtdbtk de_novo_wf --genome_dir ${in_dir} --out_dir ${out_dir} --bacteria \
-  --taxa_filter g__Pseudomonas,p__Actinomyces \
-  --outgroup_taxon p__Actinobacteriota \
+  --outgroup_taxon g__Azotobacter \
   --cpus 32

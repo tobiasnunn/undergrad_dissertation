@@ -86,3 +86,6 @@ _freeze/*
 # weird duckdb file
 *.wal
 
+# skip massive gtdbtk files
+*.log
+*.fasta.gz
