@@ -83,9 +83,6 @@ _freeze/*
 02_analysis/02_gtdbtk/*.log
 02_analysis/02_gtdbtk/align/*
 
-# weird duckdb file
-*.wal
-
 # skip massive gtdbtk files
 *.log
 *.fasta.gz

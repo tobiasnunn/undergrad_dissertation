@@ -8,7 +8,7 @@ library(tidyverse)
 # read in outputs of gtdbtk -----------------------------------------------
 #shapes <- c(1:15)
 
-tree <- treeio::read.newick(here::here("02_analysis/02_gtdbtk/pruned_gtdbtk.bac120.decorated.tree"))
+tree <- treeio::read.newick(here::here("02_analysis/gtdbtk_rerun/pruned_gtdbtk.bac120.decorated.tree"))
 tree_plot <- ggtree(tree, layout = "circular", branch.length = "none") %<+% mapping_data + 
   aes(color=host_group) +
   geom_tippoint(aes(shape = host_group, color = host_group))
