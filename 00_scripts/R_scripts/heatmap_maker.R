@@ -2,7 +2,6 @@
 # libraries ---------------------------------------------------------------
 
 library(ggplot2)
-library(plo)
 
 # load in output of pathway analysis --------------------------------------
 
@@ -17,12 +16,19 @@ heatmap_source <- diff_paths %>%  select(c(ID, p.adjust.amphibian,
                                            p.adjust.mammal, p.adjust.bird,
                                            p.adjust.fish))
 
+colnames(heatmap_source) <- c("ID", "Amphibian", "Mammal", "Bird", "Fish")
+
 # make it long
 heat_source_long <- heatmap_source %>% 
-  pivot_longer(cols = c(p.adjust.amphibian,
-                        p.adjust.mammal, p.adjust.bird,
-                        p.adjust.fish), names_to = "p.adjusted", 
+  pivot_longer(cols = c(Amphibian,
+                        Mammal, Bird,
+                        Fish), names_to = "p.adjusted", 
                values_to = "p_value")
+
+# add colour to do dark squares
+heat_source_long <- heat_source_long %>%
+  mutate(text_color = ifelse(p_value > 0.6, "white", "black"))
+
 
 # basic plot
 base <- ggplot(heat_source_long, aes(ID, p.adjusted, fill= p_value)) + 
@@ -36,10 +42,13 @@ developed <- base +
   # Add border to cells > threshold
   geom_tile(data = filter(heat_source_long, p_value < 0.05), 
             color = "black", size = 1, fill = NA) +
-  labs(x = "KEGG Pathway ID", y = "adjusted P value")
-
+  labs(x = "KEGG Pathway ID", y = "Host Taxon", fill = "Adjusted\nP value") +
+  geom_text(data = heat_source_long,
+            aes(label = round(p_value, digits = 3), color = text_color), size = 3) +
+  scale_color_identity()
+developed
 # save
-ggsave(filename = "03_outputs/01_phylo/diff_paths_heatmap.jpeg", plot = developed, width = 20, height = 15, units = "cm")
+ggsave(filename = "03_outputs/02_enrichment/diff_paths_heatmap.jpeg", plot = developed, width = 20, height = 15, units = "cm")
 
 
 

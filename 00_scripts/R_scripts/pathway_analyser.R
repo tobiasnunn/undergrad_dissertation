@@ -17,7 +17,7 @@ fishstats <- data.frame(fish_paths@result)
 birdstats <- data.frame(bird_paths@result)
 
 # combine objects to allow filtering for comparisons
-all_groups <- amphstats %>% #as description and bgratio relate to the pathway and hot the group, they are de-duplicated by joining on them
+all_groups <- amphstats %>% #as description and bgratio relate to the pathway and not the group, they are de-duplicated by joining on them
   full_join(mamstats, by = c("ID", "Description", "BgRatio"), suffix = c(".amphibian", ".mammal")) %>%
   full_join(birdstats, by = c("ID", "Description", "BgRatio")) %>% # trying to add suffix does nothing as there is no conflict (notebook 22)
   full_join(fishstats, by = c("ID", "Description", "BgRatio"), suffix = c(".bird", ".fish"))
@@ -27,26 +27,26 @@ all_groups <- amphstats %>% #as description and bgratio relate to the pathway an
 differential_pathways_amph <- filter(all_groups, all_groups$p.adjust.amphibian < 0.05 & 
                                   all_groups$p.adjust.fish > 0.05 &
                                   all_groups$p.adjust.mammal > 0.05 &
-                                  all_groups$p.adjust.bird > 0.05) # this is birds, need to fix that step so it has the correct suffix
+                                  all_groups$p.adjust.bird > 0.05) 
 
 #mammals
 differential_pathways_mam <- filter(all_groups, all_groups$p.adjust.amphibian > 0.05 & 
                                        all_groups$p.adjust.fish > 0.05 &
                                        all_groups$p.adjust.mammal < 0.05 &
-                                       all_groups$p.adjust.bird > 0.05) # this is birds, need to fix that step so it has the correct suffix
+                                       all_groups$p.adjust.bird > 0.05) 
 #hmmm no mammal pathways, notes of lack of specialisation, mammals too broad? Expected as make up 91% of background. perhaps I should do an inside-mammal analysis, instead of putting it as a "next step" of the research.
 
 #birds
 differential_pathways_bird <- filter(all_groups, all_groups$p.adjust.amphibian > 0.05 & 
                                        all_groups$p.adjust.fish > 0.05 &
                                        all_groups$p.adjust.mammal > 0.05 &
-                                       all_groups$p.adjust.bird < 0.05) # this is birds, need to fix that step so it has the correct suffix
+                                       all_groups$p.adjust.bird < 0.05)
 
 #fish
 differential_pathways_fish <- filter(all_groups, all_groups$p.adjust.amphibian > 0.05 & 
                                        all_groups$p.adjust.fish < 0.05 &
                                        all_groups$p.adjust.mammal > 0.05 &
-                                       all_groups$p.adjust.bird > 0.05) # this is birds, need to fix that step so it has the correct suffix
+                                       all_groups$p.adjust.bird > 0.05)
 # hmm, none from fish either, I remember when I did a little look into the geography of the hosts, that all the fish come from 1 sampling event in like a river in China, might explain it, maybe because not broad enough range of hosts, pathways that are enriched in fish have been missed by chance, maybe analysis is unfair, as it is too specific (i.e. mammal vs amphibian vs bird vs "chinies river salmon")
 
 # Where did I do that little geography test, and was it part of that 80% vs 50% thing I did for a bit of fun a while back too?

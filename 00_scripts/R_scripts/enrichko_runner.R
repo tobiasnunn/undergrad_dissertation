@@ -23,52 +23,41 @@ con <- dbConnect(duckdb(), here::here("02_analysis/analysis_database/pseudomonas
 
 # get background universe for enrichKO (making unique explained in notebook 21)
 unique_universe_kos <- dbGetQuery(con, 
-                          "SELECT DISTINCT awk.ko 
-                          FROM animal_hosted_pseudo ahp
-                          INNER JOIN accession_w_ko awk 
-                          ON awk.accession = ahp.accession
-                          WHERE ahp.animal_group IN ('Mammal', 'Fish', 'Bird', 'Amphibian');")
+                                  "SELECT * 
+                          FROM pseudomonas_annotations pa;")
 
 # amphibian kos
 amphibian_kos <- dbGetQuery(con, 
-                            "SELECT DISTINCT awk.ko 
-                          FROM animal_hosted_pseudo ahp
-                          INNER JOIN accession_w_ko awk 
-                          ON awk.accession = ahp.accession
-                          WHERE ahp.animal_group = 'Amphibian';")
+                            "SELECT DISTINCT pa.KEGG_ko 
+                          FROM pseudomonas_annotations pa
+                          WHERE pa.animal_group = 'Amphibian';")
 
 # mammal kos
 mammal_kos <- dbGetQuery(con, 
-                            "SELECT DISTINCT awk.ko 
-                          FROM animal_hosted_pseudo ahp
-                          INNER JOIN accession_w_ko awk 
-                          ON awk.accession = ahp.accession
-                          WHERE ahp.animal_group = 'Mammal';")
+                            "SELECT DISTINCT pa.KEGG_ko 
+                          FROM pseudomonas_annotations pa
+                          WHERE pa.animal_group = 'Mammal';")
 
 # fish kos
 fish_kos <- dbGetQuery(con, 
-                         "SELECT DISTINCT awk.ko 
-                          FROM animal_hosted_pseudo ahp
-                          INNER JOIN accession_w_ko awk 
-                          ON awk.accession = ahp.accession
-                          WHERE ahp.animal_group = 'Fish';")
+                       "SELECT DISTINCT pa.KEGG_ko 
+                          FROM pseudomonas_annotations pa
+                          WHERE pa.animal_group = 'Fish';")
 
 # bird kos
 bird_kos <- dbGetQuery(con, 
-                       "SELECT DISTINCT awk.ko 
-                          FROM animal_hosted_pseudo ahp
-                          INNER JOIN accession_w_ko awk 
-                          ON awk.accession = ahp.accession
-                          WHERE ahp.animal_group = 'Bird';")
+                       "SELECT DISTINCT pa.KEGG_ko 
+                          FROM pseudomonas_annotations pa
+                          WHERE pa.animal_group = 'Bird';")
 
 # enrichKO running
-amph_enrich_result <- enrichKO(gene = amphibian_kos$ko, universe = unique_universe_kos$ko)
+amph_enrich_result <- enrichKO(gene = amphibian_kos$KEGG_ko, universe = unique_universe_kos$KEGG_ko)
 
-mammal_enrich_result <- enrichKO(gene = mammal_kos$ko, universe = unique_universe_kos$ko)
+mammal_enrich_result <- enrichKO(gene = mammal_kos$KEGG_ko, universe = unique_universe_kos$KEGG_ko)
 
-fish_enrich_result <- enrichKO(gene = fish_kos$ko, universe = unique_universe_kos$ko)
+fish_enrich_result <- enrichKO(gene = fish_kos$KEGG_ko, universe = unique_universe_kos$KEGG_ko)
 
-bird_enrich_result <- enrichKO(gene = bird_kos$ko, universe = unique_universe_kos$ko)
+bird_enrich_result <- enrichKO(gene = bird_kos$KEGG_ko, universe = unique_universe_kos$KEGG_ko)
 
 # save out to files so dont have to run again
 saveRDS(amph_enrich_result, file = "02_analysis/post_annotation_analysis/enrichko_amphibian.rds")
