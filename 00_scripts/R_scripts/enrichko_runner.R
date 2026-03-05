@@ -68,3 +68,13 @@ saveRDS(bird_enrich_result, file = "02_analysis/post_annotation_analysis/enrichk
 # close connection to duckdb
 dbDisconnect(con)
     
+
+# # check the not-unique method
+# con <- dbConnect(duckdb(), here::here("02_analysis/analysis_database/pseudomonas.db"), read_only=TRUE)
+# # amphibian kos
+# amphibian_kos_all <- dbGetQuery(con, 
+#                             "SELECT pa.KEGG_ko 
+#                           FROM pseudomonas_annotations pa
+#                           WHERE pa.animal_group = 'Amphibian';")
+# dbDisconnect(con)
+# amph_enrich_result_all <- enrichKO(gene = amphibian_kos_all$KEGG_ko, universe = unique_universe_kos$KEGG_ko)
