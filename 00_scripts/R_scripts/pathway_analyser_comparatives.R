@@ -136,6 +136,10 @@ developed
 # save
 ggsave(filename = "03_outputs/02_enrichment/full_universe_heatmap.jpeg", plot = developed, width = 20, height = 15, units = "cm")
 
+
+# DEVO - REDUNDANT --------------------------------------------------------
+
+
 #------------# 
 # shared universe pathways #
 # pathways where all 4 are enriched
@@ -253,10 +257,10 @@ developed <- base +
   labs(x = "KEGG Pathway ID", y = "Host Taxon", fill = "Adjusted\nP value") +
   geom_text(data = heat_source_long,
             aes(label = round(p_value, digits = 3), color = text_color), size = 3) +
-  scale_color_identity()
+  scale_color_identity() + coord_flip()
 developed
 # save
-ggsave(filename = "03_outputs/02_enrichment/shared_universe_heatmap.jpeg", plot = developed, width = 20, height = 15, units = "cm")
+ggsave(filename = "03_outputs/02_enrichment/shared_universe_heatmap.jpeg", plot = developed, width = 20, height = 40, units = "cm")
 # pathways where some / all have it ---------------------------------------
 
 # from "enrichko_runner.R"
@@ -308,10 +312,10 @@ bird_enrich_result <- enrichKO(gene = bird_kos$KEGG_ko, universe = unique_univer
 dbDisconnect(con)
 
 # extract result object containing test information
-amphstats <- data.frame(amph_paths@result)
-mamstats <- data.frame(mam_paths@result)
-fishstats <- data.frame(fish_paths@result)
-birdstats <- data.frame(bird_paths@result)
+amphstats <- data.frame(amph_enrich_result@result)
+mamstats <- data.frame(mammal_enrich_result@result)
+fishstats <- data.frame(fish_enrich_result@result)
+birdstats <- data.frame(bird_enrich_result@result)
 
 # combine objects to allow filtering for comparisons
 all_groups <- amphstats %>% #as description and bgratio relate to the pathway and not the group, they are de-duplicated by joining on them
@@ -436,10 +440,10 @@ developed <- base +
   labs(x = "KEGG Pathway ID", y = "Host Taxon", fill = "Adjusted\nP value") +
   geom_text(data = heat_source_long,
             aes(label = round(p_value, digits = 3), color = text_color), size = 3) +
-  scale_color_identity() + coord_flip()
+  scale_color_identity()
 developed
 # save
-ggsave(filename = "03_outputs/02_enrichment/shared_differences_heatmap.jpeg", plot = developed, width = 15, height = 50, units = "cm")
+ggsave(filename = "03_outputs/02_enrichment/shared_differences_heatmap.jpeg", plot = developed, width = 15, height = 20, units = "cm")
 
 
 

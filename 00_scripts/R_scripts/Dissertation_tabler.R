@@ -30,6 +30,8 @@ table1 <- flextable(host_group) %>%
   set_header_labels(`Animal group` = "Host group") #%>%
   #border_inner_v(part="all", border = fp_border_default())
 
+table1
+
 save_as_image(table1, "03_outputs/03_descriptive_tables/table1.png")  
 
 
@@ -76,6 +78,7 @@ table2 <- head(table2, 10)
 # flextable
 flextable2 <- flextable(table2)
 
+flextable2
 save_as_image(flextable2, "03_outputs/03_descriptive_tables/table2.png")  
 
 
