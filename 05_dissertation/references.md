@@ -32,6 +32,8 @@
     <figcaption>Figure 4 - Check of methodology. EnrichKO was ran on the individual genomes, instead of on the collective KO reserviour of host-groups. Numbers differ from Figures 2 and 3 in that they represent the proportion of individuals found enriched (adjusted p < 0.05) for the pathway of interest. The black border around some boxes represents where a pathway is over-represented for 80% of individuals in that group, this is taken as being a significant majority of samples.</figcaption>
 </figure>
 
+---
+
 ## References
 
 Aoki-Kinoshita, K.F. & Kanehisa, M. 2007. Gene Annotation and Pathway Mapping in KEGG In: N.H. Bergman (ed.) _Comparative Genomics_ \[Online\]. Totowa, NJ: Humana Press. pp.71-91 Available at: https://doi.org/10.1007/978-1-59745-515-2_6. Accessed 22nd March 2026.
