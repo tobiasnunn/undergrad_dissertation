@@ -1,11 +1,35 @@
-# Full Results and References
+# Figures and References
 
-## Results
+## Figures
+
+<figure>
+    <img src="https://github.com/tobiasnunn/undergrad_dissertation/blob/b62754e2d407be608f0c82806c57d272aa78d796/03_outputs/01_phylo/aligned_tree_3ring.jpeg"
+         alt="Figure 1">
+    <figcaption>Figure 1 - Phylogenetic tree showing relationship between wild vertebrate hosted Pseudomonas bacteria (n=336). Added data includes: host Class group (Inner ring), bacterial taxonomic info for the largest species (Middle ring) and region of collection (Outer ring). In the case of the middle ring, NA is taken to mean any sample not in the groups listed in the key, an alternative is “Pseudomonas spp.”</figcaption>
+</figure>
+
+---
 
 <figure>
     <img src="https://github.com/tobiasnunn/undergrad_dissertation/blob/196af3d0700137b6f99f231a0071bcb42d7dfdba/03_outputs/02_enrichment/original/diff_paths_heatmap_rerun_again.jpeg"
          alt="Figure 2">
     <figcaption>Figure 2 - Heatmap showing significantly enriched pathways between 4 groups of  Pseudomonas bacteria, based on host Class. Lighter colour signifies lower p value, in addition, the exact p value is present in each cell. The dark border around some cells indicates a significant correlation between a pathway and a group (adjusted p value < 0.05).</figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="https://github.com/tobiasnunn/undergrad_dissertation/blob/b62754e2d407be608f0c82806c57d272aa78d796/03_outputs/02_enrichment/original/shared_differences_heatmap_rerun_again.jpeg"
+         alt="Figure 3">
+    <figcaption>Figure 3 - Heatmap showing shared pathways of significant over-representation between 4 groups of  Pseudomonas bacteria, based on host Class. Lighter colour signifies lower p value, in addition, the exact p value is present in each cell. The dark border around some cells indicates a significant correlation between a pathway and a group. An adjusted p value of 0 signifies a value of 0.0009 or lower.</figcaption>
+</figure>
+
+---
+
+<figure>
+    <img src="https://github.com/tobiasnunn/undergrad_dissertation/blob/b62754e2d407be608f0c82806c57d272aa78d796/03_outputs/02_enrichment/original/my_method_check_reran_again.jpeg"
+         alt="Figure 4">
+    <figcaption>Figure 4 - Check of methodology. EnrichKO was ran on the individual genomes, instead of on the collective KO reserviour of host-groups. Numbers differ from Figures 2 and 3 in that they represent the proportion of individuals found enriched (adjusted p < 0.05) for the pathway of interest. The black border around some boxes represents where a pathway is over-represented for 80% of individuals in that group, this is taken as being a significant majority of samples.</figcaption>
 </figure>
 
 ## References
