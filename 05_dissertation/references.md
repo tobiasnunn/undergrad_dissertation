@@ -1,4 +1,14 @@
-# References
+# Full Results and References
+
+## Results
+
+<figure>
+    <img src="https://github.com/tobiasnunn/undergrad_dissertation/blob/196af3d0700137b6f99f231a0071bcb42d7dfdba/03_outputs/02_enrichment/original/diff_paths_heatmap_rerun_again.jpeg"
+         alt="Figure 2">
+    <figcaption>Figure 2 - Heatmap showing significantly enriched pathways between 4 groups of  Pseudomonas bacteria, based on host Class. Lighter colour signifies lower p value, in addition, the exact p value is present in each cell. The dark border around some cells indicates a significant correlation between a pathway and a group (adjusted p value < 0.05).</figcaption>
+</figure>
+
+## References
 
 Aoki-Kinoshita, K.F. & Kanehisa, M. 2007. Gene Annotation and Pathway Mapping in KEGG In: N.H. Bergman (ed.) _Comparative Genomics_ \[Online\]. Totowa, NJ: Humana Press. pp.71-91 Available at: https://doi.org/10.1007/978-1-59745-515-2_6. Accessed 22nd March 2026.
 
